@@ -1,5 +1,7 @@
 (function($){
   // Search
+  console.log("Hello from HEXO by ZHANGSIYU!");
+
   var $searchWrap = $('#search-form-wrap'),
     isSearchAnim = false,
     searchAnimDuration = 200;
