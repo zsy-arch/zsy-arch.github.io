@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Rechercher"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
       </div>
     </div>
   </div>
@@ -112,7 +112,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">; int __cdecl main(int argc, const char **argv, const char **envp)</span><br><span class="line">public main</span><br><span class="line">main proc near</span><br><span class="line"></span><br><span class="line">var_4= dword ptr -4</span><br><span class="line">arg_0= dword ptr  10h</span><br><span class="line">arg_8= qword ptr  18h</span><br><span class="line"></span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">sub     rsp, 30h</span><br><span class="line">mov     [rbp+arg_0], ecx</span><br><span class="line">mov     [rbp+arg_8], rdx</span><br><span class="line">call    __main</span><br><span class="line">mov     ecx, 0Ah</span><br><span class="line">call    do_something</span><br><span class="line">mov     [rbp+var_4], eax</span><br><span class="line">mov     eax, [rbp+var_4]</span><br><span class="line">mov     edx, eax</span><br><span class="line">lea     rcx, Format     ; &quot;%d\n&quot;</span><br><span class="line">call    printf</span><br><span class="line">mov     eax, 0</span><br><span class="line">add     rsp, 30h</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">main endp</span><br></pre></td></tr></table></figure>
 
 <p>IDA Pro中的do_something函数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">public do_something</span><br><span class="line">do_something proc near</span><br><span class="line"></span><br><span class="line">arg_0= dword ptr  10h</span><br><span class="line"></span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">xor     eax, eax</span><br><span class="line">mov     eax, [rbp+arg_0]</span><br><span class="line">add     eax, eax</span><br><span class="line">mov     rsp, rbp</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">do_something endp</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">public do_something</span><br><span class="line">do_something proc near</span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">xor     eax, eax</span><br><span class="line">mov     eax, ecx</span><br><span class="line">add     eax, eax</span><br><span class="line">mov     rsp, rbp</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">do_something endp</span><br></pre></td></tr></table></figure>
 
 <p>函数的调用规则不知道怎么修改，谷歌、SO查了好多也不行= =，等我再去看看吧。</p>
 <p>这算是认真研究汇编的一个开始吧，且行且珍惜。</p>
@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" data-id="ckr4i7z480000t4v4206p6gzh" data-title="Assembly 汇编学习（1）" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" data-id="ckr4ic3ml0002fcv44q6o3zpn" data-title="Assembly 汇编学习（1）" class="article-share-link">Teilen</a>
       
       
       
@@ -203,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" data-id="ckr3okrne0000mcv43g2fh94p" data-title="2021 07 14总结" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" data-id="ckr4ic3me0000fcv42vs8emed" data-title="2021 07 14总结" class="article-share-link">Teilen</a>
       
       
       
@@ -272,7 +272,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Debugging-1-process-and-thread/" data-id="ckr3okrnl0002mcv4edcge87i" data-title="Windows Debugging(1) process and thread" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Debugging-1-process-and-thread/" data-id="ckr4ic3mj0001fcv47pjr73an" data-title="Windows Debugging(1) process and thread" class="article-share-link">Teilen</a>
       
       
       
@@ -322,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/" data-id="ckr3okrnk0001mcv457pghf5d" data-title="Windows Kernel(1) NTLDR" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/" data-id="ckr4ic3mr0004fcv4bvrf2uam" data-title="Windows Kernel(1) NTLDR" class="article-share-link">Teilen</a>
       
       
       
@@ -373,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/12/hello-world/" data-id="ckr3okrnm0003mcv40kzb8rwt" data-title="Hello World" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/12/hello-world/" data-id="ckr4ic3mq0003fcv4hxmy62xo" data-title="Hello World" class="article-share-link">Teilen</a>
       
       
       
@@ -401,7 +401,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
@@ -411,7 +411,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
         
@@ -449,7 +449,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 zsy<br>
-      Propulsé par <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
