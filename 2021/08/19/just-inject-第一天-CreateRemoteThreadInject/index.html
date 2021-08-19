@@ -14,7 +14,7 @@
 <meta property="og:description" content="代码总览(just_inject.cpp) 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-19T12:58:42.000Z">
-<meta property="article:modified_time" content="2021-08-19T15:45:27.248Z">
+<meta property="article:modified_time" content="2021-08-19T15:48:31.417Z">
 <meta property="article:author" content="zsy">
 <meta name="twitter:card" content="summary">
   
@@ -61,12 +61,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Rechercher"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
       </div>
     </div>
   </div>
@@ -105,10 +105,12 @@
 <p>没错，这也就是这种DLL注入方法的思想。CreateRemoteThread注入DLL的核心函数就是CreateRemoteThread，这个函数可以用来在其他进程中创建线程，（在上一篇文章《远程线程『 RemoteThread 』》也提到了，大家可以看一下），我们将线程执行的函数就设为LoadLibraryW，将参数设为DLL在文件系统中的绝对地址，线程启动后便可成功注入了。在这里，DLL在文件系统中的绝对地址以宽字符串类型（LPCWSTR）来存储，我们利用VirtualAllocEx、WriteProcessMemory来在目标进程中分配空间并写入字符串。还有一点要注意，虽然操作系统为每个进程映射了不同的虚拟内存地址，但是每个进程的kernel32.dll的映像起始地址都是相同的，所以LoadLibraryW函数在每个进程中的地址也都一样。</p>
 <h2 id="附：示例DLL源代码"><a href="#附：示例DLL源代码" class="headerlink" title="附：示例DLL源代码"></a>附：示例DLL源代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : Defines the entry point for the DLL application.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wchar.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 动态链接库每次被加载、卸载都会执行DllMain</span></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">( HMODULE hModule,</span></span></span><br><span class="line"><span class="params"><span class="function">                       DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="params"><span class="function">                       LPVOID lpReserved</span></span></span><br><span class="line"><span class="params"><span class="function">                     )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_PROCESS_ATTACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_THREAD_ATTACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_THREAD_DETACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_PROCESS_DETACH\n&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] Gality369/Process-Injection: 汇总了目前可以找到的所有的进程注入的方式，完成了x86/x64下的测试，不断更新中 <a target="_blank" rel="noopener" href="https://github.com/Gality369/Process-Injection">https://github.com/Gality369/Process-Injection</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/" data-id="cksj3j4b700003kv438fcd14a" data-title="just_inject 第一天: CreateRemoteThreadInject" class="article-share-link">Partager</a>
+      <a data-url="https://zsy-arch.github.io/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/" data-id="cksj3j4b700003kv438fcd14a" data-title="just_inject 第一天: CreateRemoteThreadInject" class="article-share-link">Teilen</a>
       
       
       
@@ -120,7 +122,7 @@
   
   
     <a href="/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">Älter</strong>
       <div class="article-nav-title">远程线程（RemoteThread）</div>
     </a>
   
@@ -144,7 +146,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
@@ -154,7 +156,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
         
@@ -192,7 +194,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 zsy<br>
-      Propulsé par <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
