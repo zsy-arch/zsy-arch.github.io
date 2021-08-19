@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>just_inject 第一天: CreateRemoteThreadInject | flag{titl3_1s_zsy_arch}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="代码总览(just_inject.cpp) 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939">
+<meta property="og:type" content="article">
+<meta property="og:title" content="just_inject 第一天: CreateRemoteThreadInject">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/index.html">
+<meta property="og:site_name" content="flag{titl3_1s_zsy_arch}">
+<meta property="og:description" content="代码总览(just_inject.cpp) 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-19T12:58:42.000Z">
+<meta property="article:modified_time" content="2021-08-19T15:45:27.248Z">
+<meta property="article:author" content="zsy">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="flag{titl3_1s_zsy_arch}" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">flag{titl3_1s_zsy_arch}</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Rechercher"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-just-inject-第一天-CreateRemoteThreadInject" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/" class="article-date">
+  <time class="dt-published" datetime="2021-08-19T12:58:42.000Z" itemprop="datePublished">2021-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      just_inject 第一天: CreateRemoteThreadInject
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="代码总览"><a href="#代码总览" class="headerlink" title="代码总览"></a>代码总览</h2><p>(just_inject.cpp)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _JUST_INJECT_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _JUST_INJECT_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wchar.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">SetPrivilege</span><span class="params">(HANDLE, LPCWSTR, BOOL)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">SetDebugPrivilege</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">RemoteThreadInject</span><span class="params">(DWORD, DWORD)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">RemoteThreadInject</span><span class="params">(DWORD, LPCWSTR)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">SetDebugPrivilege</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hToken;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">OpenProcessToken</span>(</span><br><span class="line">		<span class="built_in">GetCurrentProcess</span>(),</span><br><span class="line">		TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,</span><br><span class="line">		&amp;hToken</span><br><span class="line">	);</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">SetPrivilege</span>(hToken, SE_DEBUG_NAME, TRUE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">SetPrivilege</span><span class="params">(HANDLE hToken, LPCWSTR lpszPrivilege, BOOL bEnablePrivilege)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LUID luid;</span><br><span class="line">	TOKEN_PRIVILEGES tp;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">LookupPrivilegeValueW</span>(<span class="literal">NULL</span>, lpszPrivilege, &amp;luid))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;LookupPrivilegeValueW failed %u\n&quot;</span>, <span class="built_in">GetLastError</span>());</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tp.PrivilegeCount = <span class="number">1</span>;</span><br><span class="line">	tp.Privileges[<span class="number">0</span>].Luid = luid;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (bEnablePrivilege)</span><br><span class="line">	&#123;</span><br><span class="line">		tp.Privileges[<span class="number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		tp.Privileges[<span class="number">0</span>].Attributes = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">AdjustTokenPrivileges</span>(</span><br><span class="line">		hToken,</span><br><span class="line">		FALSE,</span><br><span class="line">		&amp;tp,</span><br><span class="line">		<span class="built_in"><span class="keyword">sizeof</span></span>(tp),</span><br><span class="line">		<span class="literal">NULL</span>,</span><br><span class="line">		<span class="literal">NULL</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;AdjustTokenPrivileges failed %u\n&quot;</span>, <span class="built_in">GetLastError</span>());</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">RemoteThreadInject</span><span class="params">(DWORD dwTargetProcessId, DWORD dwFuncAddr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">SetDebugPrivilege</span>();</span><br><span class="line"></span><br><span class="line">	HANDLE hTargetProcess = <span class="built_in">OpenProcess</span>(PROCESS_ALL_ACCESS, FALSE, dwTargetProcessId);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hTargetProcess == <span class="literal">NULL</span> || hTargetProcess == INVALID_HANDLE_VALUE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;OpenProcess failed.\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	DWORD dwThreadId = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	HANDLE hRemoteThread = <span class="built_in">CreateRemoteThread</span>(hTargetProcess,</span><br><span class="line">		<span class="literal">NULL</span>,</span><br><span class="line">		<span class="number">0</span>,</span><br><span class="line">		(LPTHREAD_START_ROUTINE)dwFuncAddr,</span><br><span class="line">		<span class="literal">NULL</span>,</span><br><span class="line">		<span class="literal">NULL</span>,</span><br><span class="line">		&amp;dwThreadId);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hRemoteThread == <span class="literal">NULL</span> || hRemoteThread == INVALID_HANDLE_VALUE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;CreateRemoteThread failed.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hTargetProcess);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">WaitForSingleObject</span>(hRemoteThread, INFINITE);</span><br><span class="line">	<span class="built_in">CloseHandle</span>(hRemoteThread);</span><br><span class="line">	hRemoteThread = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">RemoteThreadInject</span><span class="params">(DWORD dwTargetProcessId, LPCWSTR lpszDllPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">SetDebugPrivilege</span>();</span><br><span class="line"></span><br><span class="line">	HANDLE hTargetProcess = <span class="built_in">OpenProcess</span>(PROCESS_ALL_ACCESS, FALSE, dwTargetProcessId);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hTargetProcess == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;OpenProcess failed.\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ULONG32 ulDllPathLen = <span class="built_in">wcsnlen_s</span>(lpszDllPath, MAX_PATH);</span><br><span class="line">	LPVOID lpvVaDllPath = <span class="built_in">VirtualAllocEx</span>(hTargetProcess, <span class="literal">NULL</span>, ulDllPathLen * <span class="built_in"><span class="keyword">sizeof</span></span>(WCHAR) + <span class="number">16</span>, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (lpvVaDllPath == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;VirtualAllocEx failed.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hTargetProcess);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">WriteProcessMemory</span>(hTargetProcess, lpvVaDllPath, (LPCVOID)lpszDllPath, ulDllPathLen * <span class="built_in"><span class="keyword">sizeof</span></span>(WCHAR) + <span class="number">16</span>, <span class="literal">NULL</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;WriteProcessMemory failed.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">VirtualFreeEx</span>(hTargetProcess, lpvVaDllPath, ulDllPathLen * <span class="built_in"><span class="keyword">sizeof</span></span>(WCHAR) + <span class="number">16</span>, MEM_RELEASE);</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hTargetProcess);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LPTHREAD_START_ROUTINE lptsrLoadLibraryW = (LPTHREAD_START_ROUTINE)<span class="built_in">GetProcAddress</span>(<span class="built_in">GetModuleHandleW</span>(<span class="string">L&quot;kernel32&quot;</span>), <span class="string">&quot;LoadLibraryW&quot;</span>);</span><br><span class="line">	DWORD dwThreadId = <span class="number">0</span>;</span><br><span class="line">	HANDLE hThread = <span class="built_in">CreateRemoteThread</span>(hTargetProcess, <span class="literal">NULL</span>, <span class="number">0</span>, lptsrLoadLibraryW, lpvVaDllPath, <span class="number">0</span>, &amp;dwThreadId);</span><br><span class="line">	<span class="keyword">if</span> (hThread == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">wprintf_s</span>(<span class="string">L&quot;CreateRemoteThread failed.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">VirtualFreeEx</span>(hTargetProcess, lpvVaDllPath, ulDllPathLen * <span class="built_in"><span class="keyword">sizeof</span></span>(WCHAR) + <span class="number">16</span>, MEM_RELEASE);</span><br><span class="line">		<span class="built_in">CloseHandle</span>(hTargetProcess);</span><br><span class="line">		<span class="keyword">return</span> FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">wprintf_s</span>(<span class="string">L&quot;CreateRemoteThread 0x%x.\n&quot;</span>, dwThreadId);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">WaitForSingleObject</span>(hThread, INFINITE);</span><br><span class="line">	<span class="built_in">VirtualFreeEx</span>(hTargetProcess, lpvVaDllPath, ulDllPathLen * <span class="built_in"><span class="keyword">sizeof</span></span>(WCHAR) + <span class="number">16</span>, MEM_RELEASE);</span><br><span class="line">	<span class="built_in">CloseHandle</span>(hThread);</span><br><span class="line">	<span class="built_in">CloseHandle</span>(hTargetProcess);</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>众所周知在现代操作系统（Windows、Linux、MAC）中，每个进程是相对独立的，一个进程的资源分配和运行直接由操作系统处理。操作系统将内存空间分为用户空间与内核空间，其中，操作系统及驱动程序运行在内核空间，拥有较高权限，甚至对硬件都有极大影响，用户空间则用来给普通进程使用，拥有较低的权限，只能使用一些操作系统、驱动开放的接口来实现功能（一般EXE、DLL类程序运行在用户空间，SYS类程序运行在内核空间）。当一个程序成为了进程，操作系统为其在内存中分配资源，来存放机器指令和数据，并为其映射了虚拟的内存地址，从而实现进程之间的相互独立性，这也是为什么一个进程无法直接通过内存地址访问另一个进程的数据，或者说同样一个内存地址对于不同进程，（极大）可能存储着不同的数据。</p>
+<p>但是想实现操作其他进程的内存也不是毫无办法，Windows提供了一系列相关API，本文中使用了VirtualAllocEx，该函数可以在某一进程中分配内存，若分配成功，我们可以使用另一函数WriteProcessMemory来修改这块内存空间的内容。</p>
+<h3 id="DLL为何物"><a href="#DLL为何物" class="headerlink" title="DLL为何物"></a>DLL为何物</h3><p>本文作为DLL注入的第一章，那就不得不先介绍一下DLL了。DLL为动态链接库的英文缩写，“库”字，顾名思义，我们可以在里面存放一些东西，也就是指令和数据；“链接”是一个与编译原理有关的名词，因为DLL主要存放函数，而程序运行可以通过链接信息，找到某一函数的所在地址从而调用该函数；“动态”表示DLL是在程序运行时才加载的（静态链接库在程序编译时进行加载，程序运行时就无需加载静态链接库了）。由此我们可以总结，DLL是一个在程序运行时，可以由程序自己加载的函数、数据库。另外需要补充很重要的一点，操作系统中一个动态链接库可能有很多进程来使用，但是操作系统在内存中只会保留一份这个动态链接库供所有进程使用。</p>
+<h3 id="DLL注入？"><a href="#DLL注入？" class="headerlink" title="DLL注入？"></a>DLL注入？</h3><p>既然我们知道了DLL可以由程序自己加载，那么就不难想到，如果我们利用CreateRemoteThread函数在另一个进程中创建一个线程，让这个线程通过某种方式加载DLL到进程中，那么我们是不是就可以将我们写好的DLL“挂”到任意一个进程中了呢？</p>
+<p>没错，这也就是这种DLL注入方法的思想。CreateRemoteThread注入DLL的核心函数就是CreateRemoteThread，这个函数可以用来在其他进程中创建线程，（在上一篇文章《远程线程『 RemoteThread 』》也提到了，大家可以看一下），我们将线程执行的函数就设为LoadLibraryW，将参数设为DLL在文件系统中的绝对地址，线程启动后便可成功注入了。在这里，DLL在文件系统中的绝对地址以宽字符串类型（LPCWSTR）来存储，我们利用VirtualAllocEx、WriteProcessMemory来在目标进程中分配空间并写入字符串。还有一点要注意，虽然操作系统为每个进程映射了不同的虚拟内存地址，但是每个进程的kernel32.dll的映像起始地址都是相同的，所以LoadLibraryW函数在每个进程中的地址也都一样。</p>
+<h2 id="附：示例DLL源代码"><a href="#附：示例DLL源代码" class="headerlink" title="附：示例DLL源代码"></a>附：示例DLL源代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : Defines the entry point for the DLL application.</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wchar.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 动态链接库每次被加载、卸载都会执行DllMain</span></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">( HMODULE hModule,</span></span></span><br><span class="line"><span class="params"><span class="function">                       DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="params"><span class="function">                       LPVOID lpReserved</span></span></span><br><span class="line"><span class="params"><span class="function">                     )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_PROCESS_ATTACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_THREAD_ATTACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_THREAD_DETACH\n&quot;</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        <span class="built_in">wprintf_s</span>(<span class="string">L&quot;DLL_PROCESS_DETACH\n&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/" data-id="cksj3j4b700003kv438fcd14a" data-title="just_inject 第一天: CreateRemoteThreadInject" class="article-share-link">Partager</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">远程线程（RemoteThread）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/">just_inject 第一天: CreateRemoteThreadInject</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/">远程线程（RemoteThread）</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/18/SQL-Injection/">SQL Injection</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/16/RaCTF2021-WriteUp/">RaCTF2021 WriteUp</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/12/WinSock2-%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E6%9C%8D%E5%8A%A1%E5%99%A8/">WinSock2 实现简单服务器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 zsy<br>
+      Propulsé par <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
