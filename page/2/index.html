@@ -59,10 +59,10 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
       </div>
     </div>
   </div>
@@ -70,6 +70,65 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-汇编学习（2）32位模式下NASM与GCC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/" class="article-date">
+  <time class="dt-published" datetime="2021-07-15T06:35:30.000Z" itemprop="datePublished">2021-07-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/">汇编学习（2）32位模式下NASM与GCC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="32位模式下NASM与GCC"><a href="#32位模式下NASM与GCC" class="headerlink" title="32位模式下NASM与GCC"></a>32位模式下NASM与GCC</h3><p>C文件依然没变：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int do_something(int);</span><br><span class="line"></span><br><span class="line">int main(int argc, char const *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    int a = do_something(10);</span><br><span class="line">    printf(&quot;%d\n&quot;, a);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>test.asm 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; test2.asm</span><br><span class="line">[bits 32]</span><br><span class="line">    global _do_something</span><br><span class="line">section .text</span><br><span class="line">_do_something:</span><br><span class="line">    push ebp</span><br><span class="line">    mov ebp, esp</span><br><span class="line">    xor eax, eax</span><br><span class="line">    mov eax, [ebp + 0x8]</span><br><span class="line">    add eax, eax</span><br><span class="line">    mov esp, ebp</span><br><span class="line">    pop ebp</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
+
+<p>注意do_something前的“_”，本来没有加，然后就报错了（<code>undefined reference to `do_something&#39;</code>）。</p>
+<p>在谷歌上看到这么一句话：</p>
+<blockquote>
+<p>C编译器通常会在所有外部作用域程序标识符前面加下划线，以避免与运行时语言支持的影响相冲突。 此外，当C / C ++编译器需要在外部链接中引入名称作为翻译过程的一部分时，这些名称通常以多个前导或尾部下划线的组合来区分。这种做法后来被编纂为C和C ++语言标准的一部分，其中使用领先的下划线被保留用于执行。 </p>
+</blockquote>
+<p>使用NASM：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nasm -f win32 -o test.obj test.asm</span><br></pre></td></tr></table></figure>
+
+<p>MINGW32-w32-GCC</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ w32gcc test.c test.obj -o test.exe</span><br></pre></td></tr></table></figure>
+
+<p>再加上IDA Pro上的反编译结果吧：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [esp+1Ch] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  __main();</span><br><span class="line">  v4 = do_something(<span class="number">10</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, v4);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// =================================================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">do_something</span><span class="params">(<span class="keyword">int</span> a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">2</span> * a1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/" data-id="ckskj1frk000cbsv4d208cn2e" data-title="汇编学习（2）32位模式下NASM与GCC" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-Assembly-汇编学习（1）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -120,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" data-id="ckskj1fqt0000bsv454gu2bd5" data-title="Assembly 汇编学习（1）" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" data-id="ckskj1fqt0000bsv454gu2bd5" data-title="Assembly 汇编学习（1）" class="article-share-link">Share</a>
       
       
       
@@ -203,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" data-id="ckskj1fr20005bsv4ejv1bxsb" data-title="2021 07 14总结" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" data-id="ckskj1fr20005bsv4ejv1bxsb" data-title="2021 07 14总结" class="article-share-link">Share</a>
       
       
       
@@ -272,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Debugging-1-process-and-thread/" data-id="ckskj1fr40008bsv46gfu3125" data-title="Windows Debugging(1) process and thread" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Debugging-1-process-and-thread/" data-id="ckskj1fr40008bsv46gfu3125" data-title="Windows Debugging(1) process and thread" class="article-share-link">Share</a>
       
       
       
@@ -322,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/" data-id="ckskj1fr6000absv45q5t8v6h" data-title="Windows Kernel(1) NTLDR" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/" data-id="ckskj1fr6000absv45q5t8v6h" data-title="Windows Kernel(1) NTLDR" class="article-share-link">Share</a>
       
       
       
@@ -373,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/12/hello-world/" data-id="ckskj1frj000bbsv41jr576l7" data-title="Hello World" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/07/12/hello-world/" data-id="ckskj1frj000bbsv41jr576l7" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -389,7 +448,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 </section>
@@ -406,7 +465,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
@@ -416,9 +475,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/">corCTF2021 复盘</a>
+          </li>
         
           <li>
             <a href="/2021/08/20/Golang-deferred%E5%87%BD%E6%95%B0/">Golang deferred函数</a>
@@ -434,10 +497,6 @@
         
           <li>
             <a href="/2021/08/18/SQL-Injection/">SQL Injection</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/16/RaCTF2021-WriteUp/">RaCTF2021 WriteUp</a>
           </li>
         
       </ul>
