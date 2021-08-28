@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>祥云杯2021复盘 | flag{titl3_1s_zsy_arch}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="re_Dizzy 反汇编出main函数，导出汇编文件(.asm) 利用正则表达式将所有加密功能的汇编代表转换为python语法表示 使用脚本计算flag  1234567891011121314151617181920with open(&amp;#x27;.&#x2F;Dizzy.exe.asm&amp;#x27;) as f:    lines &#x3D; f.readlines()lines.reverse()flag &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="祥云杯2021复盘">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/08/28/%E7%A5%A5%E4%BA%91%E6%9D%AF2021%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="flag{titl3_1s_zsy_arch}">
+<meta property="og:description" content="re_Dizzy 反汇编出main函数，导出汇编文件(.asm) 利用正则表达式将所有加密功能的汇编代表转换为python语法表示 使用脚本计算flag  1234567891011121314151617181920with open(&amp;#x27;.&#x2F;Dizzy.exe.asm&amp;#x27;) as f:    lines &#x3D; f.readlines()lines.reverse()flag &#x3D;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-28T05:16:27.000Z">
+<meta property="article:modified_time" content="2021-08-28T05:40:21.979Z">
+<meta property="article:author" content="zsy">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="flag{titl3_1s_zsy_arch}" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">flag{titl3_1s_zsy_arch}</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-祥云杯2021复盘" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/28/%E7%A5%A5%E4%BA%91%E6%9D%AF2021%E5%A4%8D%E7%9B%98/" class="article-date">
+  <time class="dt-published" datetime="2021-08-28T05:16:27.000Z" itemprop="datePublished">2021-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      祥云杯2021复盘
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="re-Dizzy"><a href="#re-Dizzy" class="headerlink" title="re_Dizzy"></a>re_Dizzy</h2><ol>
+<li>反汇编出main函数，导出汇编文件(.asm)</li>
+<li>利用正则表达式将所有加密功能的汇编代表转换为python语法表示</li>
+<li>使用脚本计算flag</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./Dizzy.exe.asm&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = f.readlines()</span><br><span class="line"></span><br><span class="line">lines.reverse()</span><br><span class="line"></span><br><span class="line">flag = [<span class="number">0x27</span> ,<span class="number">0x3C</span> ,<span class="number">0x0E3</span>,<span class="number">0x0FC</span>,<span class="number">0x2E</span> ,<span class="number">0x41</span> ,<span class="number">7</span>,<span class="number">0x5E</span> ,<span class="number">0x62</span> ,<span class="number">0x0CF</span>,<span class="number">0x0E8</span>,<span class="number">0x0F2</span>,<span class="number">0x92</span>,<span class="number">0x80</span>,<span class="number">0x0E2</span>,<span class="number">0x36</span> ,<span class="number">0x0B4</span>,<span class="number">0x0B2</span>,<span class="number">0x67</span> ,<span class="number">0x77</span> ,<span class="number">0x0F</span>,<span class="number">0x0F6</span>,<span class="number">0x0D</span>,<span class="number">0x0B6</span>,<span class="number">0x0ED</span>,<span class="number">0x1C</span>,<span class="number">0x65</span> ,<span class="number">0x8A</span>,<span class="number">7</span>,<span class="number">0x53</span> ,<span class="number">0x0A6</span>,<span class="number">0x66</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;-&#x27;</span> <span class="keyword">in</span> line:</span><br><span class="line">        tmp = line.replace(<span class="string">&#x27;-&#x27;</span>, <span class="string">&#x27;+&#x27;</span>)</span><br><span class="line">        <span class="built_in">exec</span>(tmp)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">&#x27;+&#x27;</span> <span class="keyword">in</span> line:</span><br><span class="line">        tmp = line.replace(<span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">        <span class="built_in">exec</span>(tmp)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">exec</span>(line)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> flag:</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">chr</span>(f &amp; <span class="number">0xff</span>), end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="re-勒索解密"><a href="#re-勒索解密" class="headerlink" title="re_勒索解密"></a>re_勒索解密</h2><ol>
+<li>编译、运行以下C++程序</li>
+<li>在生成的bmp文件中寻找0x424d开头的文件</li>
+<li>打开图片</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wincrypt.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">&quot;advapi32.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AES_KEY_SIZE 16</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CHUNK_SIZE (0xD6850) <span class="comment">// an output buffer must be a multiple of the key size</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">size_t</span> sizeChunk = CHUNK_SIZE;</span><br><span class="line">BYTE bsChunk[sizeChunk] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (x &lt; <span class="number">65536</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		DWORD dwStatus = <span class="number">0</span>;</span><br><span class="line">		BOOL bResult = FALSE;</span><br><span class="line">		<span class="keyword">char</span> info[] = <span class="string">&quot;Microsoft Enhanced RSA and AES Cryptographic Provider&quot;</span>;</span><br><span class="line">		HCRYPTPROV hProv;</span><br><span class="line">		<span class="keyword">char</span> key_str[] = <span class="string">&quot;\xB2\x2F\xC6\x0E\x4F\xD4\x54\x4B\x6c\x81\x1a\x61\x21\xE7\xB1\x8E&quot;</span>;</span><br><span class="line">		key_str[<span class="number">8</span>] = *((BYTE*)&amp;x);</span><br><span class="line">		key_str[<span class="number">9</span>] = *(((BYTE*)&amp;x) + <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">CryptAcquireContextA</span>(&amp;hProv, <span class="literal">NULL</span>, info, <span class="number">0x18</span>u, <span class="number">0xF0000000</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			dwStatus = <span class="built_in">GetLastError</span>();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;CryptAcquireContext failed: %x\n&quot;</span>, dwStatus);</span><br><span class="line">			<span class="built_in">CryptReleaseContext</span>(hProv, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span> dwStatus;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		HCRYPTHASH hHash;</span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">CryptCreateHash</span>(hProv, <span class="number">0x800C</span>u, <span class="number">0</span>, <span class="number">0</span>, &amp;hHash)) &#123;</span><br><span class="line">			dwStatus = <span class="built_in">GetLastError</span>();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;CryptCreateHash failed: %x\n&quot;</span>, dwStatus);</span><br><span class="line">			<span class="built_in">CryptReleaseContext</span>(hProv, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span> dwStatus;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">CryptHashData</span>(hHash, (BYTE*)key_str, <span class="number">16</span>, <span class="number">0</span>)) &#123;</span><br><span class="line">			DWORD err = <span class="built_in">GetLastError</span>();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;CryptHashData Failed : %#x\n&quot;</span>, err);</span><br><span class="line">			<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">			<span class="keyword">return</span> (<span class="number">-1</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		HCRYPTKEY hKey;</span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">CryptDeriveKey</span>(hProv, <span class="number">0x660E</span>u, hHash, <span class="number">0</span>, &amp;hKey)) &#123;</span><br><span class="line">			dwStatus = <span class="built_in">GetLastError</span>();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;CryptDeriveKey failed: %x\n&quot;</span>, dwStatus);</span><br><span class="line">			<span class="built_in">CryptReleaseContext</span>(hProv, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span> dwStatus;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		BOOL bIsFinal = FALSE;</span><br><span class="line">		LPCWSTR lpwszInputFile = <span class="string">L&quot;D:\\CTF\\祥云杯2021\\勒索解密_a6b0af561d5ad1ff25888265806a1be3\\flag.bmp.ctf_crypter&quot;</span>;</span><br><span class="line">		<span class="keyword">wchar_t</span> lpwszOut[MAX_PATH];</span><br><span class="line"></span><br><span class="line">		<span class="built_in">swprintf_s</span>(lpwszOut, MAX_PATH, <span class="string">L&quot;D:\\CTF\\祥云杯2021\\勒索解密_a6b0af561d5ad1ff25888265806a1be3\\flag-%d.bmp&quot;</span>);</span><br><span class="line">		LPCWSTR lpwszOutputFile = lpwszOut;</span><br><span class="line">		HANDLE hInputFile = <span class="built_in">CreateFileW</span>(lpwszInputFile, GENERIC_READ, FILE_SHARE_READ, <span class="literal">NULL</span>, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, <span class="literal">NULL</span>);</span><br><span class="line">		HANDLE hOutputFile = <span class="built_in">CreateFileW</span>(lpwszOutputFile, GENERIC_WRITE, <span class="number">0</span>, <span class="literal">NULL</span>, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (hInputFile == <span class="literal">NULL</span> || hOutputFile == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			dwStatus = <span class="built_in">GetLastError</span>();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;CreateFileW failed: %x\n&quot;</span>, dwStatus);</span><br><span class="line">			<span class="built_in">CryptReleaseContext</span>(hProv, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span> dwStatus;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		DWORD dwInputFileSize = <span class="built_in">GetFileSize</span>(hInputFile, <span class="literal">NULL</span>);</span><br><span class="line">		DWORD dwTotalReadFileSize = <span class="number">0</span>;</span><br><span class="line">		DWORD dwReadFileLen = <span class="number">0</span>;</span><br><span class="line">		BYTE* pbOutBytes = (BYTE*)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(BYTE) * dwInputFileSize);</span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		BYTE dwData[<span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">		*((DWORD*)dwData) = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">CryptSetKeyParam</span>(hKey, KP_PADDING, (BYTE*)&amp;dwData, <span class="number">0</span>);</span><br><span class="line">		<span class="built_in">CryptSetKeyParam</span>(hKey, KP_MODE, (BYTE*)&amp;dwData, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (bResult = <span class="built_in">ReadFile</span>(hInputFile, bsChunk, sizeChunk, &amp;dwReadFileLen, <span class="literal">NULL</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (dwReadFileLen == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (dwReadFileLen &lt; sizeChunk)</span><br><span class="line">			&#123;</span><br><span class="line">				bIsFinal = TRUE;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;i=%d, read=%d, total_read=%d, is_final=%d\n&quot;</span>, i, dwReadFileLen, dwTotalReadFileSize, bIsFinal);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (!<span class="built_in">CryptDecrypt</span>(hKey, <span class="literal">NULL</span>, bIsFinal, <span class="number">0</span>, bsChunk, &amp;dwReadFileLen))</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;[-] CryptDecrypt failed %x\n&quot;</span>, <span class="built_in">GetLastError</span>());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			DWORD written = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">if</span> (!<span class="built_in">WriteFile</span>(hOutputFile, bsChunk, dwReadFileLen, &amp;written, <span class="literal">NULL</span>)) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;writing failed!\n&quot;</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="built_in">memset</span>(bsChunk, <span class="number">0</span>, sizeChunk);</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		x++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/08/28/%E7%A5%A5%E4%BA%91%E6%9D%AF2021%E5%A4%8D%E7%9B%98/" data-id="cksvcx5n10000kov405vp8h5l" data-title="祥云杯2021复盘" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">corCTF2021 复盘</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/08/28/%E7%A5%A5%E4%BA%91%E6%9D%AF2021%E5%A4%8D%E7%9B%98/">祥云杯2021复盘</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/">corCTF2021 复盘</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/20/Golang-deferred%E5%87%BD%E6%95%B0/">Golang deferred函数</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/19/just-inject-%E7%AC%AC%E4%B8%80%E5%A4%A9-CreateRemoteThreadInject/">just_inject 第一天: CreateRemoteThreadInject</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/">远程线程（RemoteThread）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 zsy<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
