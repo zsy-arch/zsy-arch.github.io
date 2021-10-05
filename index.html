@@ -71,6 +71,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tasteless-ctf-2021-rev-PVM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/05/tasteless-ctf-2021-rev-PVM/" class="article-date">
+  <time class="dt-published" datetime="2021-10-05T13:42:48.000Z" itemprop="datePublished">2021-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/10/05/tasteless-ctf-2021-rev-PVM/">tasteless_ctf_2021 [rev] PVM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="PVM"><a href="#PVM" class="headerlink" title="PVM"></a>PVM</h3><p>看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。</p>
+<h4 id="使用r2"><a href="#使用r2" class="headerlink" title="使用r2"></a>使用r2</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r2 -a arm -b 16 -m 0x8000000 chall.bin</span><br></pre></td></tr></table></figure>
+
+<h4 id="寻找关键函数"><a href="#寻找关键函数" class="headerlink" title="寻找关键函数"></a>寻找关键函数</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdf @xxx</span><br></pre></td></tr></table></figure>
+
+<p>这里的xxx表示还没有找到 = =，待续。。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/10/05/tasteless-ctf-2021-rev-PVM/" data-id="ckue4zfkf0000y4v492uge427" data-title="tasteless_ctf_2021 [rev] PVM" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-编译原理学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-10-01T14:36:09.000Z" itemprop="datePublished">2021-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">编译原理学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><p>词法分析一般是编译的第一个阶段。一个编程语言代码，主要包含以下元素：（1）关键字，可能包括if、for、void、class等；（2）字面量，如实数、字符串等；（3）符号：小括号、大括号、加号、减号等；（4）标识符，也就是变量名、函数名、类名等。</p>
+<p>词法分析器以空格符、换行符为分割，利用正则表达式找出每个元素所属的类型。根据元素类型创建一个Token。</p>
+<h3 id="NFA、DFA"><a href="#NFA、DFA" class="headerlink" title="NFA、DFA"></a>NFA、DFA</h3><p>有多少种元素类型，就要设置多少正则表达式，为检测出正确Token类型，需要与每一个正则表达式匹配，非常不便。所以出现了NFA、DFA，它们本质上是数据结构——图。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckue4zfkk0001y4v46ctg74cq" data-title="编译原理学习笔记" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-CSAPP-1-原码、反码、补码、IEEE-754" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/" class="article-date">
@@ -434,152 +519,11 @@
 
 
   
-    <article id="post-SQL-Injection" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/08/18/SQL-Injection/" class="article-date">
-  <time class="dt-published" datetime="2021-08-18T03:33:03.000Z" itemprop="datePublished">2021-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/08/18/SQL-Injection/">SQL Injection</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="SQL注入分类"><a href="#SQL注入分类" class="headerlink" title="SQL注入分类"></a>SQL注入分类</h2><ol>
-<li><p>数字型注入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from users where id=<span class="subst">$id</span> LIMIT 0, 1&quot;</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>字符型注入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from users where id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0, 1&quot;</span>;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="MYSQL-注入"><a href="#MYSQL-注入" class="headerlink" title="MYSQL 注入"></a>MYSQL 注入</h2><ol>
-<li><p>information_schema数据库</p>
-<p>(1) SCEHMATA 存放所有数据库信息。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> databases; # 等同于 <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> information_schema.SCHEMATA;</span><br></pre></td></tr></table></figure>
-
-<p>(2) TABLES 存放数据库中表的信息。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_schema, table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;mysql&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>(3) COLUMNS 存放表中关于列的信息。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> table_name, column_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;mysql&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>(4) user</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> host, <span class="keyword">user</span>, authentication_string <span class="keyword">from</span> mysql.user;</span><br></pre></td></tr></table></figure></li>
-<li><p>UNION——联合查询</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> id, username <span class="keyword">from</span> test1 <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>, <span class="number">2</span>;</span><br><span class="line"><span class="keyword">select</span> id, username <span class="keyword">from</span> test1 <span class="keyword">union</span> <span class="keyword">select</span> id, username <span class="keyword">from</span> test2;</span><br></pre></td></tr></table></figure></li>
-<li><p>ORDER BY</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test1 <span class="keyword">order</span> <span class="keyword">by</span> username;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test1 <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">2</span>; # 从<span class="number">1</span>开始</span><br></pre></td></tr></table></figure></li>
-<li><p>判断列数</p>
-<p>知道列数后才能正确使用联合注入。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test1 <span class="keyword">where</span> id<span class="operator">=</span>$id;</span><br></pre></td></tr></table></figure>
-
-<p>注入：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1+order+by+4</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="MYSQL-布尔盲注"><a href="#MYSQL-布尔盲注" class="headerlink" title="MYSQL 布尔盲注"></a>MYSQL 布尔盲注</h2><ol>
-<li><p>基础函数</p>
-<p>(1) substring(字符串, start, len) 获取子字符串，start从1开始</p>
-<p>(2) ascii(字符) 获取字符的ascii编码</p>
-<p>(3) length(字符串) 获取字符串长度</p>
-</li>
-<li><p>示例</p>
-<p>(1) 获取数据库长度</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1 and (select length(database()))&gt;5</span><br></pre></td></tr></table></figure>
-
-<p>(2) 获取当前数据库名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1 and (select ascii(substring(database(), 1, 1)))&gt;108</span><br></pre></td></tr></table></figure>
-
-<p>(3) 获取当前表名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1 and ascii(substring((select table_name from information_schema.tables where table_schema=&#x27;test1&#x27; limit 0, 1), 1, 1))&gt;100</span><br></pre></td></tr></table></figure>
-
-<p>(4) 获取username</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1 and ascii(substring((select username from test1 limit 0, 1), 1, 1))&gt;100</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="MYSQL-SLEEP注入"><a href="#MYSQL-SLEEP注入" class="headerlink" title="MYSQL SLEEP注入"></a>MYSQL SLEEP注入</h2><ol>
-<li><p>sleep函数<br>sleep(N) 休眠N秒</p>
-</li>
-<li><p>if 函数<br>if(expression, T, F) 判断表达式expression真假，为真则返回值T，否则返回值F</p>
-</li>
-<li><p>sleep注入</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/test.php?id=1 and sleep(if(ascii(substring(database(), 1, 1))&gt;100, 5, 0));</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/08/18/SQL-Injection/" data-id="cku8gvn370008tkv4a2e8a542" data-title="SQL Injection" class="article-share-link">Teilen</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-RaCTF2021-WriteUp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/08/16/RaCTF2021-WriteUp/" class="article-date">
-  <time class="dt-published" datetime="2021-08-16T00:46:54.000Z" itemprop="datePublished">2021-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/08/16/RaCTF2021-WriteUp/">RaCTF2021 WriteUp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2><h3 id="verybabyrev"><a href="#verybabyrev" class="headerlink" title="verybabyrev"></a>verybabyrev</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __cdecl __noreturn <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __int64 s1[<span class="number">12</span>]; <span class="comment">// [rsp+0h] [rbp-100h] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [rsp+60h] [rbp-A0h]</span></span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">140</span>]; <span class="comment">// [rsp+70h] [rbp-90h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v6; <span class="comment">// [rsp+FCh] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">setvbuf</span>(stdout, <span class="number">0LL</span>, <span class="number">2</span>, <span class="number">0LL</span>);</span><br><span class="line">  <span class="built_in">memset</span>(s, <span class="number">0</span>, <span class="number">0x80</span>uLL);</span><br><span class="line">  s1[<span class="number">0</span>] = <span class="number">0x45481D1217111313</span>LL;</span><br><span class="line">  s1[<span class="number">1</span>] = <span class="number">0x95F422C260B4145</span>LL;</span><br><span class="line">  s1[<span class="number">2</span>] = <span class="number">0x541B56563D6C5F0B</span>LL;</span><br><span class="line">  s1[<span class="number">3</span>] = <span class="number">0x585C0B3C2945415F</span>LL;</span><br><span class="line">  s1[<span class="number">4</span>] = <span class="number">0x402A6C54095D5F00</span>LL;</span><br><span class="line">  s1[<span class="number">5</span>] = <span class="number">0x4B5F4248276A0606</span>LL;</span><br><span class="line">  s1[<span class="number">6</span>] = <span class="number">0x6C5E5D432C2D4256</span>LL;</span><br><span class="line">  s1[<span class="number">7</span>] = <span class="number">0x6B315E434707412D</span>LL;</span><br><span class="line">  s1[<span class="number">8</span>] = <span class="number">0x5E54491C6E3B0A5A</span>LL;</span><br><span class="line">  s1[<span class="number">9</span>] = <span class="number">0x2828475E05342B1A</span>LL;</span><br><span class="line">  s1[<span class="number">10</span>] = <span class="number">0x60450073B26111F</span>LL;</span><br><span class="line">  s1[<span class="number">11</span>] = <span class="number">0xA774803050B0D04</span>LL;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Enter your flag: &quot;</span>);</span><br><span class="line">  <span class="built_in">fgets</span>(s, <span class="number">128</span>, stdin);</span><br><span class="line">  v6 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( s[<span class="number">0</span>] != <span class="string">&#x27;r&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Nope!&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v6 &lt;= <span class="number">126</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    s[v6] ^= s[v6 + <span class="number">1</span>];</span><br><span class="line">    ++v6;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">memcmp</span>(s1, s, <span class="number">97uLL</span>) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Correct!&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Nope!&quot;</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>很明显，flag以字符r开头（不过这个提示没有什么用）。每次flag[i]与flag[i + 1]进行异或运算。我们可以从最后一个没有进行异或运算的值（即：flag[96]），算出flag[95]，再用flag[95]算出flag[94]……</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">secret = [<span class="number">0x13</span>, <span class="number">0x13</span>, <span class="number">0x11</span>, <span class="number">0x17</span>, <span class="number">0x12</span>, <span class="number">0x1D</span>, <span class="number">0x48</span>, <span class="number">0x45</span>, <span class="number">0x45</span>, <span class="number">0x41</span>, <span class="number">0x0B</span>, <span class="number">0x26</span>, <span class="number">0x2C</span>, <span class="number">0x42</span>, <span class="number">0x5F</span>, <span class="number">9</span>, <span class="number">0x0B</span>, <span class="number">0x5F</span>, <span class="number">0x6C</span>,</span><br><span class="line">          <span class="number">0x3D</span>, <span class="number">0x56</span>, <span class="number">0x56</span>, <span class="number">0x1B</span>, <span class="number">0x54</span>, <span class="number">0x5F</span>, <span class="number">0x41</span>, <span class="number">0x45</span>, <span class="number">0x29</span>, <span class="number">0x3C</span>, <span class="number">0x0B</span>, <span class="number">0x5C</span>, <span class="number">0x58</span>, <span class="number">0</span>, <span class="number">0x5F</span>, <span class="number">0x5D</span>, <span class="number">9</span>, <span class="number">0x54</span>, <span class="number">0x6C</span>,</span><br><span class="line">          <span class="number">0x2A</span>, <span class="number">0x40</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">0x6A</span>, <span class="number">0x27</span>, <span class="number">0x48</span>, <span class="number">0x42</span>, <span class="number">0x5F</span>, <span class="number">0x4B</span>, <span class="number">0x56</span>, <span class="number">0x42</span>, <span class="number">0x2D</span>, <span class="number">0x2C</span>, <span class="number">0x43</span>, <span class="number">0x5D</span>, <span class="number">0x5E</span>, <span class="number">0x6C</span>, <span class="number">0x2D</span>,</span><br><span class="line">          <span class="number">0x41</span>, <span class="number">7</span>, <span class="number">0x47</span>, <span class="number">0x43</span>, <span class="number">0x5E</span>, <span class="number">0x31</span>, <span class="number">0x6B</span>, <span class="number">0x5A</span>, <span class="number">0x0A</span>, <span class="number">0x3B</span>, <span class="number">0x6E</span>, <span class="number">0x1C</span>, <span class="number">0x49</span>, <span class="number">0x54</span>, <span class="number">0x5E</span>, <span class="number">0x1A</span>, <span class="number">0x2B</span>, <span class="number">0x34</span>, <span class="number">5</span>,</span><br><span class="line">          <span class="number">0x5E</span>, <span class="number">0x47</span>, <span class="number">0x28</span>, <span class="number">0x28</span>, <span class="number">0x1F</span>, <span class="number">0x11</span>, <span class="number">0x26</span>, <span class="number">0x3B</span>, <span class="number">7</span>, <span class="number">0x50</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">0x0D</span>, <span class="number">0x0B</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">0x48</span>, <span class="number">0x77</span>, <span class="number">0x0A</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">flag = <span class="string">&quot;r&quot;</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &lt; <span class="number">97</span>:</span><br><span class="line">    flag = flag + <span class="built_in">chr</span>(<span class="built_in">ord</span>(flag[i]) ^ secret[i])</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line">i = <span class="number">95</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &gt;= <span class="number">0</span>:</span><br><span class="line">    secret[i] = secret[i] ^ secret[i + <span class="number">1</span>]</span><br><span class="line">    flag = <span class="built_in">chr</span>(secret[i]) + flag</span><br><span class="line">    i -= <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Dotty"><a href="#Dotty" class="headerlink" title="Dotty"></a>Dotty</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">check = <span class="string">&quot;-|....|.|/|..-.|.-..|.-|--.|/|..|...|/|---|.---|--.-|-..-|.|-.--|...--|..-|--|--..|.....|.--|..|--|.-..|.|.-..|.....|....-|-|.-|.....|-.-|--...|---|.-|--..|-|--.|..---|..---|--...|--.|-...|--..|..-.|-....|-.|.-..|--.-|.--.|.|--...|-|-....|.--.|--..|--...|.-..|.....|-|--.|-.-.|-.|-..|-...|--|--|...--|-..|.-|-.|.-..|.....|/|-...|.-|...|.|...--|..---&quot;</span></span><br><span class="line"></span><br><span class="line">check_list = check.split(<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line"></span><br><span class="line">d = &#123;</span><br><span class="line">    <span class="string">&quot;/&quot;</span>: <span class="string">&quot; &quot;</span>,</span><br><span class="line">    <span class="string">&quot;.-&quot;</span>: <span class="string">&quot;A&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-...&quot;</span>: <span class="string">&quot;B&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-.-.&quot;</span>: <span class="string">&quot;C&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-..&quot;</span>: <span class="string">&quot;D&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.&quot;</span>: <span class="string">&quot;E&quot;</span>,</span><br><span class="line">    <span class="string">&quot;..-.&quot;</span>: <span class="string">&quot;F&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--.&quot;</span>: <span class="string">&quot;G&quot;</span>,</span><br><span class="line">    <span class="string">&quot;....&quot;</span>: <span class="string">&quot;H&quot;</span>,</span><br><span class="line">    <span class="string">&quot;..&quot;</span>: <span class="string">&quot;I&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.---&quot;</span>: <span class="string">&quot;J&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-.-&quot;</span>: <span class="string">&quot;K&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.-..&quot;</span>: <span class="string">&quot;L&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--&quot;</span>: <span class="string">&quot;M&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-.&quot;</span>: <span class="string">&quot;N&quot;</span>,</span><br><span class="line">    <span class="string">&quot;---&quot;</span>: <span class="string">&quot;O&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.--.&quot;</span>: <span class="string">&quot;P&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--.-&quot;</span>: <span class="string">&quot;Q&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.-.&quot;</span>: <span class="string">&quot;R&quot;</span>,</span><br><span class="line">    <span class="string">&quot;...&quot;</span>: <span class="string">&quot;S&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-&quot;</span>: <span class="string">&quot;T&quot;</span>,</span><br><span class="line">    <span class="string">&quot;..-&quot;</span>: <span class="string">&quot;U&quot;</span>,</span><br><span class="line">    <span class="string">&quot;...-&quot;</span>: <span class="string">&quot;V&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.--&quot;</span>: <span class="string">&quot;W&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-..-&quot;</span>: <span class="string">&quot;X&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-.--&quot;</span>: <span class="string">&quot;Y&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--..&quot;</span>: <span class="string">&quot;Z&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.----&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;..---&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">    <span class="string">&quot;...--&quot;</span>: <span class="string">&quot;3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;....-&quot;</span>: <span class="string">&quot;4&quot;</span>,</span><br><span class="line">    <span class="string">&quot;.....&quot;</span>: <span class="string">&quot;5&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-....&quot;</span>: <span class="string">&quot;6&quot;</span>,</span><br><span class="line">    <span class="string">&quot;--...&quot;</span>: <span class="string">&quot;7&quot;</span>,</span><br><span class="line">    <span class="string">&quot;---..&quot;</span>: <span class="string">&quot;8&quot;</span>,</span><br><span class="line">    <span class="string">&quot;----.&quot;</span>: <span class="string">&quot;9&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-----&quot;</span>: <span class="string">&quot;0&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> check_list:</span><br><span class="line">    <span class="built_in">print</span>(d[item], end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/08/16/RaCTF2021-WriteUp/" data-id="cku8gvn360007tkv4folacwau" data-title="RaCTF2021 WriteUp" class="article-share-link">Teilen</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
   </nav>
 
 </section>
@@ -611,6 +555,14 @@
       <ul>
         
           <li>
+            <a href="/2021/10/05/tasteless-ctf-2021-rev-PVM/">tasteless_ctf_2021 [rev] PVM</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">编译原理学习笔记</a>
+          </li>
+        
+          <li>
             <a href="/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/">CSAPP 1 - 原码、反码、补码、IEEE 754 实战</a>
           </li>
         
@@ -620,14 +572,6 @@
         
           <li>
             <a href="/2021/08/28/C-argument-dependent-name-lookup/">C++ argument-dependent name lookup</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/28/%E7%A5%A5%E4%BA%91%E6%9D%AF2021%E5%A4%8D%E7%9B%98/">祥云杯2021复盘</a>
-          </li>
-        
-          <li>
-            <a href="/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/">corCTF2021 复盘</a>
           </li>
         
       </ul>
