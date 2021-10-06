@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   
   
-  <title>远程线程（RemoteThread） | flag{titl3_1s_zsy_arch}</title>
+  <title>远程线程（RemoteThread） | zsy的小屋————相信美好总会到来</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="回顾线程程序开始运行时，操作系统就创建了这个程序的进程。一个进程中有多个线程，一个线程就是这个进程正在执行的一个任务。比如main函数就在一个线程中执行。 远程线程注入首先，这篇文章不是讲远程线程DLL注入（但可以说是为其打基础）。在初学Windows API时，我们学到过函数CreateThread，用来在当前进程中创建一个线程。在这里，又有了一个新的函数——CreateRemoteThread">
 <meta property="og:type" content="article">
 <meta property="og:title" content="远程线程（RemoteThread）">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/index.html">
-<meta property="og:site_name" content="flag{titl3_1s_zsy_arch}">
+<meta property="og:site_name" content="zsy的小屋————相信美好总会到来">
 <meta property="og:description" content="回顾线程程序开始运行时，操作系统就创建了这个程序的进程。一个进程中有多个线程，一个线程就是这个进程正在执行的一个任务。比如main函数就在一个线程中执行。 远程线程注入首先，这篇文章不是讲远程线程DLL注入（但可以说是为其打基础）。在初学Windows API时，我们学到过函数CreateThread，用来在当前进程中创建一个线程。在这里，又有了一个新的函数——CreateRemoteThread">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-19T08:37:28.000Z">
@@ -18,7 +18,7 @@
 <meta property="article:author" content="zsy">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="flag{titl3_1s_zsy_arch}" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="zsy的小屋————相信美好总会到来" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -46,8 +46,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">flag{titl3_1s_zsy_arch}</a>
+        <a href="/" id="logo">zsy的小屋————相信美好总会到来</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">flag{zsy_arch_f0r_s0me7hinG}</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -111,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/" data-id="ckueyjcwf000mtov4fbrten8n" data-title="远程线程（RemoteThread）" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/08/19/%E8%BF%9C%E7%A8%8B%E7%BA%BF%E7%A8%8B/" data-id="ckufrmicy000ni4v48t0mb886" data-title="远程线程（RemoteThread）" class="article-share-link">Teilen</a>
       
       
       
@@ -171,6 +175,10 @@
       <ul>
         
           <li>
+            <a href="/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/">深夜乱想——2021/10/07</a>
+          </li>
+        
+          <li>
             <a href="/2021/10/07/ADWORLD-rev-elrond32/">ADWORLD [rev] elrond32</a>
           </li>
         
@@ -184,10 +192,6 @@
         
           <li>
             <a href="/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">编译原理学习笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/">CSAPP 1 - 原码、反码、补码、IEEE 754 实战</a>
           </li>
         
       </ul>

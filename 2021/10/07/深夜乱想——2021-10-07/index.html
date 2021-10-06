@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>编译原理学习笔记 | zsy的小屋————相信美好总会到来</title>
+  <title>深夜乱想——2021/10/07 | zsy的小屋————相信美好总会到来</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="词法分析词法分析一般是编译的第一个阶段。一个编程语言代码，主要包含以下元素：（1）关键字，可能包括if、for、void、class等；（2）字面量，如实数、字符串等；（3）符号：小括号、大括号、加号、减号等；（4）标识符，也就是变量名、函数名、类名等。 词法分析器以空格符、换行符为分割，利用正则表达式找出每个元素所属的类型。根据元素类型创建一个Token。 NFA、DFA有多少种元素类型，就要设">
+  <meta name="description" content="从开学到现在足足忙了两个月，迎接新生、备课、参加比赛、去医院…..每天到凌晨一点就困得睁不开眼，有时候不困也会被周围环境以及自身的压力影响得睡不着觉。 每天上课不听讲，一节课也就能看两三页书，包括：操作系统、计算机网络、编译原理等等。只希望最后一个月突击复习能不挂科&#x3D; &#x3D;。报名了六级但是一点也没复习。。。 这几天决定随身带着电脑，还下血本买了新的两个充电宝。上课、回宿舍时能继续敲代码、打CTF、看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编译原理学习笔记">
-<meta property="og:url" content="https://zsy-arch.github.io/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="深夜乱想——2021&#x2F;10&#x2F;07">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/index.html">
 <meta property="og:site_name" content="zsy的小屋————相信美好总会到来">
-<meta property="og:description" content="词法分析词法分析一般是编译的第一个阶段。一个编程语言代码，主要包含以下元素：（1）关键字，可能包括if、for、void、class等；（2）字面量，如实数、字符串等；（3）符号：小括号、大括号、加号、减号等；（4）标识符，也就是变量名、函数名、类名等。 词法分析器以空格符、换行符为分割，利用正则表达式找出每个元素所属的类型。根据元素类型创建一个Token。 NFA、DFA有多少种元素类型，就要设">
+<meta property="og:description" content="从开学到现在足足忙了两个月，迎接新生、备课、参加比赛、去医院…..每天到凌晨一点就困得睁不开眼，有时候不困也会被周围环境以及自身的压力影响得睡不着觉。 每天上课不听讲，一节课也就能看两三页书，包括：操作系统、计算机网络、编译原理等等。只希望最后一个月突击复习能不挂科&#x3D; &#x3D;。报名了六级但是一点也没复习。。。 这几天决定随身带着电脑，还下血本买了新的两个充电宝。上课、回宿舍时能继续敲代码、打CTF、看">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-10-01T14:36:09.000Z">
-<meta property="article:modified_time" content="2021-10-01T14:45:33.518Z">
+<meta property="article:published_time" content="2021-10-06T16:44:25.000Z">
+<meta property="article:modified_time" content="2021-10-06T17:08:50.746Z">
 <meta property="article:author" content="zsy">
 <meta name="twitter:card" content="summary">
   
@@ -77,10 +77,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-编译原理学习笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-深夜乱想——2021-10-07" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-10-01T14:36:09.000Z" itemprop="datePublished">2021-10-01</time>
+    <a href="/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/" class="article-date">
+  <time class="dt-published" datetime="2021-10-06T16:44:25.000Z" itemprop="datePublished">2021-10-07</time>
 </a>
     
   </div>
@@ -91,7 +91,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      编译原理学习笔记
+      深夜乱想——2021/10/07
     </h1>
   
 
@@ -99,14 +99,24 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><p>词法分析一般是编译的第一个阶段。一个编程语言代码，主要包含以下元素：（1）关键字，可能包括if、for、void、class等；（2）字面量，如实数、字符串等；（3）符号：小括号、大括号、加号、减号等；（4）标识符，也就是变量名、函数名、类名等。</p>
-<p>词法分析器以空格符、换行符为分割，利用正则表达式找出每个元素所属的类型。根据元素类型创建一个Token。</p>
-<h3 id="NFA、DFA"><a href="#NFA、DFA" class="headerlink" title="NFA、DFA"></a>NFA、DFA</h3><p>有多少种元素类型，就要设置多少正则表达式，为检测出正确Token类型，需要与每一个正则表达式匹配，非常不便。所以出现了NFA、DFA，它们本质上是数据结构——图。</p>
+        <p>从开学到现在足足忙了两个月，迎接新生、备课、参加比赛、去医院…..每天到凌晨一点就困得睁不开眼，有时候不困也会被周围环境以及自身的压力影响得睡不着觉。</p>
+<p>每天上课不听讲，一节课也就能看两三页书，包括：操作系统、计算机网络、编译原理等等。只希望最后一个月突击复习能不挂科= =。报名了六级但是一点也没复习。。。</p>
+<p>这几天决定随身带着电脑，还下血本买了新的两个充电宝。上课、回宿舍时能继续敲代码、打CTF、看PDF。想着大二下学期能出去实习、或是加入个团队，但是看自己的实力感觉不太行。</p>
+<p>刚刚又心血来潮做了两道简单的逆向题，各花了十分钟，其中一道拿到了明文，但是因为没有看清题目描述：将明文进行SHA1加密，导致看了WP才答对，另一道就简单得多没什么好说的。</p>
+<p>因为对安全特别是二进制安全就业前景还是不太了解，仍在思考自己将来要做什么工作。可能是恶意代码研究，也可能就是个安服，混得不好当个后端码农也说不定。</p>
+<p>说到底，个人的努力占成功的90%，我承认自己不够努力，却也只能努力，毕竟那10%的机遇不是谁都能遇到的。大家都不想卷，却又都不自觉地卷。</p>
+<p>那就给自己订一个十月份要卷的清单吧：</p>
+<ol>
+<li>学习编译原理，了解LLVM的使用</li>
+<li>计算机网络</li>
+<li>Windows内核编程</li>
+</ol>
+<p>电脑快没电了了，晚安。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckufrmicx000mi4v4d681eyxk" data-title="编译原理学习笔记" class="article-share-link">Teilen</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/" data-id="ckufrmicw000ki4v4gbs3fbpf" data-title="深夜乱想——2021/10/07" class="article-share-link">Teilen</a>
       
       
       
@@ -116,19 +126,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/10/05/tasteless-ctf-2021-rev-PVM/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          tasteless_ctf_2021 [rev] PVM
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/10/07/ADWORLD-rev-elrond32/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">CSAPP 1 - 原码、反码、补码、IEEE 754 实战</div>
+      <div class="article-nav-title">ADWORLD [rev] elrond32</div>
     </a>
   
 </nav>
