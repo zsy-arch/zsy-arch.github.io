@@ -75,6 +75,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-WinDBG查看内核初始化过程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-07-16T07:59:59.000Z" itemprop="datePublished">2021-07-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/">WinDBG查看内核初始化过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>环境：</strong></p>
+<ol>
+<li>host：Win11 预览版</li>
+<li>guest：VMwarre Pro 16 + Windows 10 18362 x64</li>
+<li>其他工具：VirtualKD-Redux、WinDBG</li>
+</ol>
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><ol>
+<li>打开VirtualKD-Redux，将<code>DbgBreakPoint() on start</code>勾选。</li>
+<li>开启虚拟机</li>
+<li>在VirtualKD-Redux中选中目标虚拟机，开启WinDBG</li>
+</ol>
+<h3 id="正式开启"><a href="#正式开启" class="headerlink" title="正式开启"></a>正式开启</h3><p>进入虚拟机后打开WinDBG，立即就触发了一个断点，在命令窗口输入kc，查看调用栈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; kc</span><br><span class="line"> # Call Site</span><br><span class="line">00 nt!DebugService2</span><br><span class="line">01 nt!DbgLoadImageSymbols</span><br><span class="line">02 nt!KdInitSystem</span><br><span class="line">03 nt!KiSystemStartup</span><br></pre></td></tr></table></figure>
+
+<p>先来看看这个KiSystemStartup函数，顾名思义就是系统开始启动的地方，它接收一个参数——结构体LOADER_PARAMETER_BLOCK，先来看看结构体的定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dt nt!_LOADER_PARAMETER_BLOCK</span><br><span class="line">   +0x000 OsMajorVersion   : Uint4B</span><br><span class="line">   +0x004 OsMinorVersion   : Uint4B</span><br><span class="line">   +0x008 Size             : Uint4B</span><br><span class="line">   +0x00c OsLoaderSecurityVersion : Uint4B</span><br><span class="line">   +0x010 LoadOrderListHead : _LIST_ENTRY</span><br><span class="line">   +0x020 MemoryDescriptorListHead : _LIST_ENTRY</span><br><span class="line">   +0x030 BootDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x040 EarlyLaunchListHead : _LIST_ENTRY</span><br><span class="line">   +0x050 CoreDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x060 CoreExtensionsDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x070 TpmCoreDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x080 KernelStack      : Uint8B</span><br><span class="line">   +0x088 Prcb             : Uint8B</span><br><span class="line">   +0x090 Process          : Uint8B</span><br><span class="line">   +0x098 Thread           : Uint8B</span><br><span class="line">   +0x0a0 KernelStackSize  : Uint4B</span><br><span class="line">   +0x0a4 RegistryLength   : Uint4B</span><br><span class="line">   +0x0a8 RegistryBase     : Ptr64 Void</span><br><span class="line">   +0x0b0 ConfigurationRoot : Ptr64 _CONFIGURATION_COMPONENT_DATA</span><br><span class="line">   +0x0b8 ArcBootDeviceName : Ptr64 Char</span><br><span class="line">   +0x0c0 ArcHalDeviceName : Ptr64 Char</span><br><span class="line">   +0x0c8 NtBootPathName   : Ptr64 Char</span><br><span class="line">   +0x0d0 NtHalPathName    : Ptr64 Char</span><br><span class="line">   +0x0d8 LoadOptions      : Ptr64 Char</span><br><span class="line">   +0x0e0 NlsData          : Ptr64 _NLS_DATA_BLOCK</span><br><span class="line">   +0x0e8 ArcDiskInformation : Ptr64 _ARC_DISK_INFORMATION</span><br><span class="line">   +0x0f0 Extension        : Ptr64 _LOADER_PARAMETER_EXTENSION</span><br><span class="line">   +0x0f8 u                : &lt;anonymous-tag&gt;</span><br><span class="line">   +0x108 FirmwareInformation : _FIRMWARE_INFORMATION_LOADER_BLOCK</span><br><span class="line">   +0x148 OsBootstatPathName : Ptr64 Char</span><br><span class="line">   +0x150 ArcOSDataDeviceName : Ptr64 Char</span><br><span class="line">   +0x158 ArcWindowsSysPartName : Ptr64 Char</span><br></pre></td></tr></table></figure>
+
+<p>此时，也就是KiSystemStartup函数执行后，会将参数地址赋予全局变量KeLoaderBlock，来看一看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dq nt!KeLoaderBlock L1</span><br><span class="line">fffff801`1ea1a3d8  fffff801`1d00df60</span><br></pre></td></tr></table></figure>
+
+<p>在内核启动结束后，KeLoaderBlock会被设置为0，现在并没有，来看看KeLoaderBlock所指向的结构体的具体内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dt nt!_LOADER_PARAMETER_BLOCK fffff801`1d00df60</span><br><span class="line">   +0x000 OsMajorVersion   : 0xa</span><br><span class="line">   +0x004 OsMinorVersion   : 0</span><br><span class="line">   +0x008 Size             : 0x160</span><br><span class="line">   +0x00c OsLoaderSecurityVersion : 1</span><br><span class="line">   +0x010 LoadOrderListHead : _LIST_ENTRY [ 0xfffff801`1d120000 - 0xfffff801`1d1d2b60 ]</span><br><span class="line">   +0x020 MemoryDescriptorListHead : _LIST_ENTRY [ 0xfffff801`1d1fa000 - 0xfffff801`1d1fc148 ]</span><br><span class="line">   +0x030 BootDriverListHead : _LIST_ENTRY [ 0xfffff801`1d134d20 - 0xfffff801`1d132e40 ]</span><br><span class="line">   +0x040 EarlyLaunchListHead : _LIST_ENTRY [ 0xfffff801`1d1365b0 - 0xfffff801`1d1365b0 ]</span><br><span class="line">   +0x050 CoreDriverListHead : _LIST_ENTRY [ 0xfffff801`1d136760 - 0xfffff801`1d135200 ]</span><br><span class="line">   +0x060 CoreExtensionsDriverListHead : _LIST_ENTRY [ 0xfffff801`1d133b40 - 0xfffff801`1d136e60 ]</span><br><span class="line">   +0x070 TpmCoreDriverListHead : _LIST_ENTRY [ 0xfffff801`1d125bc0 - 0xfffff801`1d125bc0 ]</span><br><span class="line">   +0x080 KernelStack      : 0xfffff801`20c83000</span><br><span class="line">   +0x088 Prcb             : 0xfffff801`1d380180</span><br><span class="line">   +0x090 Process          : 0xfffff801`1ea349c0</span><br><span class="line">   +0x098 Thread           : 0xfffff801`1ea37400</span><br><span class="line">   +0x0a0 KernelStackSize  : 0x6000</span><br><span class="line">   +0x0a4 RegistryLength   : 0xb40000</span><br><span class="line">   +0x0a8 RegistryBase     : 0xfffff801`1d3fa000 Void</span><br><span class="line">   +0x0b0 ConfigurationRoot : 0xfffff801`1d03a480 _CONFIGURATION_COMPONENT_DATA</span><br><span class="line">   +0x0b8 ArcBootDeviceName : 0xfffff801`1d039fd0  &quot;multi(0)disk(0)rdisk(0)partition(3)&quot;</span><br><span class="line">   +0x0c0 ArcHalDeviceName : 0xfffff801`1d039ed0  &quot;multi(0)disk(0)rdisk(0)partition(1)&quot;</span><br><span class="line">   +0x0c8 NtBootPathName   : 0xfffff801`1d03e010  &quot;\Windows\&quot;</span><br><span class="line">   +0x0d0 NtHalPathName    : 0xfffff801`1d04d0b0  &quot;\&quot;</span><br><span class="line">   +0x0d8 LoadOptions      : 0xfffff801`1d03a1e0  &quot; TESTSIGNING  NOEXECUTE=OPTIN  DEBUG  DISABLE_INTEGRITY_CHECKS&quot;</span><br><span class="line">   +0x0e0 NlsData          : 0xfffff801`1d1beac0 _NLS_DATA_BLOCK</span><br><span class="line">   +0x0e8 ArcDiskInformation : 0xfffff801`1d0383d0 _ARC_DISK_INFORMATION</span><br><span class="line">   +0x0f0 Extension        : 0xfffff801`1d00e0c0 _LOADER_PARAMETER_EXTENSION</span><br><span class="line">   +0x0f8 u                : &lt;anonymous-tag&gt;</span><br><span class="line">   +0x108 FirmwareInformation : _FIRMWARE_INFORMATION_LOADER_BLOCK</span><br><span class="line">   +0x148 OsBootstatPathName : (null) </span><br><span class="line">   +0x150 ArcOSDataDeviceName : (null) </span><br><span class="line">   +0x158 ArcWindowsSysPartName : (null) </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zsy-arch.github.io/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" data-id="ckufrmico000di4v403o28p9s" data-title="WinDBG查看内核初始化过程" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-汇编学习（2）32位模式下NASM与GCC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/" class="article-date">
@@ -484,6 +544,10 @@
       <ul>
         
           <li>
+            <a href="/2021/10/07/ADWORLD-REV-666/">ADWORLD [REV] 666</a>
+          </li>
+        
+          <li>
             <a href="/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/">Win Kernel 链表</a>
           </li>
         
@@ -497,10 +561,6 @@
         
           <li>
             <a href="/2021/10/06/DownUnderCTF-2021-Flag-Checker/">DownUnderCTF 2021 Flag_Checker</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/05/tasteless-ctf-2021-rev-PVM/">tasteless_ctf_2021 [rev] PVM</a>
           </li>
         
       </ul>
