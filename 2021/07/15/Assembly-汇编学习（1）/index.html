@@ -1,257 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Assembly 汇编学习（1） | zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="汇编学习（1）环境：Windows 11，WSL2（Ubuntu），MINGW-GCC，NASM 一早上起来发现系统自动更新Win11了，用起来还算不错。 NASM，MINGW32-w64都是在WSL 2上的，点击这里看 MINGW32-w64在WSL 2上的安装方法。（Windows变成Linux发行版指日可待&#x3D; &#x3D;） NASM与MINGW GCCtest.asm 1234567891011">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Assembly 汇编学习（1）">
-<meta property="og:url" content="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/index.html">
-<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="汇编学习（1）环境：Windows 11，WSL2（Ubuntu），MINGW-GCC，NASM 一早上起来发现系统自动更新Win11了，用起来还算不错。 NASM，MINGW32-w64都是在WSL 2上的，点击这里看 MINGW32-w64在WSL 2上的安装方法。（Windows变成Linux发行版指日可待&#x3D; &#x3D;） NASM与MINGW GCCtest.asm 1234567891011">
-<meta property="og:locale">
-<meta property="article:published_time" content="2021-07-15T05:06:01.000Z">
-<meta property="article:modified_time" content="2021-07-15T06:11:27.798Z">
-<meta property="article:author" content="zsy">
-<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- </a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">flag{zsy_arch_f0r_s0me7hinG}</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-Assembly-汇编学习（1）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-07-15T05:06:01.000Z" itemprop="datePublished">2021-07-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      Assembly 汇编学习（1）
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="汇编学习（1）"><a href="#汇编学习（1）" class="headerlink" title="汇编学习（1）"></a>汇编学习（1）</h3><p><strong>环境</strong>：Windows 11，WSL2（Ubuntu），MINGW-GCC，NASM</p>
-<p>一早上起来发现系统自动更新Win11了，用起来还算不错。</p>
-<p>NASM，MINGW32-w64都是在WSL 2上的，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38786014/how-to-compile-executable-for-windows-with-gcc-with-linux-subsystem">点击这里看</a> MINGW32-w64在WSL 2上的安装方法。（Windows变成Linux发行版指日可待= =）</p>
-<h3 id="NASM与MINGW-GCC"><a href="#NASM与MINGW-GCC" class="headerlink" title="NASM与MINGW GCC"></a>NASM与MINGW GCC</h3><p>test.asm</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    global do_something</span><br><span class="line">section .text</span><br><span class="line">do_something:</span><br><span class="line">    push rbp</span><br><span class="line">    mov rbp, rsp</span><br><span class="line">    xor eax, eax</span><br><span class="line">    mov eax, ecx</span><br><span class="line">    add eax, eax</span><br><span class="line">    mov rsp, rbp</span><br><span class="line">    pop rbp</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-
-<p>使用NASM生成OBJ文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nasm -f win64 -o test.obj test.asm</span><br></pre></td></tr></table></figure>
-
-<p>编写C文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int do_something(int);</span><br><span class="line"></span><br><span class="line">int main(int argc, char const *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    int a = do_something(10);</span><br><span class="line">    printf(&quot;%d\n&quot;, a);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用MINGW32-w64-gcc链接，生成可执行文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ w64gcc test.c test.obj -o test.exe</span><br></pre></td></tr></table></figure>
-
-<p>用IDA Pro分析test.exe</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">; int __cdecl main(int argc, const char **argv, const char **envp)</span><br><span class="line">public main</span><br><span class="line">main proc near</span><br><span class="line"></span><br><span class="line">var_4= dword ptr -4</span><br><span class="line">arg_0= dword ptr  10h</span><br><span class="line">arg_8= qword ptr  18h</span><br><span class="line"></span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">sub     rsp, 30h</span><br><span class="line">mov     [rbp+arg_0], ecx</span><br><span class="line">mov     [rbp+arg_8], rdx</span><br><span class="line">call    __main</span><br><span class="line">mov     ecx, 0Ah</span><br><span class="line">call    do_something</span><br><span class="line">mov     [rbp+var_4], eax</span><br><span class="line">mov     eax, [rbp+var_4]</span><br><span class="line">mov     edx, eax</span><br><span class="line">lea     rcx, Format     ; &quot;%d\n&quot;</span><br><span class="line">call    printf</span><br><span class="line">mov     eax, 0</span><br><span class="line">add     rsp, 30h</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">main endp</span><br></pre></td></tr></table></figure>
-
-<p>IDA Pro中的do_something函数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">public do_something</span><br><span class="line">do_something proc near</span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">xor     eax, eax</span><br><span class="line">mov     eax, ecx</span><br><span class="line">add     eax, eax</span><br><span class="line">mov     rsp, rbp</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">do_something endp</span><br></pre></td></tr></table></figure>
-
-<p>很明显，这里do_something函数是fastcall。函数的调用规则不知道怎么修改，谷歌、SO查了好多也不行= =，等我再去看看吧。</p>
-<p>这算是认真研究汇编的一个开始吧，且行且珍惜。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" data-id="ckumbxfjm000138v4cbgyglyw" data-title="Assembly 汇编学习（1）" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          汇编学习（2）32位模式下NASM与GCC
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">2021 07 14总结</div>
-    </a>
-  
-</nav>
-
-  
-</article>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-  
-    
+{% block page_class %}page-post-detail{% endblock %}
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.baidushare %}
+        {% include '_partials/share/baidushare.swig' %}
+      {% elseif theme.add_this_id %}
+        {% include '_partials/share/add-this.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
     </div>
   </div>
 
+{% endblock %}
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/">RCTF rev 复盘</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/08/ADWORLD-REV-HW-RE1/">ADWORLD [REV] HW_RE1</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/ADWORLD-REV-666/">ADWORLD [REV] 666</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/">Win Kernel 链表</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/">深夜乱想——2021/10/07</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 zsy<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

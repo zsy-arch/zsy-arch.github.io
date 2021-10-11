@@ -1,322 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Archives: 2021/7 | zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:url" content="https://zsy-arch.github.io/archives/2021/07/index.html">
-<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:locale">
-<meta property="article:author" content="zsy">
-<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+{% extends '_layout.swig' %}
+{% import '_macro/post-collapse.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+{% block title %}{{ __('title.archive') }} | {{ config.title }}{% endblock %}
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+{% block page_class %}page-archive{% endblock %}
 
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
+{% block content %}
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- </a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">flag{zsy_arch_f0r_s0me7hinG}</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
+  {#####################}
+  {### ARCHIVE BLOCK ###}
+  {#####################}
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-      <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-16T07:59:59.000Z" itemprop="datePublished">Jul 16</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/">WinDBG查看内核初始化过程</a>
-    </h1>
-  
+      <span class="archive-page-counter">
+        {% set cheers %}
+        {% set posts_length = site.posts.length %}
+        {% if posts_length > 210 %} {% set cheers = 'excellent' %}
+          {% elif posts_length > 130 %} {% set cheers = 'great' %}
+          {% elif posts_length > 80 %} {% set cheers = 'good' %}
+          {% elif posts_length > 50 %} {% set cheers = 'nice' %}
+          {% elif posts_length > 30 %} {% set cheers = 'ok' %}
+        {% else %}
+          {% set cheers = 'um' %}
+        {% endif %}
+        {{ __('cheers.' + cheers) }}! {{ _p("counter.archive_posts", site.posts.length) }} {{ __('keep_on') }}
+      </span>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-15T06:35:30.000Z" itemprop="datePublished">Jul 15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/15/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%8932%E4%BD%8D%E6%A8%A1%E5%BC%8F%E4%B8%8BNASM%E4%B8%8EGCC/">汇编学习（2）32位模式下NASM与GCC</a>
-    </h1>
-  
+      {% for post in page.posts %}
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-15T05:06:01.000Z" itemprop="datePublished">Jul 15</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">Assembly 汇编学习（1）</a>
-    </h1>
-  
+        {# Show year #}
+        {% set year %}
+        {% set post.year = date(post.date, 'YYYY') %}
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-14T11:16:28.000Z" itemprop="datePublished">Jul 14</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/">2021 07 14总结</a>
-    </h1>
-  
+        {% if post.year !== year %}
+          {% set year = post.year %}
+          <div class="collection-title">
+            <{% if theme.seo %}h2{% else %}h1{% endif %} class="archive-year" id="archive-year-{{ year }}">{{ year }}</{% if theme.seo %}h2{% else %}h1{% endif %}>
+          </div>
+        {% endif %}
+        {# endshow #}
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/13/Windows-Debugging-1-process-and-thread/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-13T07:36:11.000Z" itemprop="datePublished">Jul 13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/13/Windows-Debugging-1-process-and-thread/">Windows Debugging(1) process and thread</a>
-    </h1>
-  
+        {{ post_template.render(post) }}
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/13/Windows-Kernel-1-NTLDR/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-13T05:12:41.000Z" itemprop="datePublished">Jul 13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/13/Windows-Kernel-1-NTLDR/">Windows Kernel(1) NTLDR</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2021/07/12/hello-world/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-07-12T03:53:03.486Z" itemprop="datePublished">Jul 12</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/07/12/hello-world/">Hello World</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/">RCTF rev 复盘</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/08/ADWORLD-REV-HW-RE1/">ADWORLD [REV] HW_RE1</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/ADWORLD-REV-666/">ADWORLD [REV] 666</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/">Win Kernel 链表</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/">深夜乱想——2021/10/07</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 zsy<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+      {% endfor %}
 
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
   </div>
-</body>
-</html>
+  {#########################}
+  {### END ARCHIVE BLOCK ###}
+  {#########################}
+
+  {% include '_partials/pagination.swig' %}
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
