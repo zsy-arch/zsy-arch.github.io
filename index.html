@@ -61,12 +61,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-hírfolyam"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Keresés"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Keresés"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zsy-arch.github.io"></form>
       </div>
     </div>
   </div>
@@ -102,10 +102,12 @@
 <p>在比赛的时候因为py脚本写的不对，没有处理好bitrev_d和bitrev_8b导致浪费时间。基本功还是要练扎实= =。</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qword2bit</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">        re.append(a%<span class="number">2</span>)</span><br><span class="line">        a &gt;&gt;= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> re[::-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bit2qword</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">        re += <span class="built_in">str</span>(i)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(re,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bitrev_8b</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">64</span>,<span class="number">8</span>):</span><br><span class="line">        re += a[i:i+<span class="number">8</span>][::-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bytepick_d</span>(<span class="params">a,b,n</span>):</span></span><br><span class="line">    <span class="keyword">return</span> b[<span class="number">8</span>*(n):<span class="number">64</span>]+a[<span class="number">0</span>:<span class="number">8</span>*(n)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bitrev_d</span>(<span class="params">a</span>):</span></span><br><span class="line">    <span class="keyword">return</span> a[::-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">xor1 = [<span class="number">0x8205f3d105b3059d</span>,<span class="number">0xa89aceb3093349f3</span>,<span class="number">0xd53db5adbcabb984</span>,<span class="number">0x39cea0bfd9d2c2d4</span>]</span><br><span class="line">xor2 = [<span class="number">0xc513455508290500</span>,<span class="number">0x6d621abb30b918</span>,<span class="number">0xbc555b9f4c6f86a1</span>,<span class="number">0x50d78ad181a626d</span>]</span><br><span class="line"></span><br><span class="line">a = [i^<span class="number">0xffffffffffffffff</span> <span class="keyword">for</span> i <span class="keyword">in</span> xor2]</span><br><span class="line"></span><br><span class="line">b = [qword2bit(i) <span class="keyword">for</span> i <span class="keyword">in</span> a]</span><br><span class="line"></span><br><span class="line">c = [bitrev_8b(i) <span class="keyword">for</span> i <span class="keyword">in</span> b]</span><br><span class="line"></span><br><span class="line">d = [bytepick_d(c[<span class="number">2</span>],c[<span class="number">1</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">0</span>],c[<span class="number">2</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">3</span>],c[<span class="number">0</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">1</span>],c[<span class="number">3</span>],<span class="number">5</span>)]</span><br><span class="line"></span><br><span class="line">e = [bitrev_d(i) <span class="keyword">for</span> i <span class="keyword">in</span> d]</span><br><span class="line"></span><br><span class="line">f = [bit2qword(i) <span class="keyword">for</span> i <span class="keyword">in</span> e]</span><br><span class="line"></span><br><span class="line">g = [f[i]^xor1[i] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> g:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(i&amp;<span class="number">0xff</span>),end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        i &gt;&gt;= <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a target="_blank" rel="noopener" href="https://blog.rois.io/en/2021/rctf-2021-official-writeup/">https://blog.rois.io/en/2021/rctf-2021-official-writeup/</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/" data-id="ckumbga760000k0v42dxic6us" data-title="RCTF rev 复盘" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/" data-id="ckumbga760000k0v42dxic6us" data-title="RCTF rev 复盘" class="article-share-link">Megosztás</a>
       
       
       
@@ -151,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/08/ADWORLD-REV-HW-RE1/" data-id="ckuh7emq10000j0v4byf2g2b6" data-title="ADWORLD [REV] HW_RE1" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/08/ADWORLD-REV-HW-RE1/" data-id="ckuh7emq10000j0v4byf2g2b6" data-title="ADWORLD [REV] HW_RE1" class="article-share-link">Megosztás</a>
       
       
       
@@ -200,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/" data-id="ckuge89o100004gv4gdoj1jho" data-title="ADWORLD [REV] 666" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/" data-id="ckuge89o100004gv4gdoj1jho" data-title="ADWORLD [REV] 666" class="article-share-link">Megosztás</a>
       
       
       
@@ -248,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/" data-id="ckugc9lms0000dsv44rh21jci" data-title="Win Kernel 链表" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/" data-id="ckugc9lms0000dsv44rh21jci" data-title="Win Kernel 链表" class="article-share-link">Megosztás</a>
       
       
       
@@ -299,7 +301,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/" data-id="ckufrmicw000ki4v4gbs3fbpf" data-title="深夜乱想——2021/10/07" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/07/%E6%B7%B1%E5%A4%9C%E4%B9%B1%E6%83%B3%E2%80%94%E2%80%942021-10-07/" data-id="ckufrmicw000ki4v4gbs3fbpf" data-title="深夜乱想——2021/10/07" class="article-share-link">Megosztás</a>
       
       
       
@@ -351,7 +353,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/07/ADWORLD-rev-elrond32/" data-id="ckufrmibv0000i4v404474y2f" data-title="ADWORLD [rev] elrond32" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/07/ADWORLD-rev-elrond32/" data-id="ckufrmibv0000i4v404474y2f" data-title="ADWORLD [rev] elrond32" class="article-share-link">Megosztás</a>
       
       
       
@@ -397,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/06/DownUnderCTF-2021-Flag-Checker/" data-id="ckufrmicd0006i4v47i4n746r" data-title="DownUnderCTF 2021 Flag_Checker" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/06/DownUnderCTF-2021-Flag-Checker/" data-id="ckufrmicd0006i4v47i4n746r" data-title="DownUnderCTF 2021 Flag_Checker" class="article-share-link">Megosztás</a>
       
       
       
@@ -441,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/05/tasteless-ctf-2021-rev-PVM/" data-id="ckufrmict000hi4v45woz3n3a" data-title="tasteless_ctf_2021 [rev] PVM" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/05/tasteless-ctf-2021-rev-PVM/" data-id="ckufrmict000hi4v45woz3n3a" data-title="tasteless_ctf_2021 [rev] PVM" class="article-share-link">Megosztás</a>
       
       
       
@@ -482,7 +484,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckufrmicx000mi4v4d681eyxk" data-title="编译原理学习笔记" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/01/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckufrmicx000mi4v4d681eyxk" data-title="编译原理学习笔记" class="article-share-link">Megosztás</a>
       
       
       
@@ -533,7 +535,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zsy-arch.github.io/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/" data-id="ckufrmic30001i4v47rdj27c4" data-title="CSAPP 1 - 原码、反码、补码、IEEE 754 实战" class="article-share-link">Compartir</a>
+      <a data-url="https://zsy-arch.github.io/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/" data-id="ckufrmic30001i4v47rdj27c4" data-title="CSAPP 1 - 原码、反码、补码、IEEE 754 实战" class="article-share-link">Megosztás</a>
       
       
       
@@ -549,7 +551,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Siguiente &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Következő &raquo;</a>
   </nav>
 
 </section>
@@ -566,7 +568,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archivos</h3>
+    <h3 class="widget-title">Archív</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
@@ -576,7 +578,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Posts recientes</h3>
+    <h3 class="widget-title">Legfrissebb bejegyzések</h3>
     <div class="widget">
       <ul>
         
@@ -614,7 +616,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2021 zsy<br>
-      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
