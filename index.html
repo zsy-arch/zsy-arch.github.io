@@ -230,6 +230,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/13/CISCN-2021-rev-%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/10/13/CISCN-2021-rev-%E5%A4%8D%E7%9B%98/" itemprop="url">CISCN 2021 [rev] 复盘</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-13T02:30:56+08:00">
+                2021-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="imnotavirus"><a href="#imnotavirus" class="headerlink" title="imnotavirus"></a>imnotavirus</h2><p>先看到 <code>main.exe</code>，使用DIE发现有UPX壳，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upx.exe -d main.exe</span><br></pre></td></tr></table></figure>
+
+<p>根据另一个文件夹 <code>pyinstaller-4.2</code> ，可知这是一个pyinstaller打包成的EXE。使用pyinstxtractor解包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 pyinstxtractor.py main.exe</span><br></pre></td></tr></table></figure>
+
+<p>可能会观察到类似类似下面的字样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[!] Error: Failed to decompress xxxxx.pyc, probably encrypted. Extracting as is.</span><br></pre></td></tr></table></figure>
+
+<p>作为一个决赛当然不会让我们直接看到pyc文件= =，这应该是使用了<code>pyinstaller</code>里的加密功能。</p>
+<p>看一看 <code>pyinstaller</code>里的<code>pyimod02_archive.py</code>所定义的<code>Cipher</code>类：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cipher</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    This class is used only to decrypt Python modules.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># At build-type the key is given to us from inside the spec file, at</span></span><br><span class="line">        <span class="comment"># bootstrap-time, we must look for it ourselves by trying to import</span></span><br><span class="line">        <span class="comment"># the generated &#x27;pyi_crypto_key&#x27; module.</span></span><br><span class="line">        <span class="keyword">import</span> pyimod00_crypto_key</span><br><span class="line">        key = pyimod00_crypto_key.key</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">type</span>(key) <span class="keyword">is</span> <span class="built_in">str</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(key) &gt; CRYPT_BLOCK_SIZE:</span><br><span class="line">            self.key = key[<span class="number">0</span>:CRYPT_BLOCK_SIZE]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.key = key.zfill(CRYPT_BLOCK_SIZE)</span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">len</span>(self.key) == CRYPT_BLOCK_SIZE</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> tinyaes</span><br><span class="line">        self._aesmod = tinyaes</span><br><span class="line">        <span class="comment"># Issue #1663: Remove the AES module from sys.modules list. Otherwise</span></span><br><span class="line">        <span class="comment"># it interferes with using &#x27;tinyaes&#x27; module in users&#x27; code.</span></span><br><span class="line">        <span class="keyword">del</span> sys.modules[<span class="string">&#x27;tinyaes&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__create_cipher</span>(<span class="params">self, iv</span>):</span></span><br><span class="line">        <span class="comment"># The &#x27;AES&#x27; class is stateful, this factory method is used to</span></span><br><span class="line">        <span class="comment"># re-initialize the block cipher class with each call to xcrypt().</span></span><br><span class="line">        <span class="keyword">return</span> self._aesmod.AES(self.key.encode(), iv)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decrypt</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        cipher = self.__create_cipher(data[:CRYPT_BLOCK_SIZE])</span><br><span class="line">        <span class="keyword">return</span> cipher.CTR_xcrypt_buffer(data[CRYPT_BLOCK_SIZE:])</span><br></pre></td></tr></table></figure>
+
+<p>再看看 <code>PyiBlockCipher</code> 类：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PyiBlockCipher</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    This class is used only to encrypt Python modules.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, key=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">type</span>(key) <span class="keyword">is</span> <span class="built_in">str</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(key) &gt; BLOCK_SIZE:</span><br><span class="line">            self.key = key[<span class="number">0</span>:BLOCK_SIZE]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.key = key.zfill(BLOCK_SIZE)</span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">len</span>(self.key) == BLOCK_SIZE</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> tinyaes</span><br><span class="line">        self._aesmod = tinyaes</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">self, data</span>):</span></span><br><span class="line">        iv = os.urandom(BLOCK_SIZE)</span><br><span class="line">        <span class="keyword">return</span> iv + self.__create_cipher(iv).CTR_xcrypt_buffer(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__create_cipher</span>(<span class="params">self, iv</span>):</span></span><br><span class="line">        <span class="comment"># The &#x27;AES&#x27; class is stateful, this factory method is used to</span></span><br><span class="line">        <span class="comment"># re-initialize the block cipher class with each call to xcrypt().</span></span><br><span class="line">        <span class="keyword">return</span> self._aesmod.AES(self.key.encode(), iv)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后是<code>writer.py</code>里的代码片段：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    obj = zlib.compress(data, self.COMPRESSION_LEVEL)</span><br><span class="line">    <span class="comment"># First compress then encrypt.</span></span><br><span class="line">    <span class="keyword">if</span> self.cipher:</span><br><span class="line">        obj = self.cipher.encrypt(obj)</span><br><span class="line">    self.toc.append((name, (typ, self.lib.tell(), <span class="built_in">len</span>(obj))))</span><br><span class="line">    self.lib.write(obj)</span><br><span class="line"><span class="comment">###############################</span></span><br></pre></td></tr></table></figure>
+
+<p>重点：AES、key、iv、CRYPT_BLOCK_SIZE（16）、zlib</p>
+<p>出题人特意考察了代码审计（但我感觉是信息搜集23333），可以直接在<code>pyinstaller</code>源码基础上实现解密，但是因为这个解密方法比较简单，我们直接写一个脚本：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt_pyc</span>():</span></span><br><span class="line">    <span class="keyword">import</span> zlib</span><br><span class="line">    <span class="keyword">import</span> tinyaes</span><br><span class="line"></span><br><span class="line">    pyc_path = <span class="string">r&quot;sign.pyc.encrypted&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(pyc_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        buf = f.read()</span><br><span class="line">    iv = buf[:<span class="number">16</span>]</span><br><span class="line">    data = buf[<span class="number">16</span>:]</span><br><span class="line">    key = <span class="string">b&#x27;NoneOfUrBusiness&#x27;</span></span><br><span class="line"></span><br><span class="line">    cipher = tinyaes.AES(key, iv)</span><br><span class="line">    output = cipher.CTR_xcrypt_buffer(data)</span><br><span class="line"></span><br><span class="line">    output = zlib.decompress(output)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">r&quot;sign.pyc&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(iv + output)</span><br></pre></td></tr></table></figure>
+
+<p>得到<code>sign.pyc</code>已经成功百分之五十，使用HxD修改文件前16个字节为<code>55 0D 0D 0A 00 00 00 00 DA 73 8F 60 0A 12 00 00</code> ，反编译pyc：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uncompyle6.exe .\sign.pyc</span><br></pre></td></tr></table></figure>
+
+<p>得到的反编译结果如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uncompyle6 version 3.7.4</span></span><br><span class="line"><span class="comment"># Python bytecode 3.8 (3413)</span></span><br><span class="line"><span class="comment"># Decompiled from: Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]</span></span><br><span class="line"><span class="comment"># Embedded file name: sign.py</span></span><br><span class="line"><span class="comment"># Compiled at: 2021-05-03 11:54:02</span></span><br><span class="line"><span class="comment"># Size of source mod 2**32: 4618 bytes</span></span><br><span class="line"><span class="keyword">import</span> ctypes, urllib, base64, hashlib, ast</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ppp</span>(<span class="params">bbb</span>):</span></span><br><span class="line">    qaq = ctypes.windll.kernel32.VirtualAlloc(ctypes.c_int(<span class="number">0</span>), ctypes.c_int(<span class="built_in">len</span>(bbb)), ctypes.c_int(<span class="number">12288</span>), ctypes.c_int(<span class="number">64</span>))</span><br><span class="line">    bbb[<span class="number">31</span>:<span class="number">35</span>] = (qaq + <span class="number">59</span>).to_bytes(<span class="number">4</span>, <span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">    bbb[<span class="number">36</span>:<span class="number">40</span>] = (qaq + <span class="number">178</span>).to_bytes(<span class="number">4</span>, <span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">    qwq = (ctypes.c_char * <span class="built_in">len</span>(bbb)).from_buffer(bbb)</span><br><span class="line">    <span class="built_in">eval</span>(base64.b64decode(<span class="string">&#x27;Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5SdGxNb3ZlTWVtb3J5KGN0eXBlcy5jX3VpbnQzMihxYXEpLHF3cSxjdHlwZXMuY19pbnQobGVuKGJiYikpKQ==&#x27;</span>).decode())</span><br><span class="line">    handle = ctypes.windll.kernel32.CreateThread(ctypes.c_int(<span class="number">0</span>), ctypes.c_int(<span class="number">0</span>), ctypes.c_uint32(qaq), ctypes.c_int(<span class="number">0</span>), ctypes.c_int(<span class="number">0</span>), ctypes.pointer(ctypes.c_int(<span class="number">0</span>)))</span><br><span class="line">    ctypes.windll.kernel32.WaitForSingleObject(ctypes.c_int(handle), ctypes.c_int(-<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">aaa</span>(<span class="params">ttt, ggg</span>):</span></span><br><span class="line">    ggg = hashlib.md5(ggg).hexdigest()</span><br><span class="line">    ttt = base64.b64decode(ttt)</span><br><span class="line">    result = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    ggg_len = <span class="built_in">len</span>(ggg)</span><br><span class="line">    box = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">256</span>))</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        j = (j + box[i] + <span class="built_in">ord</span>(ggg[(i % ggg_len)])) % <span class="number">256</span></span><br><span class="line">        box[i], box[j] = box[j], box[i]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        i = j = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> iii <span class="keyword">in</span> ttt:</span><br><span class="line">            i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">            j = (j + box[i]) % <span class="number">256</span></span><br><span class="line">            box[i], box[j] = box[j], box[i]</span><br><span class="line">            k = iii ^ box[((box[i] + box[j]) % <span class="number">256</span>)]</span><br><span class="line">            result += <span class="built_in">bytes</span>([k])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    ctypes.windll.kernel32.VirtualAlloc.restyle = ctypes.c_uint32</span><br><span class="line">    fff = <span class="built_in">input</span>(<span class="string">&#x27;Your input: &#x27;</span>)</span><br><span class="line">    b = <span class="string">&#x27;pB2M/eG2iz1pB4kej4yXXCYvTFV3b/6NDPvMVc+iOs2QwI7Tg7QcItIK6KtB5seaZhd67NGYh6xyMPAocLhd0NeJhweg5/rsEuYnzxFxqMrysaizRAiD6HQhe50rwF5UnByay04giUxuLxy6zL8me5sAQqaUAuCv0c1EsDKBxv1B1zV8MEDav5bkgsTd2t3X3Jt0+lfGKk98bxg1FIXoUhtyZjhV489SpMi+Gzs2+/zaZ0d7p12KoppTYPNs3sj9l74Q8EJPYIAecUEnMSmKDF7yPaKIFloCdW5ghVaSeiaskr5OzfzfeccpvRPevL7PW9uW1R8WmcW2oWjN9aWsinwG2Gk1B7JPa+HusBGpIxxSQhK0wBrEjQpYlIMC7fTpFZca373+p/A2oXuaXqfmOoWtE62JCM74tWqZFrSWyLdnu1/vHaClrzcdzpHLum9shEOcNHYi88Dj11mYufJxH/sEx0CBtWkTCHwEhxVs1sYkGBHlDFUpFbfpY0UagbyPJdq+bmXBdmLKEhJ/M/2cCjmsjuma6IKvo+riA7/B8+T3GB06x31G5tibi3rJMDb4bVWBswzI3gg06mc4Q9EW5dQ4+/SRKbVoYhAfbGKlBeuxSIARKzSAuJPlfm+dmJ6pHx9a4qek2UIEKr4zxA0bSMALoYOSETDF1JWZX+K0HEJLY/hXajmzq5qSTX0EAKBLJtIPkJ0e+XsaQCXyhy4Cg8mYNlQGIORNo5vyNe4QPAD8d3GKr/PZnEMwJ5WsgyoSBOGDke4PGUJd70thEyGHKN9QfTXWknC8HBZdcEojvtC3Prj7LlxXI6y8uZ7ie/1HltGogj3EsUkqU0d3WDuBPZec1Tzj/7Vs44MFGRjEJ0IuSA0U0vOCShyeHUB23qhrXqODsrO/t+s/Zohmd2H0xS46qdoquQj8L1RY2fCt3H0US3Wffk0FKf7qYboKeW/7vlkOYlchgP/HXf0Mfo5gBXhJg3e9jGJ8K5J0gt6Zra9dhPINGgekDMIoxXE=&#x27;</span></span><br><span class="line">    c = aaa(b, <span class="string">&#x27;blackhand&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    c = ast.literal_eval(<span class="string">&quot;b&#x27;&quot;</span> + c.decode().strip() + <span class="string">&quot;&#x27;&quot;</span>)</span><br><span class="line">    qaq = <span class="built_in">eval</span>(base64.b64decode(<span class="string">&#x27;Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5WaXJ0dWFsQWxsb2MoY3R5cGVzLmNfaW50KDApLCBjdHlwZXMuY19pbnQobGVuKGZmZikpLCBjdHlwZXMuY19pbnQoMTIyODgpLCBjdHlwZXMuY19pbnQoNjQpKQ==&#x27;</span>).decode())</span><br><span class="line">    qwq = (ctypes.c_char * (<span class="built_in">len</span>(fff) + <span class="number">1</span>)).from_buffer(<span class="built_in">bytearray</span>(fff.encode()) + <span class="built_in">bytes</span>([<span class="number">0</span>]))</span><br><span class="line">    <span class="built_in">eval</span>(base64.b64decode(<span class="string">&#x27;Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5SdGxNb3ZlTWVtb3J5KGN0eXBlcy5jX3VpbnQzMihxYXEpLHF3cSxjdHlwZXMuY19pbnQobGVuKGZmZikpKQ==&#x27;</span>).decode())</span><br><span class="line">    c = <span class="built_in">bytearray</span>(c)</span><br><span class="line">    c[<span class="number">55</span>:<span class="number">59</span>] = qaq.to_bytes(<span class="number">4</span>, <span class="string">&#x27;little&#x27;</span>)</span><br><span class="line">    ppp(c)</span><br><span class="line">    r = ctypes.create_string_buffer(<span class="built_in">len</span>(fff))</span><br><span class="line">    ctypes.windll.kernel32.ReadProcessMemory(ctypes.windll.kernel32.GetCurrentProcess(), ctypes.c_uint32(qaq), ctypes.byref(r), ctypes.c_ulong(<span class="built_in">len</span>(fff)), <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> r.raw == <span class="string">b&#x27;J\x04`~~s Q&quot;Y!C [j\x05e\x06aB&amp;N#B!E Qp\\ S&#123;\x05&#123;\x05&#123;\x05&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Yes! You got it!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Nope. Try harder :)&#x27;</span>)</span><br><span class="line"><span class="comment"># okay decompiling .\sign.pyc</span></span><br></pre></td></tr></table></figure>
+
+<p>首先对最长的base64密文进行解密，再RC4解密，得到的其实包含了机器指令，我们写一个脚本将其dump出来：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_binary</span>():</span></span><br><span class="line">    <span class="keyword">import</span> ctypes, base64, hashlib, ast</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">aaa</span>(<span class="params">ttt, ggg</span>):</span></span><br><span class="line">        ggg = hashlib.md5(ggg).hexdigest()</span><br><span class="line">        ttt = base64.b64decode(ttt)</span><br><span class="line">        result = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        ggg_len = <span class="built_in">len</span>(ggg)</span><br><span class="line">        box = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">256</span>))</span><br><span class="line">        j = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">            j = (j + box[i] + <span class="built_in">ord</span>(ggg[(i % ggg_len)])) % <span class="number">256</span></span><br><span class="line">            box[i], box[j] = box[j], box[i]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            i = j = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> iii <span class="keyword">in</span> ttt:</span><br><span class="line">                i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">                j = (j + box[i]) % <span class="number">256</span></span><br><span class="line">                box[i], box[j] = box[j], box[i]</span><br><span class="line">                k = iii ^ box[((box[i] + box[j]) % <span class="number">256</span>)]</span><br><span class="line">                result += <span class="built_in">bytes</span>([k])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">        ctypes.windll.kernel32.VirtualAlloc.restyle = ctypes.c_uint32</span><br><span class="line">        b = <span class="string">&#x27;pB2M/eG2iz1pB4kej4yXXCYvTFV3b/6NDPvMVc+iOs2QwI7Tg7QcItIK6KtB5seaZhd67NGYh6xyMPAocLhd0NeJhweg5/rsEuYnzxFxqMrysaizRAiD6HQhe50rwF5UnByay04giUxuLxy6zL8me5sAQqaUAuCv0c1EsDKBxv1B1zV8MEDav5bkgsTd2t3X3Jt0+lfGKk98bxg1FIXoUhtyZjhV489SpMi+Gzs2+/zaZ0d7p12KoppTYPNs3sj9l74Q8EJPYIAecUEnMSmKDF7yPaKIFloCdW5ghVaSeiaskr5OzfzfeccpvRPevL7PW9uW1R8WmcW2oWjN9aWsinwG2Gk1B7JPa+HusBGpIxxSQhK0wBrEjQpYlIMC7fTpFZca373+p/A2oXuaXqfmOoWtE62JCM74tWqZFrSWyLdnu1/vHaClrzcdzpHLum9shEOcNHYi88Dj11mYufJxH/sEx0CBtWkTCHwEhxVs1sYkGBHlDFUpFbfpY0UagbyPJdq+bmXBdmLKEhJ/M/2cCjmsjuma6IKvo+riA7/B8+T3GB06x31G5tibi3rJMDb4bVWBswzI3gg06mc4Q9EW5dQ4+/SRKbVoYhAfbGKlBeuxSIARKzSAuJPlfm+dmJ6pHx9a4qek2UIEKr4zxA0bSMALoYOSETDF1JWZX+K0HEJLY/hXajmzq5qSTX0EAKBLJtIPkJ0e+XsaQCXyhy4Cg8mYNlQGIORNo5vyNe4QPAD8d3GKr/PZnEMwJ5WsgyoSBOGDke4PGUJd70thEyGHKN9QfTXWknC8HBZdcEojvtC3Prj7LlxXI6y8uZ7ie/1HltGogj3EsUkqU0d3WDuBPZec1Tzj/7Vs44MFGRjEJ0IuSA0U0vOCShyeHUB23qhrXqODsrO/t+s/Zohmd2H0xS46qdoquQj8L1RY2fCt3H0US3Wffk0FKf7qYboKeW/7vlkOYlchgP/HXf0Mfo5gBXhJg3e9jGJ8K5J0gt6Zra9dhPINGgekDMIoxXE=&#x27;</span></span><br><span class="line">        c = aaa(b, <span class="string">&#x27;blackhand&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">        c = ast.literal_eval(<span class="string">&quot;b&#x27;&quot;</span> + c.decode().strip() + <span class="string">&quot;&#x27;&quot;</span>)</span><br><span class="line">        bc = <span class="built_in">bytearray</span>(c)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;ciscn_2021_imnotvirus_b64_1&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            i = <span class="number">0x3D</span></span><br><span class="line">            <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(c):</span><br><span class="line">                bc[i] ^= <span class="number">0x77</span></span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            f.write(bc)</span><br><span class="line"></span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">get_binary()</span><br></pre></td></tr></table></figure>
+
+<p>IDA打开：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">    push    rbp</span><br><span class="line">    mov     ebp, esp</span><br><span class="line">    sub     esp, 0E4h</span><br><span class="line">    push    rbx</span><br><span class="line">    push    rsi</span><br><span class="line">    push    rdi</span><br><span class="line">    lea     edi, [rbp-0E4h]</span><br><span class="line">    mov     ecx, 39h ; &#x27;9&#x27;</span><br><span class="line">    mov     eax, 0CCCCCCCCh</span><br><span class="line">    rep stosd</span><br><span class="line">    mov     eax, 41178Bh</span><br><span class="line">    mov     ecx, 411802h</span><br><span class="line">    sub     ecx, eax</span><br><span class="line">loc_2A:</span><br><span class="line">    mov     ebx, [rax]</span><br><span class="line">    xor     ebx, 77h</span><br><span class="line">    mov     [rax], ebx</span><br><span class="line">    loop    loc_2A</span><br><span class="line">    mov     dword ptr [rbp+8], 0FFFFFFFFh</span><br><span class="line">    mov     al, 32h ; &#x27;2&#x27;</span><br><span class="line">    clc</span><br><span class="line">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;分割线;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span><br><span class="line">loc_75:</span><br><span class="line">    mov     eax, [rbp-20h]</span><br><span class="line">    add     eax, 2</span><br><span class="line">    mov     [rbp-20h], eax</span><br><span class="line">    mov     eax, [rbp-20h]</span><br><span class="line">    cmp     eax, [rbp-8]</span><br><span class="line">    jge     short loc_B2</span><br><span class="line">    mov     eax, [rbp+8]</span><br><span class="line">    add     eax, [rbp-20h]</span><br><span class="line">    movsx   ecx, byte ptr [rax]</span><br><span class="line">    xor     ecx, 13h</span><br><span class="line">    mov     edx, [rbp+8]</span><br><span class="line">    add     edx, [rbp-20h]</span><br><span class="line">    mov     [rdx], cl</span><br><span class="line">    mov     eax, [rbp+8]</span><br><span class="line">    add     eax, [rbp-20h]</span><br><span class="line">    movsx   ecx, byte ptr [rax+1]</span><br><span class="line">    xor     ecx, 37h</span><br><span class="line">    mov     edx, [rbp+8]</span><br><span class="line">    add     edx, [rbp-20h]</span><br><span class="line">    mov     [rdx+1], cl</span><br><span class="line">    jmp     short loc_75</span><br><span class="line">loc_B2:</span><br><span class="line">    sub     [rcx], ch</span><br><span class="line">    sub     al, 0F6h</span><br><span class="line">    mov     bl, 93h</span><br><span class="line">loc_B8:</span><br><span class="line">    ja      short near ptr 131h</span><br><span class="line">    ja      short loc_B8</span><br><span class="line">    xchg    eax, edx</span><br></pre></td></tr></table></figure>
+
+<p>分割线上面的汇编是一个SMC，我在py脚本提前处理了。分割线下面的是真实的加密算法。</p>
+<p>解密脚本如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_flag</span>():</span></span><br><span class="line">    bc = <span class="built_in">bytearray</span>(<span class="string">b&#x27;J\x04`~~s Q&quot;Y!C [j\x05e\x06aB&amp;N#B!E Qp\\ S&#123;\x05&#123;\x05&#123;\x05&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(bc)):</span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            bc[i] ^= <span class="number">0x13</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            bc[i] ^= <span class="number">0x37</span></span><br><span class="line">    <span class="built_in">print</span>(bc)</span><br><span class="line"></span><br><span class="line">get_flag()</span><br></pre></td></tr></table></figure>
+
+<p>完成。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/12/Digital-Overdose-2021-Autumn-CTF-%E5%A4%8D%E7%9B%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4071,141 +4230,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/07/12/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/07/12/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-12T11:53:03+08:00">
-                2021-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start!"></a>Quick Start!</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next</a>
+  </nav>
+
 
 
           </div>
@@ -4249,7 +4280,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
