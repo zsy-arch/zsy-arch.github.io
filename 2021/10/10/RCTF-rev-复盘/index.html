@@ -1,37 +1,665 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="LoongArch1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556ld.d t0,sp,0 ld.d t1,sp,8 ld.d t2,sp,16 ld.d t3,sp,24ld.d t4,sp,32ld.d t5,sp,40ld.d t6,s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RCTF rev 复盘">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="LoongArch1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556ld.d t0,sp,0 ld.d t1,sp,8 ld.d t2,sp,16 ld.d t3,sp,24ld.d t4,sp,32ld.d t5,sp,40ld.d t6,s">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-10-10T15:41:12.000Z">
+<meta property="article:modified_time" content="2021-10-11T07:14:15.436Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/10/10/RCTF-rev-复盘/"/>
+
+
+
+
+
+  <title>RCTF rev 复盘 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/10/RCTF-rev-%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RCTF rev 复盘</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-10T23:41:12+08:00">
+                2021-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="LoongArch"><a href="#LoongArch" class="headerlink" title="LoongArch"></a>LoongArch</h2><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ld.d</span> t0,<span class="built_in">sp</span>,<span class="number">0</span> </span><br><span class="line"><span class="symbol">ld.d</span> t1,<span class="built_in">sp</span>,<span class="number">8</span> </span><br><span class="line"><span class="symbol">ld.d</span> t2,<span class="built_in">sp</span>,<span class="number">16</span> </span><br><span class="line"><span class="symbol">ld.d</span> t3,<span class="built_in">sp</span>,<span class="number">24</span></span><br><span class="line"><span class="symbol">ld.d</span> t4,<span class="built_in">sp</span>,<span class="number">32</span></span><br><span class="line"><span class="symbol">ld.d</span> t5,<span class="built_in">sp</span>,<span class="number">40</span></span><br><span class="line"><span class="symbol">ld.d</span> t6,<span class="built_in">sp</span>,<span class="number">48</span></span><br><span class="line"><span class="symbol">ld.d</span> t7,<span class="built_in">sp</span>,<span class="number">56</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">xor</span> t0,t0,t4</span><br><span class="line"><span class="symbol">xor</span> t1,t1,t5</span><br><span class="line"><span class="symbol">xor</span> t2,t2,t6</span><br><span class="line"><span class="symbol">xor</span> t3,t3,t7</span><br><span class="line"></span><br><span class="line"><span class="symbol">bitrev.d</span> t4,t0</span><br><span class="line"><span class="symbol">bitrev.d</span> t5,t1</span><br><span class="line"><span class="symbol">bitrev.d</span> t6,t2</span><br><span class="line"><span class="symbol">bitrev.d</span> t7,t3</span><br><span class="line"></span><br><span class="line"><span class="symbol">bytepick.d</span> t0,t6,t5,<span class="number">3</span></span><br><span class="line"><span class="symbol">bytepick.d</span> t1,t4,t7,<span class="number">3</span></span><br><span class="line"><span class="symbol">bytepick.d</span> t2,t5,t4,<span class="number">3</span></span><br><span class="line"><span class="symbol">bytepick.d</span> t3,t7,t6,<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">bitrev.8b</span> t4,t0</span><br><span class="line"><span class="symbol">bitrev.8b</span> t5,t1</span><br><span class="line"><span class="symbol">bitrev.8b</span> t6,t2</span><br><span class="line"><span class="symbol">bitrev.8b</span> t7,t3</span><br><span class="line"></span><br><span class="line"><span class="symbol">ld.d</span> t0,<span class="built_in">sp</span>,<span class="number">64</span> </span><br><span class="line"><span class="symbol">ld.d</span> t1,<span class="built_in">sp</span>,<span class="number">72</span></span><br><span class="line"><span class="symbol">ld.d</span> t2,<span class="built_in">sp</span>,<span class="number">80</span> </span><br><span class="line"><span class="symbol">ld.d</span> t3,<span class="built_in">sp</span>,<span class="number">88</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">xor</span> t0,t0,t4</span><br><span class="line"><span class="symbol">xor</span> t1,t1,t5</span><br><span class="line"><span class="symbol">xor</span> t2,t2,t6</span><br><span class="line"><span class="symbol">xor</span> t3,t3,t7</span><br><span class="line"></span><br><span class="line"><span class="symbol">addi.d</span> a0,zero,<span class="number">1</span></span><br><span class="line"><span class="symbol">addi.d</span> <span class="built_in">a1</span>,<span class="built_in">sp</span>,<span class="number">32</span></span><br><span class="line"><span class="symbol">li.d</span> <span class="built_in">a2</span>,<span class="number">64</span></span><br><span class="line"><span class="symbol">li.d</span> a7,<span class="number">64</span></span><br><span class="line"><span class="symbol">syscall</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">li.d</span> t4,<span class="number">64</span></span><br><span class="line"><span class="symbol">clo.d</span> t5,t0</span><br><span class="line"><span class="keyword">bne</span> t5,t4,fail</span><br><span class="line"><span class="symbol">clo.d</span> t5,t1</span><br><span class="line"><span class="keyword">bne</span> t5,t4,fail</span><br><span class="line"><span class="symbol">clo.d</span> t5,t2</span><br><span class="line"><span class="keyword">bne</span> t5,t4,fail</span><br><span class="line"><span class="symbol">clo.d</span> t5,t3</span><br><span class="line"><span class="keyword">bne</span> t5,t4,fail</span><br><span class="line"><span class="keyword">b</span> success</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在比赛的时候因为py脚本写的不对，没有处理好bitrev_d和bitrev_8b导致浪费时间。基本功还是要练扎实= =。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qword2bit</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">64</span>):</span><br><span class="line">        re.append(a%<span class="number">2</span>)</span><br><span class="line">        a &gt;&gt;= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> re[::-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bit2qword</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">        re += <span class="built_in">str</span>(i)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(re,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bitrev_8b</span>(<span class="params">a</span>):</span></span><br><span class="line">    re = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">64</span>,<span class="number">8</span>):</span><br><span class="line">        re += a[i:i+<span class="number">8</span>][::-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bytepick_d</span>(<span class="params">a,b,n</span>):</span></span><br><span class="line">    <span class="keyword">return</span> b[<span class="number">8</span>*(n):<span class="number">64</span>]+a[<span class="number">0</span>:<span class="number">8</span>*(n)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bitrev_d</span>(<span class="params">a</span>):</span></span><br><span class="line">    <span class="keyword">return</span> a[::-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">xor1 = [<span class="number">0x8205f3d105b3059d</span>,<span class="number">0xa89aceb3093349f3</span>,<span class="number">0xd53db5adbcabb984</span>,<span class="number">0x39cea0bfd9d2c2d4</span>]</span><br><span class="line">xor2 = [<span class="number">0xc513455508290500</span>,<span class="number">0x6d621abb30b918</span>,<span class="number">0xbc555b9f4c6f86a1</span>,<span class="number">0x50d78ad181a626d</span>]</span><br><span class="line"></span><br><span class="line">a = [i^<span class="number">0xffffffffffffffff</span> <span class="keyword">for</span> i <span class="keyword">in</span> xor2]</span><br><span class="line"></span><br><span class="line">b = [qword2bit(i) <span class="keyword">for</span> i <span class="keyword">in</span> a]</span><br><span class="line"></span><br><span class="line">c = [bitrev_8b(i) <span class="keyword">for</span> i <span class="keyword">in</span> b]</span><br><span class="line"></span><br><span class="line">d = [bytepick_d(c[<span class="number">2</span>],c[<span class="number">1</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">0</span>],c[<span class="number">2</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">3</span>],c[<span class="number">0</span>],<span class="number">5</span>),</span><br><span class="line">    bytepick_d(c[<span class="number">1</span>],c[<span class="number">3</span>],<span class="number">5</span>)]</span><br><span class="line"></span><br><span class="line">e = [bitrev_d(i) <span class="keyword">for</span> i <span class="keyword">in</span> d]</span><br><span class="line"></span><br><span class="line">f = [bit2qword(i) <span class="keyword">for</span> i <span class="keyword">in</span> e]</span><br><span class="line"></span><br><span class="line">g = [f[i]^xor1[i] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> g:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(i&amp;<span class="number">0xff</span>),end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        i &gt;&gt;= <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a target="_blank" rel="noopener" href="https://blog.rois.io/en/2021/rctf-2021-official-writeup/">https://blog.rois.io/en/2021/rctf-2021-official-writeup/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/10/08/ADWORLD-REV-HW-RE1/" rel="next" title="ADWORLD [REV] HW_RE1">
+                <i class="fa fa-chevron-left"></i> ADWORLD [REV] HW_RE1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/10/12/Digital-Overdose-2021-Autumn-CTF-%E5%A4%8D%E7%9B%98/" rel="prev" title="Digital Overdose 2021 Autumn CTF 复盘">
+                Digital Overdose 2021 Autumn CTF 复盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LoongArch"><span class="nav-number">1.</span> <span class="nav-text">LoongArch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">1.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

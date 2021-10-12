@@ -1,37 +1,704 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本日复盘T1: MRCTF2019 Re&#x2F;ShitPE —— 导入地址表（IAT） 逆向时能直接看到源代码的题目还算比较少见，程序用到了PE中的IAT，花指令，而且如果源代码里没有decode函数的话，解密算法肯定也是一道难关&#x3D; &#x3D;。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021 07 14总结">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="本日复盘T1: MRCTF2019 Re&#x2F;ShitPE —— 导入地址表（IAT） 逆向时能直接看到源代码的题目还算比较少见，程序用到了PE中的IAT，花指令，而且如果源代码里没有decode函数的话，解密算法肯定也是一道难关&#x3D; &#x3D;。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-07-14T11:16:28.000Z">
+<meta property="article:modified_time" content="2021-07-14T16:10:00.506Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/07/14/2021-07-14总结/"/>
+
+
+
+
+
+  <title>2021 07 14总结 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/07/14/2021-07-14%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2021 07 14总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-14T19:16:28+08:00">
+                2021-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="本日复盘"><a href="#本日复盘" class="headerlink" title="本日复盘"></a>本日复盘</h3><h3 id="T1-MRCTF2019-Re-Shit"><a href="#T1-MRCTF2019-Re-Shit" class="headerlink" title="T1: MRCTF2019 Re/Shit"></a>T1: MRCTF2019 Re/Shit</h3><p><strong>PE —— 导入地址表（IAT）</strong></p>
+<p>逆向时能直接看到源代码的题目还算比较少见，程序用到了PE中的IAT，花指令，而且如果源代码里没有decode函数的话，解密算法肯定也是一道难关= =。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">FARPROC proc = <span class="literal">NULL</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">initHook</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HMODULE hModule = LoadLibraryA(<span class="string">&quot;Kernel32.dll&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (hModule)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// proc 为 IsDebuggerPresent</span></span><br><span class="line">		proc = GetProcAddress(hModule, <span class="string">&quot;IsDebuggerPresent&quot;</span>);</span><br><span class="line">		<span class="keyword">if</span> (proc == <span class="literal">NULL</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 获得proc在iat的地址</span></span><br><span class="line"><span class="function">PDWORD <span class="title">update</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 初始化proc</span></span><br><span class="line">	<span class="keyword">if</span> (initHook() != <span class="number">0</span>)</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">	HANDLE hProcess = GetModuleHandle(<span class="literal">NULL</span>);</span><br><span class="line">	PIMAGE_DOS_HEADER dos_header = (PIMAGE_DOS_HEADER)hProcess;</span><br><span class="line">	PIMAGE_NT_HEADERS nt_header = (PIMAGE_NT_HEADERS)(dos_header-&gt;e_lfanew + (DWORD)hProcess);</span><br><span class="line">	IMAGE_OPTIONAL_HEADER* opt_header = &amp;(nt_header-&gt;OptionalHeader);</span><br><span class="line">	PIMAGE_IMPORT_DESCRIPTOR iat = (PIMAGE_IMPORT_DESCRIPTOR)((DWORD)hProcess + opt_header-&gt;DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (iat-&gt;FirstThunk)</span><br><span class="line">	&#123;</span><br><span class="line">		PIMAGE_THUNK_DATA data = (PIMAGE_THUNK_DATA)(iat-&gt;FirstThunk + (DWORD)hProcess);</span><br><span class="line">		<span class="keyword">while</span> (data-&gt;u1.Function)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (IMAGE_SNAP_BY_ORDINAL(data-&gt;u1.AddressOfData))</span><br><span class="line">			&#123;</span><br><span class="line">				data++;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> ((DWORD)proc == data-&gt;u1.Function)</span><br><span class="line">				<span class="keyword">return</span> &amp;data-&gt;u1.Function;</span><br><span class="line">			data++;</span><br><span class="line">		&#125;</span><br><span class="line">		iat++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line">PDWORD table_addr = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 地址修改为addr</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">writeAddr</span><span class="params">(DWORD addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (table_addr == <span class="literal">NULL</span>)</span><br><span class="line">		table_addr = update();</span><br><span class="line">	DWORD dwOldProtect;</span><br><span class="line">	MEMORY_BASIC_INFORMATION mbi_thunk;</span><br><span class="line">	VirtualQuery(table_addr, &amp;mbi_thunk, <span class="keyword">sizeof</span>(MEMORY_BASIC_INFORMATION));</span><br><span class="line">	VirtualProtect(mbi_thunk.BaseAddress, mbi_thunk.RegionSize, PAGE_READWRITE, &amp;mbi_thunk.Protect);</span><br><span class="line">	*table_addr = (DWORD)addr;</span><br><span class="line">	VirtualProtect(mbi_thunk.BaseAddress, mbi_thunk.RegionSize, mbi_thunk.Protect, &amp;dwOldProtect);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL <span class="title">editedIsDebuggerPresent</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;This is edited IsDebuggerPresent!!\n&quot;</span>;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	writeAddr((DWORD)editedIsDebuggerPresent);</span><br><span class="line">	IsDebuggerPresent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>IAT就是导入地址表，包含可执行程序所需的导入函数的地址，在之前虽然学习过PE相关知识，但是实践太少，看了一会才明白代码的意思。</p>
+<p>代码中initHook函数就是获得IsDebuggerPresent函数的地址，update函数用于获取IAT表中为IsDebuggerPresent函数的那一项的地址，最后writeAddr函数将表中那一项的值修改为参数addr的值。</p>
+<p>在上述代码中，虽然调用的是IsDebuggerPresent函数，但实际上是editedIsDebuggerPresent被执行。</p>
+<p><strong>花指令</strong></p>
+<p>花指令不同于打乱符号等一些混淆技术，它通过在一段汇编指令中添加一些无关、无意义的汇编指令，打乱了反汇编器的解析。</p>
+<p>emm感觉花指令硬编码、栈平衡这方面内容的熟悉程度要求比较高，以前做题是遇到花指令要么看别人怎么做，要么用一些套路，虽然最后做出来了也不知道原理。</p>
+<p>代码中的伪指令<code>_emit 0xE8</code>就相当于IDA Pro中的<code>DB 0xE8</code> 。（写E8其实就是为了迷惑人，让人以为是一个call…= =）</p>
+<p>但是本题直接给了源码，出题人的思路已经可以直接看出，硬编码的知识变得不太重要。这里我们就题论题，说一说函数和栈。</p>
+<p>对于一个函数来说，能正常地调用并返回最重要的一点就是最后要栈平衡（我说最重要就是最重要= =，别喷我）。对栈进行修改的方法：1. push、pop 2. 对ebp、esp直接修改（mov、add、sub…） 3. call、ret 。<br>将这三种方法配合jmp、条件判断（test、cmp、jne…）、db dw dq等等一起使用，能更好的达到混淆的目的。</p>
+<p>本题花指令部分模拟代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	_asm</span><br><span class="line">	&#123;</span><br><span class="line">		call sub10</span><br><span class="line">	label09:</span><br><span class="line">		_emit <span class="number">0xE8</span></span><br><span class="line">		jmp label10</span><br><span class="line">	sub10 :</span><br><span class="line">		add dword ptr[esp], <span class="number">1</span></span><br><span class="line">		retn</span><br><span class="line">	label10 :</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">123</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">	<span class="keyword">int</span> a = <span class="built_in">test</span>();</span><br><span class="line">	std::cout &lt;&lt; a &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World! END\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">程序输出：</span></span><br><span class="line"><span class="comment">    Hello World!</span></span><br><span class="line"><span class="comment">    123</span></span><br><span class="line"><span class="comment">    Hello World! END</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">_asm</span><br><span class="line">	&#123;</span><br><span class="line">		call sub10</span><br><span class="line">	label09:</span><br><span class="line">		_emit 0xE8</span><br><span class="line">		jmp label10</span><br><span class="line">	sub10 :</span><br><span class="line">		add dword ptr[esp], 1</span><br><span class="line">		retn</span><br><span class="line">	label10 :</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即为花指令。</p>
+<p>在IDA中查看test函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">.text:00412470 ; int __cdecl test()</span><br><span class="line">.text:00412470 ?test@@YAHXZ    proc near               ; CODE XREF: test(void)↑j</span><br><span class="line">.text:00412470</span><br><span class="line">.text:00412470 var_CC          = dword ptr -0CCh</span><br><span class="line">.text:00412470</span><br><span class="line">.text:00412470                 push    ebp</span><br><span class="line">.text:00412471                 mov     ebp, esp</span><br><span class="line">.text:00412473                 sub     esp, 0C0h</span><br><span class="line">.text:00412479                 push    ebx</span><br><span class="line">.text:0041247A                 push    esi</span><br><span class="line">.text:0041247B                 push    edi</span><br><span class="line">.text:0041247C</span><br><span class="line">.text:0041247C __$EncStackInitStart_10:</span><br><span class="line">.text:0041247C                 mov     edi, ebp</span><br><span class="line">.text:0041247E                 xor     ecx, ecx</span><br><span class="line">.text:00412480                 mov     eax, 0CCCCCCCCh</span><br><span class="line">.text:00412485                 rep stosd</span><br><span class="line">.text:00412487</span><br><span class="line">.text:00412487 __$EncStackInitEnd_10:</span><br><span class="line">.text:00412487                 call    sub10</span><br><span class="line">.text:00412487 ; ---------------------------------------------------------------------------</span><br><span class="line">.text:0041248C                 db 0E8h, 0EBh, 5</span><br><span class="line">.text:0041248F ; ---------------------------------------------------------------------------</span><br><span class="line">.text:0041248F</span><br><span class="line">.text:0041248F sub10:                                  ; CODE XREF: test(void):__$EncStackInitEnd_10↑j</span><br><span class="line">.text:0041248F                 add     [esp+0CCh+var_CC], 1</span><br><span class="line">.text:00412493                 retn</span><br><span class="line">.text:00412494 ; ---------------------------------------------------------------------------</span><br><span class="line">.text:00412494</span><br><span class="line">.text:00412494 label10:</span><br><span class="line">.text:00412494                 mov     eax, 7Bh ; &#x27;&#123;&#x27;</span><br><span class="line">.text:00412499                 pop     edi</span><br><span class="line">.text:0041249A                 pop     esi</span><br><span class="line">.text:0041249B                 pop     ebx</span><br><span class="line">.text:0041249C                 add     esp, 0C0h</span><br><span class="line">.text:004124A2                 cmp     ebp, esp</span><br><span class="line">.text:004124A4                 call    j___RTC_CheckEsp</span><br><span class="line">.text:004124A9                 mov     esp, ebp</span><br><span class="line">.text:004124AB                 pop     ebp</span><br><span class="line">.text:004124AC                 retn</span><br><span class="line">.text:004124AC ?test@@YAHXZ    endp ; sp-analysis failed</span><br><span class="line">.text:004124AC</span><br><span class="line">.text:004124AC ; ---------------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>下一步就是将 <code>0EBh, 5</code> 这段解析为汇编指令嗷。</p>
+<p>变成了这样：（局部代码）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.text:00412487                 call    loc_41248F</span><br><span class="line">.text:00412487 ; ---------------------------------------------------------------------------</span><br><span class="line">.text:0041248C                 db 0E8h</span><br><span class="line">.text:0041248D ; ---------------------------------------------------------------------------</span><br><span class="line">.text:0041248D                 jmp     short label10</span><br><span class="line">.text:0041248F ; ---------------------------------------------------------------------------</span><br><span class="line">.text:0041248F</span><br><span class="line">.text:0041248F loc_41248F:                             ; CODE XREF: test(void):__$EncStackInitEnd_10↑j</span><br><span class="line">.text:0041248F                 add     dword ptr [esp+0], 1</span><br><span class="line">.text:00412493                 retn</span><br><span class="line">.text:00412494 ; ---------------------------------------------------------------------------</span><br><span class="line">.text:00412494</span><br><span class="line">.text:00412494 label10:                                ; CODE XREF: test(void)+1D↑j</span><br><span class="line">.text:00412494                 mov     eax, 7Bh ; &#x27;&#123;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>这样只是找到了真正会执行的汇编指令，（当然你的IDA让程序走一遍最后也能得到上面的结果，我也这样做）。</p>
+<p>下一步就是去除花指令，直接把上面出现的所有指令nop掉。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">.text:00D42470     ; int __cdecl test()</span><br><span class="line">.text:00D42470     ?test@@YAHXZ    proc near               ; CODE XREF: test(void)↑j</span><br><span class="line">.text:00D42470 000                 push    ebp</span><br><span class="line">.text:00D42471 004                 mov     ebp, esp</span><br><span class="line">.text:00D42473 004                 sub     esp, 0C0h</span><br><span class="line">.text:00D42479 0C4                 push    ebx</span><br><span class="line">.text:00D4247A 0C8                 push    esi</span><br><span class="line">.text:00D4247B 0CC                 push    edi</span><br><span class="line">.text:00D4247C</span><br><span class="line">.text:00D4247C     __$EncStackInitStart_10:</span><br><span class="line">.text:00D4247C 0D0                 mov     edi, ebp</span><br><span class="line">.text:00D4247E 0D0                 xor     ecx, ecx</span><br><span class="line">.text:00D42480 0D0                 mov     eax, 0CCCCCCCCh</span><br><span class="line">.text:00D42485 0D0                 rep stosd</span><br><span class="line">.text:00D42487</span><br><span class="line">.text:00D42487     __$EncStackInitEnd_10:</span><br><span class="line">.text:00D42487 0D0                 nop</span><br><span class="line">.text:00D42488 0D0                 nop</span><br><span class="line">.text:00D42489 0D0                 nop</span><br><span class="line">.text:00D4248A 0D0                 nop</span><br><span class="line">.text:00D4248B 0D0                 nop</span><br><span class="line">.text:00D4248C 0D0                 nop</span><br><span class="line">.text:00D4248D 0D0                 nop</span><br><span class="line">.text:00D4248E 0D0                 nop</span><br><span class="line">.text:00D4248F</span><br><span class="line">.text:00D4248F     sub10:</span><br><span class="line">.text:00D4248F 0D0                 nop</span><br><span class="line">.text:00D42490 0D0                 nop</span><br><span class="line">.text:00D42491 0D0                 nop</span><br><span class="line">.text:00D42492 0D0                 nop</span><br><span class="line">.text:00D42493 0D0                 nop</span><br><span class="line">.text:00D42494</span><br><span class="line">.text:00D42494     label10:</span><br><span class="line">.text:00D42494 0D0                 mov     eax, 7Bh ; &#x27;&#123;&#x27;</span><br><span class="line">.text:00D42499 0D0                 pop     edi</span><br><span class="line">.text:00D4249A 0CC                 pop     esi</span><br><span class="line">.text:00D4249B 0C8                 pop     ebx</span><br><span class="line">.text:00D4249C 0C4                 add     esp, 0C0h</span><br><span class="line">.text:00D424A2 004                 cmp     ebp, esp</span><br><span class="line">.text:00D424A4 004                 call    j___RTC_CheckEsp</span><br><span class="line">.text:00D424A9 004                 mov     esp, ebp</span><br><span class="line">.text:00D424AB 004                 pop     ebp</span><br><span class="line">.text:00D424AC 000                 retn</span><br><span class="line">.text:00D424AC     ?test@@YAHXZ    endp</span><br></pre></td></tr></table></figure>
+
+<p>IDA 终于能舒服地F5了。</p>
+<p><strong>WEB/枯燥的抽奖</strong></p>
+<p>考察了一个伪随机数，看了看php_mt_seed.c的源码，很多SIMD、AVX、MIC之类的知识，太菜了以后看= =。</p>
+<p><strong>Web Hook</strong></p>
+<p>本来以为这个暑假没啥开发的事了，现在有了个Web Hook加QQBot的需求，想边学Spring边开发。</p>
+<p><strong>Yapi RCE漏洞</strong></p>
+<p>人畜无害的RCE，主要是放Docker里面了，还不知道怎么扩大影响（除了<code>sudo rm -rf /*</code>）。要是在非Docker环境下估计就炸了，这就是某du的开源项目吗= =。</p>
+<p><strong>Windows 内核与驱动</strong></p>
+<p>没错，今天忘了学了，明天补上。（编译原理今天也没看，淦）</p>
+<hr />
+
+<p>又水了个博客，美滋滋= =。</p>
+<p>溜了溜了，身体要紧。</p>
+<p>（2021-07-14）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/13/Windows-Debugging-1-process-and-thread/" rel="next" title="Windows Debugging(1) process and thread">
+                <i class="fa fa-chevron-left"></i> Windows Debugging(1) process and thread
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" rel="prev" title="Assembly 汇编学习（1）">
+                Assembly 汇编学习（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%97%A5%E5%A4%8D%E7%9B%98"><span class="nav-number">1.</span> <span class="nav-text">本日复盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#T1-MRCTF2019-Re-Shit"><span class="nav-number">2.</span> <span class="nav-text">T1: MRCTF2019 Re&#x2F;Shit</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

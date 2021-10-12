@@ -1,37 +1,671 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  
 
 
-{% block content %}
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Windows 内核加载器（NTLDR）当一台计算机启动后，会读取引导驱动器（软盘，硬盘等等）的第一个扇区0x7c00处的代码，即MBR代码。然后，MBR代码搜索系统活动分区表，并加载分区引导记录PBR代码到内存中。PBR代码负责解析FAT或NTFS文件格式，并找到NTLDR。随后，从PBR代码转到NTLDR的前半部分——startup.com的代码中来。startup.com将会检测物理地址，开">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Kernel(1) NTLDR">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="Windows 内核加载器（NTLDR）当一台计算机启动后，会读取引导驱动器（软盘，硬盘等等）的第一个扇区0x7c00处的代码，即MBR代码。然后，MBR代码搜索系统活动分区表，并加载分区引导记录PBR代码到内存中。PBR代码负责解析FAT或NTFS文件格式，并找到NTLDR。随后，从PBR代码转到NTLDR的前半部分——startup.com的代码中来。startup.com将会检测物理地址，开">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-07-13T05:12:41.000Z">
+<meta property="article:modified_time" content="2021-07-13T12:35:46.301Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/"/>
+
+
+
+
+
+  <title>Windows Kernel(1) NTLDR | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/07/13/Windows-Kernel-1-NTLDR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Windows Kernel(1) NTLDR</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-13T13:12:41+08:00">
+                2021-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Windows-内核加载器（NTLDR）"><a href="#Windows-内核加载器（NTLDR）" class="headerlink" title="Windows 内核加载器（NTLDR）"></a>Windows 内核加载器（NTLDR）</h3><p>当一台计算机启动后，会读取引导驱动器（软盘，硬盘等等）的第一个扇区0x7c00处的代码，即MBR代码。然后，MBR代码搜索系统活动分区表，并加载分区引导记录PBR代码到内存中。PBR代码负责解析FAT或NTFS文件格式，并找到<code>NTLDR</code>。随后，从PBR代码转到<code>NTLDR</code>的前半部分——startup.com的代码中来。<code>startup.com</code>将会检测物理地址，开启A20地址线，重定位GDT、IDT，开启保护模式，加载<code>osloader.exe</code>。随后<code>osloader.exe</code>开始启动。</p>
+<p>分解NTLDR：找到<code>NTLDR</code>文件，用Hex编辑器打开，搜索字符串“MZ”，从文件开始到“MZ”之前为<code>startup.com</code>的内容，从“MZ”所在地址到文件结束为osloader.exe的内容。</p>
+<p>使用IDA Pro打开 <code>startup.com</code>，可以看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">seg000:0100                 public start</span><br><span class="line">seg000:0100 start           proc near</span><br><span class="line">seg000:0100                 jmp     start_0</span><br><span class="line">seg000:0100 start           endp</span><br><span class="line">seg000:0100</span><br><span class="line">seg000:0103 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:0103                 jmp     short loc_10109</span><br><span class="line">seg000:0103 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:0105                 db 90h</span><br><span class="line">seg000:0106                 db 3 dup(0)</span><br><span class="line">seg000:0109 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:0109</span><br><span class="line">seg000:0109 loc_10109:                              ; CODE XREF: seg000:0103↑j</span><br><span class="line">seg000:0109                 push    dx</span><br><span class="line">seg000:010A                 mov     ax, bx</span><br><span class="line">seg000:010C                 push    cs</span><br><span class="line">seg000:010D                 pop     es</span><br><span class="line">seg000:010E                 assume es:seg000</span><br><span class="line">seg000:010E                 xor     ebx, ebx</span><br><span class="line">seg000:0111                 mov     dx, 1</span><br><span class="line">seg000:0114                 call    sub_1014B</span><br><span class="line">seg000:0117                 jmp     loc_1026B</span><br><span class="line">seg000:011A ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:011A</span><br><span class="line">seg000:011A loc_1011A:                              ; CODE XREF: seg000:02D5↓j</span><br><span class="line">seg000:011A                 mov     cs:6, dl</span><br><span class="line">seg000:011F                 push    ax</span><br><span class="line">seg000:0120                 movzx   edx, byte ptr [si+2]</span><br><span class="line">seg000:0125                 movzx   eax, word ptr [si]</span><br><span class="line">seg000:0129                 mul     edx</span><br><span class="line">seg000:012C                 shr     eax, 4</span><br><span class="line">seg000:0130                 mov     cs:7, ax</span><br><span class="line">seg000:0134                 mov     cx, es</span><br><span class="line">seg000:0136                 add     cx, ax</span><br><span class="line">seg000:0138                 mov     es, cx</span><br><span class="line">seg000:013A                 assume es:nothing</span><br><span class="line">seg000:013A                 pop     ax</span><br><span class="line">seg000:013B</span><br><span class="line">seg000:013B loc_1013B:                              ; CODE XREF: seg000:0145↓j</span><br><span class="line">seg000:013B                 call    sub_1016E</span><br><span class="line">seg000:013E                 jb      loc_10147</span><br><span class="line">seg000:0142                 call    sub_1014B</span><br><span class="line">seg000:0145                 jmp     short loc_1013B</span><br><span class="line">seg000:0147 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:0147</span><br><span class="line">seg000:0147 loc_10147:                              ; CODE XREF: seg000:013E↑j</span><br><span class="line">seg000:0147                 pop     dx</span><br><span class="line">seg000:0148                 jmp     start_0</span><br></pre></td></tr></table></figure>
+
+<p>其中start_0为<code>startup.com</code>的真正的入口地址，进入start_0：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">eg000:02D8 start_0         proc near               ; CODE XREF: start↑j</span><br><span class="line">seg000:02D8                                         ; seg000:0148↑j</span><br><span class="line">seg000:02D8                 mov     bx, 30C0h</span><br><span class="line">seg000:02DB                 shr     bx, 4</span><br><span class="line">seg000:02DE                 mov     ax, cs</span><br><span class="line">seg000:02E0                 add     ax, bx</span><br><span class="line">seg000:02E2                 mov     ss, ax</span><br><span class="line">seg000:02E4                 assume ss:nothing</span><br><span class="line">seg000:02E4                 mov     sp, 1528h</span><br><span class="line">seg000:02E7                 push    dx</span><br><span class="line">seg000:02E8                 mov     ds, ax</span><br><span class="line">seg000:02EA                 assume ds:nothing</span><br><span class="line">seg000:02EA                 mov     es, ax</span><br><span class="line">seg000:02EC                 assume es:nothing</span><br><span class="line">seg000:02EC                 movzx   edx, ax</span><br><span class="line">seg000:02F0                 shl     edx, 4</span><br><span class="line">seg000:02F4                 add     edx, 1DB0h</span><br><span class="line">seg000:02FB                 mov     ds:dword_13D7E, edx</span><br><span class="line">seg000:0300                 xor     bp, bp</span><br><span class="line">seg000:0302                 movzx   ebp, bp</span><br><span class="line">seg000:0306                 movzx   esp, sp</span><br><span class="line">seg000:030A                 mov     ds:word_1467C, ds</span><br><span class="line">seg000:030E                 call    SuMain</span><br><span class="line">seg000:030E start_0         endp</span><br></pre></td></tr></table></figure>
+
+<p>进入SuMain函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br></pre></td><td class="code"><pre><span class="line">seg000:1AC0 SuMain          proc near               ; CODE XREF: start_0+36↑p</span><br><span class="line">seg000:1AC0</span><br><span class="line">seg000:1AC0 var_1E          = word ptr -1Eh</span><br><span class="line">seg000:1AC0 var_1C          = word ptr -1Ch</span><br><span class="line">seg000:1AC0 var_1A          = word ptr -1Ah</span><br><span class="line">seg000:1AC0 var_18          = word ptr -18h</span><br><span class="line">seg000:1AC0 var_16          = word ptr -16h</span><br><span class="line">seg000:1AC0 var_14          = word ptr -14h</span><br><span class="line">seg000:1AC0 var_12          = word ptr -12h</span><br><span class="line">seg000:1AC0 var_10          = word ptr -10h</span><br><span class="line">seg000:1AC0 var_E           = word ptr -0Eh</span><br><span class="line">seg000:1AC0 var_C           = dword ptr -0Ch</span><br><span class="line">seg000:1AC0 var_8           = word ptr -8</span><br><span class="line">seg000:1AC0 var_6           = word ptr -6</span><br><span class="line">seg000:1AC0 var_4           = word ptr -4</span><br><span class="line">seg000:1AC0 arg_0           = byte ptr  4</span><br><span class="line">seg000:1AC0</span><br><span class="line">seg000:1AC0                 enter   1Eh, 0</span><br><span class="line">seg000:1AC4                 push    si</span><br><span class="line">seg000:1AC5                 push    di</span><br><span class="line">seg000:1AC6                 mov     al, [bp+arg_0]</span><br><span class="line">seg000:1AC9                 mov     ds:15C4h, al</span><br><span class="line">seg000:1ACC                 call    sub_1276A</span><br><span class="line">seg000:1ACF                 call    sub_104B6</span><br><span class="line">seg000:1AD2                 call    sub_11219</span><br><span class="line">seg000:1AD5                 cbw</span><br><span class="line">seg000:1AD6                 cmp     ax, 0</span><br><span class="line">seg000:1AD9                 jnz     short loc_11ADE</span><br><span class="line">seg000:1ADB                 jmp     loc_11AED</span><br><span class="line">seg000:1ADE ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1ADE</span><br><span class="line">seg000:1ADE loc_11ADE:                              ; CODE XREF: SuMain+19↑j</span><br><span class="line">seg000:1ADE                 mov     word ptr ds:1628h, 1</span><br><span class="line">seg000:1AE4                 mov     word ptr ds:162Ah, 0</span><br><span class="line">seg000:1AEA                 jmp     loc_11AF9</span><br><span class="line">seg000:1AED ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1AED</span><br><span class="line">seg000:1AED loc_11AED:                              ; CODE XREF: SuMain+1B↑j</span><br><span class="line">seg000:1AED                 mov     word ptr ds:1628h, 0</span><br><span class="line">seg000:1AF3                 mov     word ptr ds:162Ah, 0</span><br><span class="line">seg000:1AF9</span><br><span class="line">seg000:1AF9 loc_11AF9:                              ; CODE XREF: SuMain+2A↑j</span><br><span class="line">seg000:1AF9                 call    sub_1194C</span><br><span class="line">seg000:1AFC                 cbw</span><br><span class="line">seg000:1AFD                 cmp     ax, 0</span><br><span class="line">seg000:1B00                 jz      short loc_11B05</span><br><span class="line">seg000:1B02                 jmp     loc_11B56</span><br><span class="line">seg000:1B05 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B05</span><br><span class="line">seg000:1B05 loc_11B05:                              ; CODE XREF: SuMain+40↑j</span><br><span class="line">seg000:1B05                 cmp     word ptr ds:1628h, 1</span><br><span class="line">seg000:1B0A                 jz      short loc_11B0F</span><br><span class="line">seg000:1B0C                 jmp     loc_11B53</span><br><span class="line">seg000:1B0F ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B0F</span><br><span class="line">seg000:1B0F loc_11B0F:                              ; CODE XREF: SuMain+4A↑j</span><br><span class="line">seg000:1B0F                 cmp     word ptr ds:162Ah, 0</span><br><span class="line">seg000:1B14                 jz      short loc_11B19</span><br><span class="line">seg000:1B16                 jmp     loc_11B53</span><br><span class="line">seg000:1B19 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B19</span><br><span class="line">seg000:1B19 loc_11B19:                              ; CODE XREF: SuMain+54↑j</span><br><span class="line">seg000:1B19                 call    sub_10548</span><br><span class="line">seg000:1B1C                 mov     [bp+var_4], ax</span><br><span class="line">seg000:1B1F                 call    sub_11756</span><br><span class="line">seg000:1B22                 mov     [bp+var_1E], ax</span><br><span class="line">seg000:1B25                 mov     [bp+var_1C], dx</span><br><span class="line">seg000:1B28                 mov     ax, [bp+var_1E]</span><br><span class="line">seg000:1B2B                 mov     dx, [bp+var_1C]</span><br><span class="line">seg000:1B2E                 add     ax, 80h ; &#x27;€&#x27;</span><br><span class="line">seg000:1B31                 adc     dx, 0</span><br><span class="line">seg000:1B34                 mov     cx, [bp+var_4]</span><br><span class="line">seg000:1B37                 mov     bx, 0</span><br><span class="line">seg000:1B3A                 cmp     dx, bx</span><br><span class="line">seg000:1B3C                 jbe     short loc_11B41</span><br><span class="line">seg000:1B3E                 jmp     loc_11B50</span><br><span class="line">seg000:1B41 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B41</span><br><span class="line">seg000:1B41 loc_11B41:                              ; CODE XREF: SuMain+7C↑j</span><br><span class="line">seg000:1B41                 jnb     short loc_11B46</span><br><span class="line">seg000:1B43                 jmp     loc_11B4D</span><br><span class="line">seg000:1B46 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B46</span><br><span class="line">seg000:1B46 loc_11B46:                              ; CODE XREF: SuMain:loc_11B41↑j</span><br><span class="line">seg000:1B46                 cmp     ax, cx</span><br><span class="line">seg000:1B48                 jb      short loc_11B4D</span><br><span class="line">seg000:1B4A                 jmp     loc_11B50</span><br><span class="line">seg000:1B4D ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B4D</span><br><span class="line">seg000:1B4D loc_11B4D:                              ; CODE XREF: SuMain+83↑j</span><br><span class="line">seg000:1B4D                                         ; SuMain+88↑j</span><br><span class="line">seg000:1B4D                 call    sub_10548</span><br><span class="line">seg000:1B50</span><br><span class="line">seg000:1B50 loc_11B50:                              ; CODE XREF: SuMain+7E↑j</span><br><span class="line">seg000:1B50                                         ; SuMain+8A↑j</span><br><span class="line">seg000:1B50                 jmp     loc_11B56</span><br><span class="line">seg000:1B53 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B53</span><br><span class="line">seg000:1B53 loc_11B53:                              ; CODE XREF: SuMain+4C↑j</span><br><span class="line">seg000:1B53                                         ; SuMain+56↑j</span><br><span class="line">seg000:1B53                 call    sub_10548</span><br><span class="line">seg000:1B56</span><br><span class="line">seg000:1B56 loc_11B56:                              ; CODE XREF: SuMain+42↑j</span><br><span class="line">seg000:1B56                                         ; SuMain:loc_11B50↑j</span><br><span class="line">seg000:1B56                 mov     ax, ds:15C8h</span><br><span class="line">seg000:1B59                 mov     dx, ds:15CAh</span><br><span class="line">seg000:1B5D                 mov     word ptr [bp+var_C], ax</span><br><span class="line">seg000:1B60                 mov     word ptr [bp+var_C+2], dx</span><br><span class="line">seg000:1B63</span><br><span class="line">seg000:1B63 loc_11B63:                              ; CODE XREF: SuMain+D4↓j</span><br><span class="line">seg000:1B63                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1B66                 cmp     word ptr es:[bx], 0</span><br><span class="line">seg000:1B6A                 jz      short loc_11B6F</span><br><span class="line">seg000:1B6C                 jmp     loc_11B79</span><br><span class="line">seg000:1B6F ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B6F</span><br><span class="line">seg000:1B6F loc_11B6F:                              ; CODE XREF: SuMain+AA↑j</span><br><span class="line">seg000:1B6F                 cmp     word ptr es:[bx+2], 0</span><br><span class="line">seg000:1B74                 jnz     short loc_11B79</span><br><span class="line">seg000:1B76                 jmp     loc_11B97</span><br><span class="line">seg000:1B79 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B79</span><br><span class="line">seg000:1B79 loc_11B79:                              ; CODE XREF: SuMain+AC↑j</span><br><span class="line">seg000:1B79                                         ; SuMain+B4↑j</span><br><span class="line">seg000:1B79                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1B7C                 cmp     word ptr es:[bx+4], 0</span><br><span class="line">seg000:1B81                 jz      short loc_11B86</span><br><span class="line">seg000:1B83                 jmp     loc_11B90</span><br><span class="line">seg000:1B86 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B86</span><br><span class="line">seg000:1B86 loc_11B86:                              ; CODE XREF: SuMain+C1↑j</span><br><span class="line">seg000:1B86                 cmp     word ptr es:[bx+6], 0</span><br><span class="line">seg000:1B8B                 jnz     short loc_11B90</span><br><span class="line">seg000:1B8D                 jmp     loc_11B97</span><br><span class="line">seg000:1B90 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B90</span><br><span class="line">seg000:1B90 loc_11B90:                              ; CODE XREF: SuMain+C3↑j</span><br><span class="line">seg000:1B90                                         ; SuMain+CB↑j</span><br><span class="line">seg000:1B90                 add     word ptr [bp+var_C], 8</span><br><span class="line">seg000:1B94                 jmp     loc_11B63</span><br><span class="line">seg000:1B97 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1B97</span><br><span class="line">seg000:1B97 loc_11B97:                              ; CODE XREF: SuMain+B6↑j</span><br><span class="line">seg000:1B97                                         ; SuMain+CD↑j</span><br><span class="line">seg000:1B97                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1B9A                 cmp     word ptr es:[bx], 0</span><br><span class="line">seg000:1B9E                 jz      short loc_11BA3</span><br><span class="line">seg000:1BA0                 jmp     loc_11BF0</span><br><span class="line">seg000:1BA3 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BA3</span><br><span class="line">seg000:1BA3 loc_11BA3:                              ; CODE XREF: SuMain+DE↑j</span><br><span class="line">seg000:1BA3                 cmp     word ptr es:[bx+2], 0</span><br><span class="line">seg000:1BA8                 jz      short loc_11BAD</span><br><span class="line">seg000:1BAA                 jmp     loc_11BF0</span><br><span class="line">seg000:1BAD ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BAD</span><br><span class="line">seg000:1BAD loc_11BAD:                              ; CODE XREF: SuMain+E8↑j</span><br><span class="line">seg000:1BAD                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1BB0                 cmp     word ptr es:[bx+6], 8</span><br><span class="line">seg000:1BB5                 jbe     short loc_11BBA</span><br><span class="line">seg000:1BB7                 jmp     loc_11BF0</span><br><span class="line">seg000:1BBA ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BBA</span><br><span class="line">seg000:1BBA loc_11BBA:                              ; CODE XREF: SuMain+F5↑j</span><br><span class="line">seg000:1BBA                 jnb     short loc_11BBF</span><br><span class="line">seg000:1BBC                 jmp     loc_11BC9</span><br><span class="line">seg000:1BBF ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BBF</span><br><span class="line">seg000:1BBF loc_11BBF:                              ; CODE XREF: SuMain:loc_11BBA↑j</span><br><span class="line">seg000:1BBF                 cmp     word ptr es:[bx+4], 0</span><br><span class="line">seg000:1BC4                 jb      short loc_11BC9</span><br><span class="line">seg000:1BC6                 jmp     loc_11BF0</span><br><span class="line">seg000:1BC9 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BC9</span><br><span class="line">seg000:1BC9 loc_11BC9:                              ; CODE XREF: SuMain+FC↑j</span><br><span class="line">seg000:1BC9                                         ; SuMain+104↑j</span><br><span class="line">seg000:1BC9                 mov     ax, 400h</span><br><span class="line">seg000:1BCC                 mov     dx, 0</span><br><span class="line">seg000:1BCF                 push    dx</span><br><span class="line">seg000:1BD0                 push    ax</span><br><span class="line">seg000:1BD1                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1BD4                 push    word ptr es:[bx+6]</span><br><span class="line">seg000:1BD8                 push    word ptr es:[bx+4]</span><br><span class="line">seg000:1BDC                 call    sub_12EC4</span><br><span class="line">seg000:1BDF                 push    dx</span><br><span class="line">seg000:1BE0                 push    ax</span><br><span class="line">seg000:1BE1                 push    17B6h</span><br><span class="line">seg000:1BE4                 call    sub_12808</span><br><span class="line">seg000:1BE7                 add     sp, 6</span><br><span class="line">seg000:1BEA                 jmp     $+3</span><br><span class="line">seg000:1BED ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BED</span><br><span class="line">seg000:1BED loc_11BED:                              ; CODE XREF: SuMain+12A↑j</span><br><span class="line">seg000:1BED                                         ; SuMain:loc_11BED↓j</span><br><span class="line">seg000:1BED                 jmp     loc_11BED</span><br><span class="line">seg000:1BF0 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1BF0</span><br><span class="line">seg000:1BF0 loc_11BF0:                              ; CODE XREF: SuMain+E0↑j</span><br><span class="line">seg000:1BF0                                         ; SuMain+EA↑j ...</span><br><span class="line">seg000:1BF0                 mov     ax, ds:1DECh</span><br><span class="line">seg000:1BF3                 mov     dx, ds:1DEEh</span><br><span class="line">seg000:1BF7                 mov     cx, 1DB0h</span><br><span class="line">seg000:1BFA                 add     cx, ax</span><br><span class="line">seg000:1BFC                 mov     ax, 18h</span><br><span class="line">seg000:1BFF                 add     cx, ax</span><br><span class="line">seg000:1C01                 mov     [bp+var_1A], cx</span><br><span class="line">seg000:1C04                 mov     bx, [bp+var_1A]</span><br><span class="line">seg000:1C07                 mov     ax, [bx+1Ch]</span><br><span class="line">seg000:1C0A                 mov     dx, [bx+1Eh]</span><br><span class="line">seg000:1C0D                 mov     [bp+var_14], ax</span><br><span class="line">seg000:1C10                 mov     [bp+var_12], dx</span><br><span class="line">seg000:1C13                 mov     bx, [bp+var_1A]</span><br><span class="line">seg000:1C16                 mov     ax, [bx+38h]</span><br><span class="line">seg000:1C19                 mov     dx, [bx+3Ah]</span><br><span class="line">seg000:1C1C                 mov     [bp+var_8], ax</span><br><span class="line">seg000:1C1F                 mov     [bp+var_6], dx</span><br><span class="line">seg000:1C22                 mov     ax, [bp+var_14]</span><br><span class="line">seg000:1C25                 mov     dx, [bp+var_12]</span><br><span class="line">seg000:1C28                 mov     ds:163Ch, ax</span><br><span class="line">seg000:1C2B                 mov     ds:163Eh, dx</span><br><span class="line">seg000:1C2F                 mov     bx, [bp+var_1A]</span><br><span class="line">seg000:1C32                 mov     ax, [bp+var_14]</span><br><span class="line">seg000:1C35                 mov     dx, [bp+var_12]</span><br><span class="line">seg000:1C38                 add     ax, [bx+60h]</span><br><span class="line">seg000:1C3B                 adc     dx, [bx+62h]</span><br><span class="line">seg000:1C3E                 mov     ds:1640h, ax</span><br><span class="line">seg000:1C41                 mov     ds:1642h, dx</span><br><span class="line">seg000:1C45                 mov     ax, ds:15C8h</span><br><span class="line">seg000:1C48                 mov     dx, ds:15CAh</span><br><span class="line">seg000:1C4C                 mov     word ptr [bp+var_C], ax</span><br><span class="line">seg000:1C4F                 mov     word ptr [bp+var_C+2], dx</span><br><span class="line">seg000:1C52                 jmp     loc_11D3E</span><br><span class="line">seg000:1C55 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1C55</span><br><span class="line">seg000:1C55 loc_11C55:                              ; CODE XREF: SuMain+261↓j</span><br><span class="line">seg000:1C55                                         ; SuMain+284↓j ...</span><br><span class="line">seg000:1C55                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1C58                 cmp     word ptr es:[bx+4], 0</span><br><span class="line">seg000:1C5D                 jz      short loc_11C62</span><br><span class="line">seg000:1C5F                 jmp     loc_11C6C</span><br><span class="line">seg000:1C62 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1C62</span><br><span class="line">seg000:1C62 loc_11C62:                              ; CODE XREF: SuMain+19D↑j</span><br><span class="line">seg000:1C62                 cmp     word ptr es:[bx+6], 0</span><br><span class="line">seg000:1C67                 jnz     short loc_11C6C</span><br><span class="line">seg000:1C69                 jmp     loc_11D24</span><br><span class="line">seg000:1C6C ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1C6C</span><br><span class="line">seg000:1C6C loc_11C6C:                              ; CODE XREF: SuMain+19F↑j</span><br><span class="line">seg000:1C6C                                         ; SuMain+1A7↑j</span><br><span class="line">seg000:1C6C                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1C6F                 mov     ax, es:[bx]</span><br><span class="line">seg000:1C72                 mov     dx, es:[bx+2]</span><br><span class="line">seg000:1C76                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1C79                 add     ax, es:[bx+4]</span><br><span class="line">seg000:1C7D                 adc     dx, es:[bx+6]</span><br><span class="line">seg000:1C81                 mov     [bp+var_10], ax</span><br><span class="line">seg000:1C84                 mov     [bp+var_E], dx</span><br><span class="line">seg000:1C87                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1C8A                 mov     ax, [bp+var_14]</span><br><span class="line">seg000:1C8D                 mov     dx, [bp+var_12]</span><br><span class="line">seg000:1C90                 cmp     es:[bx+2], dx</span><br><span class="line">seg000:1C94                 jbe     short loc_11C99</span><br><span class="line">seg000:1C96                 jmp     loc_11D1D</span><br><span class="line">seg000:1C99 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1C99</span><br><span class="line">seg000:1C99 loc_11C99:                              ; CODE XREF: SuMain+1D4↑j</span><br><span class="line">seg000:1C99                 jnb     short loc_11C9E</span><br><span class="line">seg000:1C9B                 jmp     loc_11CA6</span><br><span class="line">seg000:1C9E ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1C9E</span><br><span class="line">seg000:1C9E loc_11C9E:                              ; CODE XREF: SuMain:loc_11C99↑j</span><br><span class="line">seg000:1C9E                 cmp     es:[bx], ax</span><br><span class="line">seg000:1CA1                 jbe     short loc_11CA6</span><br><span class="line">seg000:1CA3                 jmp     loc_11D1D</span><br><span class="line">seg000:1CA6 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CA6</span><br><span class="line">seg000:1CA6 loc_11CA6:                              ; CODE XREF: SuMain+1DB↑j</span><br><span class="line">seg000:1CA6                                         ; SuMain+1E1↑j</span><br><span class="line">seg000:1CA6                 mov     ax, [bp+var_14]</span><br><span class="line">seg000:1CA9                 mov     dx, [bp+var_12]</span><br><span class="line">seg000:1CAC                 cmp     [bp+var_E], dx</span><br><span class="line">seg000:1CAF                 jnb     short loc_11CB4</span><br><span class="line">seg000:1CB1                 jmp     loc_11D1D</span><br><span class="line">seg000:1CB4 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CB4</span><br><span class="line">seg000:1CB4 loc_11CB4:                              ; CODE XREF: SuMain+1EF↑j</span><br><span class="line">seg000:1CB4                 jbe     short loc_11CB9</span><br><span class="line">seg000:1CB6                 jmp     loc_11CC1</span><br><span class="line">seg000:1CB9 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CB9</span><br><span class="line">seg000:1CB9 loc_11CB9:                              ; CODE XREF: SuMain:loc_11CB4↑j</span><br><span class="line">seg000:1CB9                 cmp     [bp+var_10], ax</span><br><span class="line">seg000:1CBC                 ja      short loc_11CC1</span><br><span class="line">seg000:1CBE                 jmp     loc_11D1D</span><br><span class="line">seg000:1CC1 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CC1</span><br><span class="line">seg000:1CC1 loc_11CC1:                              ; CODE XREF: SuMain+1F6↑j</span><br><span class="line">seg000:1CC1                                         ; SuMain+1FC↑j</span><br><span class="line">seg000:1CC1                 mov     ax, [bp+var_10]</span><br><span class="line">seg000:1CC4                 mov     dx, [bp+var_E]</span><br><span class="line">seg000:1CC7                 sub     ax, [bp+var_14]</span><br><span class="line">seg000:1CCA                 sbb     dx, [bp+var_12]</span><br><span class="line">seg000:1CCD                 cmp     dx, [bp+var_6]</span><br><span class="line">seg000:1CD0                 jnb     short loc_11CD5</span><br><span class="line">seg000:1CD2                 jmp     loc_11CEF</span><br><span class="line">seg000:1CD5 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CD5</span><br><span class="line">seg000:1CD5 loc_11CD5:                              ; CODE XREF: SuMain+210↑j</span><br><span class="line">seg000:1CD5                 jbe     short loc_11CDA</span><br><span class="line">seg000:1CD7                 jmp     loc_11CE2</span><br><span class="line">seg000:1CDA ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CDA</span><br><span class="line">seg000:1CDA loc_11CDA:                              ; CODE XREF: SuMain:loc_11CD5↑j</span><br><span class="line">seg000:1CDA                 cmp     ax, [bp+var_8]</span><br><span class="line">seg000:1CDD                 ja      short loc_11CE2</span><br><span class="line">seg000:1CDF                 jmp     loc_11CEF</span><br><span class="line">seg000:1CE2 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CE2</span><br><span class="line">seg000:1CE2 loc_11CE2:                              ; CODE XREF: SuMain+217↑j</span><br><span class="line">seg000:1CE2                                         ; SuMain+21D↑j</span><br><span class="line">seg000:1CE2                 mov     [bp+var_8], 0</span><br><span class="line">seg000:1CE7                 mov     [bp+var_6], 0</span><br><span class="line">seg000:1CEC                 jmp     loc_11D0D</span><br><span class="line">seg000:1CEF ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1CEF</span><br><span class="line">seg000:1CEF loc_11CEF:                              ; CODE XREF: SuMain+212↑j</span><br><span class="line">seg000:1CEF                                         ; SuMain+21F↑j</span><br><span class="line">seg000:1CEF                 mov     ax, [bp+var_10]</span><br><span class="line">seg000:1CF2                 mov     dx, [bp+var_E]</span><br><span class="line">seg000:1CF5                 sub     ax, [bp+var_14]</span><br><span class="line">seg000:1CF8                 sbb     dx, [bp+var_12]</span><br><span class="line">seg000:1CFB                 sub     [bp+var_8], ax</span><br><span class="line">seg000:1CFE                 sbb     [bp+var_6], dx</span><br><span class="line">seg000:1D01                 mov     ax, [bp+var_10]</span><br><span class="line">seg000:1D04                 mov     dx, [bp+var_E]</span><br><span class="line">seg000:1D07                 mov     [bp+var_14], ax</span><br><span class="line">seg000:1D0A                 mov     [bp+var_12], dx</span><br><span class="line">seg000:1D0D</span><br><span class="line">seg000:1D0D loc_11D0D:                              ; CODE XREF: SuMain+22C↑j</span><br><span class="line">seg000:1D0D                 mov     ax, ds:15C8h</span><br><span class="line">seg000:1D10                 mov     dx, ds:15CAh</span><br><span class="line">seg000:1D14                 mov     word ptr [bp+var_C], ax</span><br><span class="line">seg000:1D17                 mov     word ptr [bp+var_C+2], dx</span><br><span class="line">seg000:1D1A                 jmp     loc_11D24</span><br><span class="line">seg000:1D1D ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D1D</span><br><span class="line">seg000:1D1D loc_11D1D:                              ; CODE XREF: SuMain+1D6↑j</span><br><span class="line">seg000:1D1D                                         ; SuMain+1E3↑j ...</span><br><span class="line">seg000:1D1D                 add     word ptr [bp+var_C], 8</span><br><span class="line">seg000:1D21                 jmp     loc_11C55</span><br><span class="line">seg000:1D24 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D24</span><br><span class="line">seg000:1D24 loc_11D24:                              ; CODE XREF: SuMain+1A9↑j</span><br><span class="line">seg000:1D24                                         ; SuMain+25A↑j</span><br><span class="line">seg000:1D24                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1D27                 cmp     word ptr es:[bx+4], 0</span><br><span class="line">seg000:1D2C                 jz      short loc_11D31</span><br><span class="line">seg000:1D2E                 jmp     loc_11D3E</span><br><span class="line">seg000:1D31 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D31</span><br><span class="line">seg000:1D31 loc_11D31:                              ; CODE XREF: SuMain+26C↑j</span><br><span class="line">seg000:1D31                 cmp     word ptr es:[bx+6], 0</span><br><span class="line">seg000:1D36                 jz      short loc_11D3B</span><br><span class="line">seg000:1D38                 jmp     loc_11D3E</span><br><span class="line">seg000:1D3B ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D3B</span><br><span class="line">seg000:1D3B loc_11D3B:                              ; CODE XREF: SuMain+276↑j</span><br><span class="line">seg000:1D3B                 jmp     loc_11D55</span><br><span class="line">seg000:1D3E ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D3E</span><br><span class="line">seg000:1D3E loc_11D3E:                              ; CODE XREF: SuMain+192↑j</span><br><span class="line">seg000:1D3E                                         ; SuMain+26E↑j ...</span><br><span class="line">seg000:1D3E                 cmp     [bp+var_6], 0</span><br><span class="line">seg000:1D42                 jbe     short loc_11D47</span><br><span class="line">seg000:1D44                 jmp     loc_11C55</span><br><span class="line">seg000:1D47 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D47</span><br><span class="line">seg000:1D47 loc_11D47:                              ; CODE XREF: SuMain+282↑j</span><br><span class="line">seg000:1D47                 jnb     short loc_11D4C</span><br><span class="line">seg000:1D49                 jmp     loc_11D55</span><br><span class="line">seg000:1D4C ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D4C</span><br><span class="line">seg000:1D4C loc_11D4C:                              ; CODE XREF: SuMain:loc_11D47↑j</span><br><span class="line">seg000:1D4C                 cmp     [bp+var_8], 0</span><br><span class="line">seg000:1D50                 jbe     short loc_11D55</span><br><span class="line">seg000:1D52                 jmp     loc_11C55</span><br><span class="line">seg000:1D55 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D55</span><br><span class="line">seg000:1D55 loc_11D55:                              ; CODE XREF: SuMain:loc_11D3B↑j</span><br><span class="line">seg000:1D55                                         ; SuMain+289↑j ...</span><br><span class="line">seg000:1D55                 cmp     [bp+var_6], 0</span><br><span class="line">seg000:1D59                 jnb     short loc_11D5E</span><br><span class="line">seg000:1D5B                 jmp     loc_11DD0</span><br><span class="line">seg000:1D5E ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D5E</span><br><span class="line">seg000:1D5E loc_11D5E:                              ; CODE XREF: SuMain+299↑j</span><br><span class="line">seg000:1D5E                 jbe     short loc_11D63</span><br><span class="line">seg000:1D60                 jmp     loc_11D6C</span><br><span class="line">seg000:1D63 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D63</span><br><span class="line">seg000:1D63 loc_11D63:                              ; CODE XREF: SuMain:loc_11D5E↑j</span><br><span class="line">seg000:1D63                 cmp     [bp+var_8], 0</span><br><span class="line">seg000:1D67                 ja      short loc_11D6C</span><br><span class="line">seg000:1D69                 jmp     loc_11DD0</span><br><span class="line">seg000:1D6C ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D6C</span><br><span class="line">seg000:1D6C loc_11D6C:                              ; CODE XREF: SuMain+2A0↑j</span><br><span class="line">seg000:1D6C                                         ; SuMain+2A7↑j</span><br><span class="line">seg000:1D6C                 push    187Bh</span><br><span class="line">seg000:1D6F                 call    sub_12808</span><br><span class="line">seg000:1D72                 add     sp, 2</span><br><span class="line">seg000:1D75                 mov     ax, ds:15C8h</span><br><span class="line">seg000:1D78                 mov     dx, ds:15CAh</span><br><span class="line">seg000:1D7C                 mov     word ptr [bp+var_C], ax</span><br><span class="line">seg000:1D7F                 mov     word ptr [bp+var_C+2], dx</span><br><span class="line">seg000:1D82</span><br><span class="line">seg000:1D82 loc_11D82:                              ; CODE XREF: SuMain+307↓j</span><br><span class="line">seg000:1D82                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1D85                 cmp     word ptr es:[bx+4], 0</span><br><span class="line">seg000:1D8A                 jz      short loc_11D8F</span><br><span class="line">seg000:1D8C                 jmp     loc_11D99</span><br><span class="line">seg000:1D8F ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D8F</span><br><span class="line">seg000:1D8F loc_11D8F:                              ; CODE XREF: SuMain+2CA↑j</span><br><span class="line">seg000:1D8F                 cmp     word ptr es:[bx+6], 0</span><br><span class="line">seg000:1D94                 jnz     short loc_11D99</span><br><span class="line">seg000:1D96                 jmp     loc_11DCA</span><br><span class="line">seg000:1D99 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1D99</span><br><span class="line">seg000:1D99 loc_11D99:                              ; CODE XREF: SuMain+2CC↑j</span><br><span class="line">seg000:1D99                                         ; SuMain+2D4↑j</span><br><span class="line">seg000:1D99                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1D9C                 mov     ax, es:[bx]</span><br><span class="line">seg000:1D9F                 mov     dx, es:[bx+2]</span><br><span class="line">seg000:1DA3                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1DA6                 add     ax, es:[bx+4]</span><br><span class="line">seg000:1DAA                 adc     dx, es:[bx+6]</span><br><span class="line">seg000:1DAE                 push    dx</span><br><span class="line">seg000:1DAF                 push    ax</span><br><span class="line">seg000:1DB0                 les     bx, [bp+var_C]</span><br><span class="line">seg000:1DB3                 push    word ptr es:[bx+2]</span><br><span class="line">seg000:1DB7                 push    word ptr es:[bx]</span><br><span class="line">seg000:1DBA                 push    1956h</span><br><span class="line">seg000:1DBD                 call    sub_12808</span><br><span class="line">seg000:1DC0                 add     sp, 0Ah</span><br><span class="line">seg000:1DC3                 add     word ptr [bp+var_C], 8</span><br><span class="line">seg000:1DC7                 jmp     loc_11D82</span><br><span class="line">seg000:1DCA ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1DCA</span><br><span class="line">seg000:1DCA loc_11DCA:                              ; CODE XREF: SuMain+2D6↑j</span><br><span class="line">seg000:1DCA                 jmp     $+3</span><br><span class="line">seg000:1DCD ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1DCD</span><br><span class="line">seg000:1DCD loc_11DCD:                              ; CODE XREF: SuMain:loc_11DCA↑j</span><br><span class="line">seg000:1DCD                                         ; SuMain:loc_11DCD↓j</span><br><span class="line">seg000:1DCD                 jmp     loc_11DCD</span><br><span class="line">seg000:1DD0 ; ---------------------------------------------------------------------------</span><br><span class="line">seg000:1DD0</span><br><span class="line">seg000:1DD0 loc_11DD0:                              ; CODE XREF: SuMain+29B↑j</span><br><span class="line">seg000:1DD0                                         ; SuMain+2A9↑j</span><br><span class="line">seg000:1DD0                 call    sub_11240</span><br><span class="line">seg000:1DD3                 call    sub_12196</span><br><span class="line">seg000:1DD6                 push    0</span><br><span class="line">seg000:1DD8                 call    near ptr sub_10311</span><br><span class="line">seg000:1DDB                 add     sp, 2</span><br><span class="line">seg000:1DDE                 push    1630h</span><br><span class="line">seg000:1DE1                 push    162Ch</span><br><span class="line">seg000:1DE4                 call    sub_11E00</span><br><span class="line">seg000:1DE7                 add     sp, 4</span><br><span class="line">seg000:1DEA                 mov     [bp+var_18], ax</span><br><span class="line">seg000:1DED                 mov     [bp+var_16], dx</span><br><span class="line">seg000:1DF0                 push    [bp+var_16]</span><br><span class="line">seg000:1DF3                 push    [bp+var_18]</span><br><span class="line">seg000:1DF6                 call    sub_10511</span><br><span class="line">seg000:1DF9                 add     sp, 4</span><br><span class="line">seg000:1DFC                 pop     di</span><br><span class="line">seg000:1DFD                 pop     si</span><br><span class="line">seg000:1DFE                 leave</span><br><span class="line">seg000:1DFF                 retn</span><br><span class="line">seg000:1DFF SuMain          endp ; sp-analysis failed</span><br></pre></td></tr></table></figure>
+
+<p>（未完待续）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/12/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/13/Windows-Debugging-1-process-and-thread/" rel="prev" title="Windows Debugging(1) process and thread">
+                Windows Debugging(1) process and thread <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
 
     <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E5%86%85%E6%A0%B8%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%88NTLDR%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">Windows 内核加载器（NTLDR）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
