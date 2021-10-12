@@ -301,7 +301,26 @@
       
         
           
-            <h2 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h2>
+            <h2 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h2><p>看了国外大佬的WP，学会了如何替换libc的函数：</p>
+<p>假设我们有程序<code>test1</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">time_t</span> tt = time(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%li\n&quot;</span>, tt);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道<code>time(NULL)</code>可以返回当前时间戳，那如果我们想不论何时都让函数返回固定值，就可以先写一个<code>libtime.so</code>库：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">time_t</span> <span class="title">time</span><span class="params">(<span class="keyword">time_t</span> *t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> atoi(getenv(<span class="string">&quot;TIMETHING&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么当我们用以下方法运行程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> TIMETHING=12345678</span><br><span class="line">LD_PRELOAD=./libtime.so ./test1</span><br></pre></td></tr></table></figure>
+
+<p>那么无论何时运行多少次<code>test1</code>都会输出<code>12345678</code>。</p>
+<p>那我们将<code>libtime.so</code>用于time程序，即可：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.environ[<span class="string">&quot;LD_PRELOAD&quot;</span>] = <span class="string">&quot;./libtime.so&quot;</span></span><br><span class="line"></span><br><span class="line">twodays = <span class="number">86400</span>*<span class="number">2</span></span><br><span class="line">perseverance = <span class="number">1613606400</span>  <span class="comment"># 2021-02-18</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(perseverance+twodays, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">    os.environ[<span class="string">&quot;TIMETHING&quot;</span>] = <span class="built_in">str</span>(t)</span><br><span class="line">    out = subprocess.check_output(<span class="string">&quot;./time&quot;</span>, env=os.environ)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">b&#x27;Decryption failed&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> out:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;flag: %s&quot;</span> % out)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>顺便说一下，英语真的要学好= =，题目描述的 Perseverance Arrives at Mars! 是毅力号到达火星的意思，在google上搜到了：</p>
+<blockquote>
+<p>Perseverance, the centerpiece of NASA’s $2.7 billion Mars 2020 mission, touched down inside the Red Planet’s Jezero Crater on Feb. 18, 2021.</p>
+</blockquote>
+<p>其中 <code>Feb. 18, 2021.</code> 时间戳就是<code>1613606400</code></p>
+
           
         
       
