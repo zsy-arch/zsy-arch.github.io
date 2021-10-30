@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="bytecode上来一个py字节码： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天津大学生信安大赛 2021 [rev] Bytecode">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="bytecode上来一个py字节码： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-10-30T05:11:33.000Z">
+<meta property="article:modified_time" content="2021-10-30T05:13:21.211Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/10/30/天津大学生信安大赛-2021-rev-Bytecode/"/>
+
+
+
+
+
+  <title>天津大学生信安大赛 2021 [rev] Bytecode | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天津大学生信安大赛 2021 [rev] Bytecode</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-30T13:11:33+08:00">
+                2021-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="bytecode"><a href="#bytecode" class="headerlink" title="bytecode"></a>bytecode</h2><p>上来一个py字节码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br></pre></td><td class="code"><pre><span class="line">Disassembly of main:</span><br><span class="line"> 27           0 LOAD_CONST               1 (305419896)</span><br><span class="line">              2 LOAD_CONST               2 (2271560481)</span><br><span class="line">              4 LOAD_CONST               3 (2427178479)</span><br><span class="line">              6 LOAD_CONST               4 (4275878409)</span><br><span class="line">              8 BUILD_LIST               4</span><br><span class="line">             10 STORE_FAST               0 (key)</span><br><span class="line"></span><br><span class="line"> 28          12 LOAD_CONST               5 (3888592564)</span><br><span class="line">             14 LOAD_CONST               6 (3737879155)</span><br><span class="line">             16 BUILD_LIST               2</span><br><span class="line">             18 LOAD_CONST               7 (4063334467)</span><br><span class="line">             20 LOAD_CONST               8 (2214487552)</span><br><span class="line">             22 BUILD_LIST               2</span><br><span class="line">             24 LOAD_CONST               9 (2420456096)</span><br><span class="line">             26 LOAD_CONST              10 (1529806583)</span><br><span class="line">             28 BUILD_LIST               2</span><br><span class="line">             30 LOAD_CONST              11 (2576007368)</span><br><span class="line">             32 LOAD_CONST              12 (2328179940)</span><br><span class="line">             34 BUILD_LIST               2</span><br><span class="line">             36 LOAD_CONST              13 (1665686107)</span><br><span class="line">             38 LOAD_CONST              14 (1748819876)</span><br><span class="line">             40 BUILD_LIST               2</span><br><span class="line">             42 BUILD_LIST               5</span><br><span class="line">             44 STORE_FAST               1 (arr)</span><br><span class="line"></span><br><span class="line"> 29          46 LOAD_GLOBAL              0 (input)</span><br><span class="line">             48 LOAD_CONST              15 (&#x27;please input your secret key: &#x27;)</span><br><span class="line">             50 CALL_FUNCTION            1</span><br><span class="line">             52 STORE_FAST               2 (flag)</span><br><span class="line"></span><br><span class="line"> 31          54 BUILD_LIST               0</span><br><span class="line">             56 STORE_FAST               3 (encry)</span><br><span class="line"></span><br><span class="line"> 32          58 BUILD_LIST               0</span><br><span class="line">             60 STORE_FAST               4 (encryted)</span><br><span class="line"></span><br><span class="line"> 33          62 LOAD_GLOBAL              1 (range)</span><br><span class="line">             64 LOAD_CONST              16 (0)</span><br><span class="line">             66 LOAD_GLOBAL              2 (len)</span><br><span class="line">             68 LOAD_FAST                2 (flag)</span><br><span class="line">             70 CALL_FUNCTION            1</span><br><span class="line">             72 LOAD_CONST              17 (8)</span><br><span class="line">             74 CALL_FUNCTION            3</span><br><span class="line">             76 GET_ITER</span><br><span class="line">        &gt;&gt;   78 FOR_ITER               112 (to 192)</span><br><span class="line">             80 STORE_FAST               5 (i)</span><br><span class="line"></span><br><span class="line"> 34          82 LOAD_FAST                3 (encry)</span><br><span class="line">             84 LOAD_METHOD              3 (append)</span><br><span class="line">             86 LOAD_GLOBAL              4 (struct)</span><br><span class="line">             88 LOAD_METHOD              5 (unpack)</span><br><span class="line">             90 LOAD_CONST              18 (&#x27;&lt;I&#x27;)</span><br><span class="line">             92 LOAD_FAST                2 (flag)</span><br><span class="line">             94 LOAD_FAST                5 (i)</span><br><span class="line">             96 LOAD_FAST                5 (i)</span><br><span class="line">             98 LOAD_CONST              19 (4)</span><br><span class="line">            100 BINARY_ADD</span><br><span class="line">            102 BUILD_SLICE              2</span><br><span class="line">            104 BINARY_SUBSCR</span><br><span class="line">            106 LOAD_METHOD              6 (encode)</span><br><span class="line">            108 LOAD_CONST              20 (&#x27;utf-8&#x27;)</span><br><span class="line">            110 CALL_METHOD              1</span><br><span class="line">            112 CALL_METHOD              2</span><br><span class="line">            114 LOAD_CONST              16 (0)</span><br><span class="line">            116 BINARY_SUBSCR</span><br><span class="line">            118 CALL_METHOD              1</span><br><span class="line">            120 POP_TOP</span><br><span class="line"></span><br><span class="line"> 35         122 LOAD_FAST                3 (encry)</span><br><span class="line">            124 LOAD_METHOD              3 (append)</span><br><span class="line">            126 LOAD_GLOBAL              4 (struct)</span><br><span class="line">            128 LOAD_METHOD              5 (unpack)</span><br><span class="line">            130 LOAD_CONST              18 (&#x27;&lt;I&#x27;)</span><br><span class="line">            132 LOAD_FAST                2 (flag)</span><br><span class="line">            134 LOAD_FAST                5 (i)</span><br><span class="line">            136 LOAD_CONST              19 (4)</span><br><span class="line">            138 BINARY_ADD</span><br><span class="line">            140 LOAD_FAST                5 (i)</span><br><span class="line">            142 LOAD_CONST              17 (8)</span><br><span class="line">            144 BINARY_ADD</span><br><span class="line">            146 BUILD_SLICE              2</span><br><span class="line">            148 BINARY_SUBSCR</span><br><span class="line">            150 LOAD_METHOD              6 (encode)</span><br><span class="line">            152 LOAD_CONST              20 (&#x27;utf-8&#x27;)</span><br><span class="line">            154 CALL_METHOD              1</span><br><span class="line">            156 CALL_METHOD              2</span><br><span class="line">            158 LOAD_CONST              16 (0)</span><br><span class="line">            160 BINARY_SUBSCR</span><br><span class="line">            162 CALL_METHOD              1</span><br><span class="line">            164 POP_TOP</span><br><span class="line"></span><br><span class="line"> 36         166 LOAD_GLOBAL              7 (encrypt)</span><br><span class="line">            168 LOAD_FAST                3 (encry)</span><br><span class="line">            170 LOAD_FAST                0 (key)</span><br><span class="line">            172 CALL_FUNCTION            2</span><br><span class="line">            174 STORE_FAST               6 (encrypted)</span><br><span class="line"></span><br><span class="line"> 37         176 LOAD_FAST                4 (encryted)</span><br><span class="line">            178 LOAD_METHOD              3 (append)</span><br><span class="line">            180 LOAD_FAST                6 (encrypted)</span><br><span class="line">            182 CALL_METHOD              1</span><br><span class="line">            184 POP_TOP</span><br><span class="line"></span><br><span class="line"> 38         186 BUILD_LIST               0</span><br><span class="line">            188 STORE_FAST               3 (encry)</span><br><span class="line">            190 JUMP_ABSOLUTE           78</span><br><span class="line"></span><br><span class="line"> 39     &gt;&gt;  192 LOAD_FAST                4 (encryted)</span><br><span class="line">            194 LOAD_FAST                1 (arr)</span><br><span class="line">            196 COMPARE_OP               2 (==)</span><br><span class="line">            198 POP_JUMP_IF_FALSE      210</span><br><span class="line"></span><br><span class="line"> 40         200 LOAD_GLOBAL              8 (print)</span><br><span class="line">            202 LOAD_CONST              21 (&#x27;ok,fine~&#x27;)</span><br><span class="line">            204 CALL_FUNCTION            1</span><br><span class="line">            206 POP_TOP</span><br><span class="line">            208 JUMP_FORWARD             8 (to 218)</span><br><span class="line"></span><br><span class="line"> 42     &gt;&gt;  210 LOAD_GLOBAL              8 (print)</span><br><span class="line">            212 LOAD_CONST              22 (&#x27;sry~&#x27;)</span><br><span class="line">            214 CALL_FUNCTION            1</span><br><span class="line">            216 POP_TOP</span><br><span class="line">        &gt;&gt;  218 LOAD_CONST               0 (None)</span><br><span class="line">            220 RETURN_VALUE</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of encrypt:</span><br><span class="line">  6           0 LOAD_FAST                0 (v)</span><br><span class="line">              2 LOAD_CONST               1 (0)</span><br><span class="line">              4 BINARY_SUBSCR</span><br><span class="line">              6 STORE_FAST               2 (v0)</span><br><span class="line"></span><br><span class="line">  7           8 LOAD_FAST                0 (v)</span><br><span class="line">             10 LOAD_CONST               2 (1)</span><br><span class="line">             12 BINARY_SUBSCR</span><br><span class="line">             14 STORE_FAST               3 (v1)</span><br><span class="line"></span><br><span class="line">  8          16 LOAD_CONST               1 (0)</span><br><span class="line">             18 STORE_FAST               4 (x)</span><br><span class="line"></span><br><span class="line">  9          20 LOAD_CONST               3 (6710886)</span><br><span class="line">             22 STORE_FAST               5 (delta)</span><br><span class="line"></span><br><span class="line"> 10          24 LOAD_FAST                1 (k)</span><br><span class="line">             26 LOAD_CONST               1 (0)</span><br><span class="line">             28 BINARY_SUBSCR</span><br><span class="line">             30 STORE_FAST               6 (k0)</span><br><span class="line"></span><br><span class="line"> 11          32 LOAD_FAST                1 (k)</span><br><span class="line">             34 LOAD_CONST               2 (1)</span><br><span class="line">             36 BINARY_SUBSCR</span><br><span class="line">             38 STORE_FAST               7 (k1)</span><br><span class="line"></span><br><span class="line"> 12          40 LOAD_FAST                1 (k)</span><br><span class="line">             42 LOAD_CONST               4 (2)</span><br><span class="line">             44 BINARY_SUBSCR</span><br><span class="line">             46 STORE_FAST               8 (k2)</span><br><span class="line"></span><br><span class="line"> 13          48 LOAD_FAST                1 (k)</span><br><span class="line">             50 LOAD_CONST               5 (3)</span><br><span class="line">             52 BINARY_SUBSCR</span><br><span class="line">             54 STORE_FAST               9 (k3)</span><br><span class="line"></span><br><span class="line"> 14          56 LOAD_GLOBAL              0 (range)</span><br><span class="line">             58 LOAD_CONST               6 (32)</span><br><span class="line">             60 CALL_FUNCTION            1</span><br><span class="line">             62 GET_ITER</span><br><span class="line">        &gt;&gt;   64 FOR_ITER               108 (to 174)</span><br><span class="line">             66 STORE_FAST              10 (i)</span><br><span class="line"></span><br><span class="line"> 15          68 LOAD_FAST                4 (x)</span><br><span class="line">             70 LOAD_FAST                5 (delta)</span><br><span class="line">             72 INPLACE_ADD</span><br><span class="line">             74 STORE_FAST               4 (x)</span><br><span class="line"></span><br><span class="line"> 16          76 LOAD_FAST                4 (x)</span><br><span class="line">             78 LOAD_CONST               7 (4294967295)</span><br><span class="line">             80 BINARY_AND</span><br><span class="line">             82 STORE_FAST               4 (x)</span><br><span class="line"></span><br><span class="line"> 17          84 LOAD_FAST                2 (v0)</span><br><span class="line">             86 LOAD_FAST                3 (v1)</span><br><span class="line">             88 LOAD_CONST               8 (4)</span><br><span class="line">             90 BINARY_LSHIFT</span><br><span class="line">             92 LOAD_FAST                6 (k0)</span><br><span class="line">             94 BINARY_ADD</span><br><span class="line">             96 LOAD_FAST                3 (v1)</span><br><span class="line">             98 LOAD_FAST                4 (x)</span><br><span class="line">            100 BINARY_ADD</span><br><span class="line">            102 BINARY_XOR</span><br><span class="line">            104 LOAD_FAST                3 (v1)</span><br><span class="line">            106 LOAD_CONST               9 (5)</span><br><span class="line">            108 BINARY_RSHIFT</span><br><span class="line">            110 LOAD_FAST                7 (k1)</span><br><span class="line">            112 BINARY_ADD</span><br><span class="line">            114 BINARY_XOR</span><br><span class="line">            116 INPLACE_ADD</span><br><span class="line">            118 STORE_FAST               2 (v0)</span><br><span class="line"></span><br><span class="line"> 18         120 LOAD_FAST                2 (v0)</span><br><span class="line">            122 LOAD_CONST               7 (4294967295)</span><br><span class="line">            124 BINARY_AND</span><br><span class="line">            126 STORE_FAST               2 (v0)</span><br><span class="line"></span><br><span class="line"> 19         128 LOAD_FAST                3 (v1)</span><br><span class="line">            130 LOAD_FAST                2 (v0)</span><br><span class="line">            132 LOAD_CONST               8 (4)</span><br><span class="line">            134 BINARY_LSHIFT</span><br><span class="line">            136 LOAD_FAST                8 (k2)</span><br><span class="line">            138 BINARY_ADD</span><br><span class="line">            140 LOAD_FAST                2 (v0)</span><br><span class="line">            142 LOAD_FAST                4 (x)</span><br><span class="line">            144 BINARY_ADD</span><br><span class="line">            146 BINARY_XOR</span><br><span class="line">            148 LOAD_FAST                2 (v0)</span><br><span class="line">            150 LOAD_CONST               9 (5)</span><br><span class="line">            152 BINARY_RSHIFT</span><br><span class="line">            154 LOAD_FAST                9 (k3)</span><br><span class="line">            156 BINARY_ADD</span><br><span class="line">            158 BINARY_XOR</span><br><span class="line">            160 INPLACE_ADD</span><br><span class="line">            162 STORE_FAST               3 (v1)</span><br><span class="line"></span><br><span class="line"> 20         164 LOAD_FAST                3 (v1)</span><br><span class="line">            166 LOAD_CONST               7 (4294967295)</span><br><span class="line">            168 BINARY_AND</span><br><span class="line">            170 STORE_FAST               3 (v1)</span><br><span class="line">            172 JUMP_ABSOLUTE           64</span><br><span class="line"></span><br><span class="line"> 21     &gt;&gt;  174 LOAD_FAST                2 (v0)</span><br><span class="line">            176 LOAD_FAST                0 (v)</span><br><span class="line">            178 LOAD_CONST               1 (0)</span><br><span class="line">            180 STORE_SUBSCR</span><br><span class="line"></span><br><span class="line"> 22         182 LOAD_FAST                3 (v1)</span><br><span class="line">            184 LOAD_FAST                0 (v)</span><br><span class="line">            186 LOAD_CONST               2 (1)</span><br><span class="line">            188 STORE_SUBSCR</span><br><span class="line"></span><br><span class="line"> 23         190 LOAD_FAST                0 (v)</span><br><span class="line">            192 RETURN_VALUE</span><br></pre></td></tr></table></figure>
+
+<p>很明显的tea加密，上解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">de</span>(<span class="params">v, k</span>):</span></span><br><span class="line">    k0 = k[<span class="number">0</span>]</span><br><span class="line">    k1 = k[<span class="number">1</span>]</span><br><span class="line">    k2 = k[<span class="number">2</span>]</span><br><span class="line">    k3 = k[<span class="number">3</span>]</span><br><span class="line">    v0 = v[<span class="number">0</span>]</span><br><span class="line">    v1 = v[<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">sum</span> = (<span class="number">0x666666</span>) * <span class="number">32</span></span><br><span class="line">    delta = <span class="number">0x666666</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>):</span><br><span class="line">        v0 &amp;= <span class="number">0xffffffff</span></span><br><span class="line">        v1 -= ((v0 &lt;&lt; <span class="number">4</span>) + k2) ^ (v0 + <span class="built_in">sum</span>) ^ ((v0 &gt;&gt; <span class="number">5</span>) + k3)</span><br><span class="line">        v1 &amp;= <span class="number">0xffffffff</span></span><br><span class="line">        v0 -= ((v1 &lt;&lt; <span class="number">4</span>) + k0) ^ (v1 + <span class="built_in">sum</span>) ^ ((v1 &gt;&gt; <span class="number">5</span>) + k1)</span><br><span class="line">        <span class="built_in">sum</span> -= delta</span><br><span class="line">    <span class="keyword">return</span> v0, v1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">key = [(<span class="number">305419896</span>), (<span class="number">2271560481</span>), (<span class="number">2427178479</span>), (<span class="number">4275878409</span>)]</span><br><span class="line">arr = [</span><br><span class="line">    [(<span class="number">3888592564</span>), (<span class="number">3737879155</span>)],</span><br><span class="line">    [(<span class="number">4063334467</span>), (<span class="number">2214487552</span>)],</span><br><span class="line">    [(<span class="number">2420456096</span>), (<span class="number">1529806583</span>)],</span><br><span class="line">    [(<span class="number">2576007368</span>), (<span class="number">2328179940</span>)],</span><br><span class="line">    [(<span class="number">1665686107</span>), (<span class="number">1748819876</span>)]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(arr)):</span><br><span class="line">    v0, v1 = de(arr[i], key)</span><br><span class="line">    <span class="built_in">print</span>(struct.pack(<span class="string">&#x27;&lt;I&#x27;</span>, v0 &amp; <span class="number">0xffffffff</span>))</span><br><span class="line">    <span class="built_in">print</span>(struct.pack(<span class="string">&#x27;&lt;I&#x27;</span>, v1 &amp; <span class="number">0xffffffff</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/10/28/MIMIC-2021-Rev-fastjs/" rel="next" title="MIMIC 2021 [Rev] fastjs">
+                <i class="fa fa-chevron-left"></i> MIMIC 2021 [Rev] fastjs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#bytecode"><span class="nav-number">1.</span> <span class="nav-text">bytecode</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
