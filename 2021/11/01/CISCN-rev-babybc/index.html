@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="babybc查看附件，发现是bc文件，经过一番搜索可知是LLVM IR。 在Ubuntu上安装LLVM，使用clang编译成ELF文件，用IDA Pro打开。 main函数： 12345678910111213141516171819202122232425262728int __cdecl main(int argc, const char **argv, const char **envp)&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CISCN [rev] babybc">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="babybc查看附件，发现是bc文件，经过一番搜索可知是LLVM IR。 在Ubuntu上安装LLVM，使用clang编译成ELF文件，用IDA Pro打开。 main函数： 12345678910111213141516171819202122232425262728int __cdecl main(int argc, const char **argv, const char **envp)&amp;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-11-01T00:28:25.000Z">
+<meta property="article:modified_time" content="2021-11-01T01:12:00.962Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/"/>
+
+
+
+
+
+  <title>CISCN [rev] babybc | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CISCN [rev] babybc</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-01T08:28:25+08:00">
+                2021-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="babybc"><a href="#babybc" class="headerlink" title="babybc"></a>babybc</h2><p>查看附件，发现是bc文件，经过一番搜索可知是LLVM IR。</p>
+<p>在Ubuntu上安装LLVM，使用clang编译成ELF文件，用IDA Pro打开。</p>
+<p>main函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v4; <span class="comment">// [rsp+8h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">size_t</span> v5; <span class="comment">// [rsp+10h] [rbp-18h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 i; <span class="comment">// [rsp+18h] [rbp-10h]</span></span><br><span class="line"></span><br><span class="line">  __isoc99_scanf(&amp;unk_402004, input, envp);</span><br><span class="line">  <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> <span class="keyword">int</span>)<span class="built_in">strlen</span>(input) == <span class="number">25</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( input[<span class="number">0</span>] )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)(input[<span class="number">0</span>] - <span class="number">48</span>) &gt; <span class="number">5u</span> )</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      v5 = <span class="built_in">strlen</span>(input);</span><br><span class="line">      <span class="keyword">for</span> ( i = <span class="number">1LL</span>; ; ++i )</span><br><span class="line">      &#123;</span><br><span class="line">        v4 = i;</span><br><span class="line">        <span class="keyword">if</span> ( i &gt;= v5 )</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)(input[v4] - <span class="number">48</span>) &gt; <span class="number">5u</span> )</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( (<span class="built_in">fill_number</span>((__int64)input) &amp; <span class="number">1</span>) != <span class="number">0</span> &amp;&amp; (<span class="built_in">docheck</span>() &amp; <span class="number">1</span>) != <span class="number">0</span> )</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;CISCN&#123;MD5(%s)&#125;&quot;</span>, input);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可知我们的输入必须是数字0~5 。</p>
+<p>继续查看fill_number函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 __fastcall <span class="title">fill_number</span><span class="params">(__int64 a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> __int8 *v2; <span class="comment">// [rsp+0h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [rsp+Fh] [rbp-61h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 *v4; <span class="comment">// [rsp+10h] [rbp-60h]</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// [rsp+1Fh] [rbp-51h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 *v6; <span class="comment">// [rsp+20h] [rbp-50h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [rsp+2Fh] [rbp-41h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 *v8; <span class="comment">// [rsp+30h] [rbp-40h]</span></span><br><span class="line">  <span class="keyword">char</span> v9; <span class="comment">// [rsp+3Eh] [rbp-32h]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [rsp+3Fh] [rbp-31h]</span></span><br><span class="line">  __int64 v11; <span class="comment">// [rsp+40h] [rbp-30h]</span></span><br><span class="line">  __int64 v12; <span class="comment">// [rsp+48h] [rbp-28h]</span></span><br><span class="line">  <span class="keyword">char</span> v13; <span class="comment">// [rsp+5Fh] [rbp-11h]</span></span><br><span class="line">  __int64 v14; <span class="comment">// [rsp+68h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v14 = <span class="number">0LL</span>;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    v11 = v14;</span><br><span class="line">    v12 = <span class="number">5</span> * v14;</span><br><span class="line">    v13 = *(_BYTE *)(a1 + <span class="number">5</span> * v14);</span><br><span class="line">    <span class="keyword">if</span> ( map[<span class="number">5</span> * v14] )</span><br><span class="line">    &#123;</span><br><span class="line">      v10 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v13 != <span class="number">48</span> )</span><br><span class="line">        <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      map[<span class="number">5</span> * v14] = v13 - <span class="number">48</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    v8 = &amp;map[<span class="number">5</span> * v14 + <span class="number">1</span>];</span><br><span class="line">    v9 = *(_BYTE *)(a1 + v12 + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> ( *v8 )</span><br><span class="line">    &#123;</span><br><span class="line">      v10 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v9 != <span class="number">48</span> )</span><br><span class="line">        <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      *v8 = v9 - <span class="number">48</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    v6 = &amp;map[<span class="number">5</span> * v14 + <span class="number">2</span>];</span><br><span class="line">    v7 = *(_BYTE *)(a1 + v12 + <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> ( *v6 )</span><br><span class="line">    &#123;</span><br><span class="line">      v10 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v7 != <span class="number">48</span> )</span><br><span class="line">        <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      *v6 = v7 - <span class="number">48</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    v4 = &amp;map[<span class="number">5</span> * v14 + <span class="number">3</span>];</span><br><span class="line">    v5 = *(_BYTE *)(a1 + v12 + <span class="number">3</span>);</span><br><span class="line">    <span class="keyword">if</span> ( *v4 )</span><br><span class="line">    &#123;</span><br><span class="line">      v10 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v5 != <span class="number">48</span> )</span><br><span class="line">        <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      *v4 = v5 - <span class="number">48</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    v2 = &amp;map[<span class="number">5</span> * v14 + <span class="number">4</span>];</span><br><span class="line">    v3 = *(_BYTE *)(a1 + v12 + <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">if</span> ( *v2 )</span><br><span class="line">    &#123;</span><br><span class="line">      v10 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( v3 != <span class="number">48</span> )</span><br><span class="line">        <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      *v2 = v3 - <span class="number">48</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ++v14;</span><br><span class="line">    v10 = <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v11 + <span class="number">1</span> &lt; <span class="number">5</span> );</span><br><span class="line">  <span class="keyword">return</span> v10 &amp; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fill_number根据输入生成map，若map数组中的数字非零，则对应的input应该是字符’0’；否则会把input中的字符减去48，放入map中。</p>
+<p>查看docheck函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 <span class="title">docheck</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> *v1; <span class="comment">// [rsp+0h] [rbp-C8h]</span></span><br><span class="line">  <span class="keyword">char</span> *v2; <span class="comment">// [rsp+8h] [rbp-C0h]</span></span><br><span class="line">  <span class="keyword">char</span> *v3; <span class="comment">// [rsp+10h] [rbp-B8h]</span></span><br><span class="line">  <span class="keyword">char</span> *v4; <span class="comment">// [rsp+18h] [rbp-B0h]</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// [rsp+21h] [rbp-A7h]</span></span><br><span class="line">  <span class="keyword">char</span> v6; <span class="comment">// [rsp+22h] [rbp-A6h]</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// [rsp+23h] [rbp-A5h]</span></span><br><span class="line">  <span class="keyword">char</span> v8; <span class="comment">// [rsp+24h] [rbp-A4h]</span></span><br><span class="line">  <span class="keyword">char</span> v9; <span class="comment">// [rsp+25h] [rbp-A3h]</span></span><br><span class="line">  <span class="keyword">char</span> v10; <span class="comment">// [rsp+26h] [rbp-A2h]</span></span><br><span class="line">  <span class="keyword">char</span> v11; <span class="comment">// [rsp+27h] [rbp-A1h]</span></span><br><span class="line">  __int64 v12; <span class="comment">// [rsp+28h] [rbp-A0h]</span></span><br><span class="line">  __int64 v13; <span class="comment">// [rsp+38h] [rbp-90h]</span></span><br><span class="line">  <span class="keyword">char</span> v14; <span class="comment">// [rsp+46h] [rbp-82h]</span></span><br><span class="line">  <span class="keyword">char</span> v15; <span class="comment">// [rsp+47h] [rbp-81h]</span></span><br><span class="line">  __int64 v16; <span class="comment">// [rsp+48h] [rbp-80h]</span></span><br><span class="line">  __int64 v17; <span class="comment">// [rsp+50h] [rbp-78h]</span></span><br><span class="line">  <span class="keyword">char</span> v18; <span class="comment">// [rsp+5Fh] [rbp-69h]</span></span><br><span class="line">  <span class="keyword">char</span> *v19; <span class="comment">// [rsp+60h] [rbp-68h]</span></span><br><span class="line">  __int64 v20; <span class="comment">// [rsp+68h] [rbp-60h]</span></span><br><span class="line">  <span class="keyword">char</span> *v21; <span class="comment">// [rsp+70h] [rbp-58h]</span></span><br><span class="line">  <span class="keyword">char</span> v22; <span class="comment">// [rsp+7Fh] [rbp-49h]</span></span><br><span class="line">  <span class="keyword">char</span> *v23; <span class="comment">// [rsp+80h] [rbp-48h]</span></span><br><span class="line">  __int64 v24; <span class="comment">// [rsp+88h] [rbp-40h]</span></span><br><span class="line">  <span class="keyword">char</span> *v25; <span class="comment">// [rsp+90h] [rbp-38h]</span></span><br><span class="line">  __int64 v26; <span class="comment">// [rsp+A0h] [rbp-28h]</span></span><br><span class="line">  __int64 v27; <span class="comment">// [rsp+B0h] [rbp-18h]</span></span><br><span class="line">  <span class="keyword">char</span> v28[<span class="number">6</span>]; <span class="comment">// [rsp+BCh] [rbp-Ch] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> v29[<span class="number">6</span>]; <span class="comment">// [rsp+C2h] [rbp-6h] BYREF</span></span><br><span class="line"></span><br><span class="line">  v27 = <span class="number">0LL</span>;</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    v24 = v27;</span><br><span class="line">    <span class="built_in">memset</span>(v29, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v29));</span><br><span class="line">    v25 = &amp;v29[map[<span class="number">5</span> * v27]];</span><br><span class="line">    <span class="keyword">if</span> ( *v25</span><br><span class="line">      || (*v25 = <span class="number">1</span>, v23 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">1</span>]], *v23)</span><br><span class="line">      || (*v23 = <span class="number">1</span>, v2 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">2</span>]], *v2)</span><br><span class="line">      || (*v2 = <span class="number">1</span>, v1 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">3</span>]], *v1)</span><br><span class="line">      || (*v1 = <span class="number">1</span>, v29[map[<span class="number">5</span> * v27 + <span class="number">4</span>]]) )</span><br><span class="line">    &#123;</span><br><span class="line">      v22 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ++v27;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v24 + <span class="number">1</span> &lt; <span class="number">5</span> );</span><br><span class="line">  v26 = <span class="number">0LL</span>;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v20 = v26;</span><br><span class="line">    <span class="built_in">memset</span>(v28, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v28));</span><br><span class="line">    v21 = &amp;v28[map[v26]];</span><br><span class="line">    <span class="keyword">if</span> ( *v21 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    *v21 = <span class="number">1</span>;</span><br><span class="line">    v19 = &amp;v28[map[v26 + <span class="number">5</span>]];</span><br><span class="line">    <span class="keyword">if</span> ( *v19 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    *v19 = <span class="number">1</span>;</span><br><span class="line">    v4 = &amp;v28[map[v26 + <span class="number">10</span>]];</span><br><span class="line">    <span class="keyword">if</span> ( *v4 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    *v4 = <span class="number">1</span>;</span><br><span class="line">    v3 = &amp;v28[map[v26 + <span class="number">15</span>]];</span><br><span class="line">    <span class="keyword">if</span> ( *v3 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    *v3 = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v28[map[v26 + <span class="number">20</span>]] )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    ++v26;</span><br><span class="line">    <span class="keyword">if</span> ( v20 + <span class="number">1</span> &gt;= <span class="number">5</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v16 = <span class="number">0LL</span>;</span><br><span class="line">      <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        v17 = v16;</span><br><span class="line">        v18 = row[<span class="number">4</span> * v16];</span><br><span class="line">        <span class="keyword">if</span> ( v18 == <span class="number">1</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( map[<span class="number">5</span> * v16] &lt; map[<span class="number">5</span> * v16 + <span class="number">1</span>] )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( v18 == <span class="number">2</span> &amp;&amp; map[<span class="number">5</span> * v16] &gt; map[<span class="number">5</span> * v16 + <span class="number">1</span>] )</span><br><span class="line">        &#123;</span><br><span class="line">LABEL_27:</span><br><span class="line">          v22 = <span class="number">0</span>;</span><br><span class="line">          <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        v15 = row[<span class="number">4</span> * v16 + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> ( v15 == <span class="number">1</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( map[<span class="number">5</span> * v16 + <span class="number">1</span>] &lt; map[<span class="number">5</span> * v16 + <span class="number">2</span>] )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( v15 == <span class="number">2</span> &amp;&amp; map[<span class="number">5</span> * v16 + <span class="number">1</span>] &gt; map[<span class="number">5</span> * v16 + <span class="number">2</span>] )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        v6 = row[<span class="number">4</span> * v16 + <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">if</span> ( v6 == <span class="number">1</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( map[<span class="number">5</span> * v16 + <span class="number">2</span>] &lt; map[<span class="number">5</span> * v16 + <span class="number">3</span>] )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( v6 == <span class="number">2</span> &amp;&amp; map[<span class="number">5</span> * v16 + <span class="number">2</span>] &gt; map[<span class="number">5</span> * v16 + <span class="number">3</span>] )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        v5 = row[<span class="number">4</span> * v16 + <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="number">1</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( map[<span class="number">5</span> * v16 + <span class="number">3</span>] &lt; map[<span class="number">5</span> * v16 + <span class="number">4</span>] )</span><br><span class="line">            <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( v5 == <span class="number">2</span> &amp;&amp; map[<span class="number">5</span> * v16 + <span class="number">3</span>] &gt; map[<span class="number">5</span> * v16 + <span class="number">4</span>] )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">        &#125;</span><br><span class="line">        ++v16;</span><br><span class="line">        <span class="keyword">if</span> ( v17 + <span class="number">1</span> &gt;= <span class="number">5</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v12 = <span class="number">0LL</span>;</span><br><span class="line">          <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            v13 = v12 + <span class="number">1</span>;</span><br><span class="line">            v14 = col[<span class="number">5</span> * v12];</span><br><span class="line">            <span class="keyword">if</span> ( v14 == <span class="number">1</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12] &gt; map[<span class="number">5</span> * v13] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ( v14 == <span class="number">2</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12] &lt; map[<span class="number">5</span> * v13] )</span><br><span class="line">              &#123;</span><br><span class="line">LABEL_26:</span><br><span class="line">                v22 = v11;</span><br><span class="line">                <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            v10 = col[<span class="number">5</span> * v12 + <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> ( v10 == <span class="number">1</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">1</span>] &gt; map[<span class="number">5</span> * v13 + <span class="number">1</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ( v10 == <span class="number">2</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">1</span>] &lt; map[<span class="number">5</span> * v13 + <span class="number">1</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            v9 = col[<span class="number">5</span> * v12 + <span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span> ( v9 == <span class="number">1</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">2</span>] &gt; map[<span class="number">5</span> * v13 + <span class="number">2</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ( v9 == <span class="number">2</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">2</span>] &lt; map[<span class="number">5</span> * v13 + <span class="number">2</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            v8 = col[<span class="number">5</span> * v12 + <span class="number">3</span>];</span><br><span class="line">            <span class="keyword">if</span> ( v8 == <span class="number">1</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">3</span>] &gt; map[<span class="number">5</span> * v13 + <span class="number">3</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ( v8 == <span class="number">2</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">3</span>] &lt; map[<span class="number">5</span> * v13 + <span class="number">3</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            v7 = col[<span class="number">5</span> * v12 + <span class="number">4</span>];</span><br><span class="line">            <span class="keyword">if</span> ( v7 == <span class="number">1</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">4</span>] &gt; map[<span class="number">5</span> * v13 + <span class="number">4</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> ( v7 == <span class="number">2</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v11 = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">if</span> ( map[<span class="number">5</span> * v12 + <span class="number">4</span>] &lt; map[<span class="number">5</span> * v13 + <span class="number">4</span>] )</span><br><span class="line">                <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">            &#125;</span><br><span class="line">            ++v12;</span><br><span class="line">            v11 = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> ( v13 &gt;= <span class="number">4</span> )</span><br><span class="line">              <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  v22 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先看这一部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">  v24 = v27;</span><br><span class="line">  <span class="built_in">memset</span>(v29, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v29));</span><br><span class="line">  v25 = &amp;v29[map[<span class="number">5</span> * v27]];</span><br><span class="line">  <span class="keyword">if</span> ( *v25</span><br><span class="line">    || (*v25 = <span class="number">1</span>, v23 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">1</span>]], *v23)</span><br><span class="line">    || (*v23 = <span class="number">1</span>, v2 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">2</span>]], *v2)</span><br><span class="line">    || (*v2 = <span class="number">1</span>, v1 = &amp;v29[map[<span class="number">5</span> * v27 + <span class="number">3</span>]], *v1)</span><br><span class="line">    || (*v1 = <span class="number">1</span>, v29[map[<span class="number">5</span> * v27 + <span class="number">4</span>]]) )</span><br><span class="line">  &#123;</span><br><span class="line">    v22 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  ++v27;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> ( v24 + <span class="number">1</span> &lt; <span class="number">5</span> );</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
+<p>已知v29是长度为5的char数组，每次循环会先将v29置零。</p>
+<p>v27从0循环到4，那么每次map[5 * v27]、map[5 * v27 + 1]、… 、map[5 * v27 + 4]就是获取一组五个数字，那么我们可以认为map其实是二维数组。 </p>
+<p>在这里<code>&amp;v29[map[i]]</code>就相当于<code>(&amp;v29 + map[i])</code>。每次我们会检查<code>v29[map[i]]</code>是否为0，然后将<code>v29[map[i]]</code>置为1 。那么if部分其实就是检测<code>map</code>这一行五个数字是否各不相同。</p>
+<p>这里其实有一种感觉：这是一个数独题。</p>
+<p>再看这一部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">v20 = v26;</span><br><span class="line"><span class="built_in">memset</span>(v28, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v28));</span><br><span class="line">v21 = &amp;v28[map[v26]];</span><br><span class="line"><span class="keyword">if</span> ( *v21 )</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">*v21 = <span class="number">1</span>;</span><br><span class="line">v19 = &amp;v28[map[v26 + <span class="number">5</span>]];</span><br><span class="line"><span class="keyword">if</span> ( *v19 )</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">*v19 = <span class="number">1</span>;</span><br><span class="line">v4 = &amp;v28[map[v26 + <span class="number">10</span>]];</span><br><span class="line"><span class="keyword">if</span> ( *v4 )</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">*v4 = <span class="number">1</span>;</span><br><span class="line">v3 = &amp;v28[map[v26 + <span class="number">15</span>]];</span><br><span class="line"><span class="keyword">if</span> ( *v3 )</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">*v3 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> ( v28[map[v26 + <span class="number">20</span>]] )</span><br><span class="line">  <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<p>有了上面的经验，这里就不难发现它是在检测每一列的5个数字是否各不相同。</p>
+<p>检测完这个二维数组是否满足数独要求后，还会进一步检测：根据row、col数组提供的信息，判断某两个数是否满足指定的大小关系。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    v18 = row[<span class="number">4</span> * v16];</span><br><span class="line">    <span class="keyword">if</span> ( v18 == <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( map[<span class="number">5</span> * v16] &lt; map[<span class="number">5</span> * v16 + <span class="number">1</span>] )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_27;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v18 == <span class="number">2</span> &amp;&amp; map[<span class="number">5</span> * v16] &gt; map[<span class="number">5</span> * v16 + <span class="number">1</span>] )</span><br><span class="line">    &#123;</span><br><span class="line">LABEL_27:</span><br><span class="line">      v22 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    v13 = v12 + <span class="number">1</span>;</span><br><span class="line">    v14 = col[<span class="number">5</span> * v12];</span><br><span class="line">    <span class="keyword">if</span> ( v14 == <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v11 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( map[<span class="number">5</span> * v12] &gt; map[<span class="number">5</span> * v13] )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_26;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v14 == <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">    v11 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> ( map[<span class="number">5</span> * v12] &lt; map[<span class="number">5</span> * v13] )</span><br><span class="line">        &#123;</span><br><span class="line">LABEL_26:</span><br><span class="line">            v22 = v11;</span><br><span class="line">            <span class="keyword">return</span> v22 &amp; <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+
+<p>这里只截取部分片段，可知若<code>row[i]</code>、<code>col[i]</code>为1或2，则需要二维数组中某一行/某一列相邻的两个数字满足大小关系。否则返回错误。</p>
+<p>盗一个z3：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">rowss = [[<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x01</span>],[<span class="number">0x01</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>], [<span class="number">0x02</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x01</span>], [<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>], [<span class="number">0x01</span>, <span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x00</span>]]</span><br><span class="line">colnms = [[<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x02</span>, <span class="number">0x00</span>,<span class="number">0x02</span>], [<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>], [<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x00</span>], [<span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x01</span>]]</span><br><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">s = Solver()</span><br><span class="line"><span class="built_in">map</span> = [[<span class="literal">None</span>]*<span class="number">5</span>,[<span class="literal">None</span>]*<span class="number">5</span>,[<span class="literal">None</span>]*<span class="number">5</span>,[<span class="literal">None</span>]*<span class="number">5</span>,[<span class="literal">None</span>]*<span class="number">5</span>,]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        <span class="built_in">map</span>[i][j]=(Int(<span class="string">&quot;x%d%d&quot;</span>%(i, j)))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">map</span>)</span><br><span class="line">s.add(<span class="built_in">map</span>[<span class="number">2</span>][<span class="number">2</span>] == <span class="number">4</span>)</span><br><span class="line">s.add(<span class="built_in">map</span>[<span class="number">3</span>][<span class="number">3</span>] == <span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        s.add(<span class="built_in">map</span>[i][j] &gt;= <span class="number">1</span>)</span><br><span class="line">        s.add(<span class="built_in">map</span>[i][j] &lt;= <span class="number">5</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(j):</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] != <span class="built_in">map</span>[i][k])</span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(i):</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] != <span class="built_in">map</span>[k][j])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">if</span> rowss[i][j] == <span class="number">1</span>:</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] &gt; <span class="built_in">map</span>[i][j+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">elif</span> rowss[i][j] == <span class="number">2</span>:</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] &lt; <span class="built_in">map</span>[i][j+<span class="number">1</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        <span class="keyword">if</span> colnms[i][j] == <span class="number">2</span>:</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] &gt; <span class="built_in">map</span>[i+<span class="number">1</span>][j])</span><br><span class="line">        <span class="keyword">elif</span> colnms[i][j] == <span class="number">1</span>:</span><br><span class="line">            s.add(<span class="built_in">map</span>[i][j] &lt; <span class="built_in">map</span>[i+<span class="number">1</span>][j])</span><br><span class="line">answer = s.check()</span><br><span class="line"><span class="keyword">if</span> answer == sat:</span><br><span class="line">    <span class="built_in">print</span>(s.model())</span><br><span class="line">    m = s.model()</span><br><span class="line">    flag = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">map</span>:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">            flag.append(m[j].as_long())</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag)):</span><br><span class="line">        flag[i] += <span class="number">0x30</span></span><br><span class="line">    flag[<span class="number">12</span>] = <span class="number">0x30</span></span><br><span class="line">    flag[<span class="number">18</span>] = <span class="number">0x30</span></span><br><span class="line">    flag = <span class="built_in">bytes</span>(flag)</span><br><span class="line">    <span class="built_in">print</span>(md5(flag).hexdigest())</span><br><span class="line"><span class="comment"># https://blog.csdn.net/weixin_43363675/article/details/116940992</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/" rel="next" title="天津大学生信安大赛 2021 [rev] Bytecode">
+                <i class="fa fa-chevron-left"></i> 天津大学生信安大赛 2021 [rev] Bytecode
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#babybc"><span class="nav-number">1.</span> <span class="nav-text">babybc</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
