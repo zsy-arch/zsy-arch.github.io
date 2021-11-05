@@ -230,6 +230,127 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/05/test-page/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/11/05/test-page/" itemprop="url">test page</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-05T15:18:48+08:00">
+                2021-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/test-page/image-20211105152005755.png" alt="image-20211105152005755"></p>
+<p>31231231</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4048,148 +4169,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/07/15/Assembly-%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/" itemprop="url">Assembly 汇编学习（1）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-15T13:06:01+08:00">
-                2021-07-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="汇编学习（1）"><a href="#汇编学习（1）" class="headerlink" title="汇编学习（1）"></a>汇编学习（1）</h3><p><strong>环境</strong>：Windows 11，WSL2（Ubuntu），MINGW-GCC，NASM</p>
-<p>一早上起来发现系统自动更新Win11了，用起来还算不错。</p>
-<p>NASM，MINGW32-w64都是在WSL 2上的，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38786014/how-to-compile-executable-for-windows-with-gcc-with-linux-subsystem">点击这里看</a> MINGW32-w64在WSL 2上的安装方法。（Windows变成Linux发行版指日可待= =）</p>
-<h3 id="NASM与MINGW-GCC"><a href="#NASM与MINGW-GCC" class="headerlink" title="NASM与MINGW GCC"></a>NASM与MINGW GCC</h3><p>test.asm</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    global do_something</span><br><span class="line">section .text</span><br><span class="line">do_something:</span><br><span class="line">    push rbp</span><br><span class="line">    mov rbp, rsp</span><br><span class="line">    xor eax, eax</span><br><span class="line">    mov eax, ecx</span><br><span class="line">    add eax, eax</span><br><span class="line">    mov rsp, rbp</span><br><span class="line">    pop rbp</span><br><span class="line">    ret</span><br></pre></td></tr></table></figure>
-
-<p>使用NASM生成OBJ文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nasm -f win64 -o test.obj test.asm</span><br></pre></td></tr></table></figure>
-
-<p>编写C文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">extern int do_something(int);</span><br><span class="line"></span><br><span class="line">int main(int argc, char const *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    int a = do_something(10);</span><br><span class="line">    printf(&quot;%d\n&quot;, a);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用MINGW32-w64-gcc链接，生成可执行文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ w64gcc test.c test.obj -o test.exe</span><br></pre></td></tr></table></figure>
-
-<p>用IDA Pro分析test.exe</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">; int __cdecl main(int argc, const char **argv, const char **envp)</span><br><span class="line">public main</span><br><span class="line">main proc near</span><br><span class="line"></span><br><span class="line">var_4= dword ptr -4</span><br><span class="line">arg_0= dword ptr  10h</span><br><span class="line">arg_8= qword ptr  18h</span><br><span class="line"></span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">sub     rsp, 30h</span><br><span class="line">mov     [rbp+arg_0], ecx</span><br><span class="line">mov     [rbp+arg_8], rdx</span><br><span class="line">call    __main</span><br><span class="line">mov     ecx, 0Ah</span><br><span class="line">call    do_something</span><br><span class="line">mov     [rbp+var_4], eax</span><br><span class="line">mov     eax, [rbp+var_4]</span><br><span class="line">mov     edx, eax</span><br><span class="line">lea     rcx, Format     ; &quot;%d\n&quot;</span><br><span class="line">call    printf</span><br><span class="line">mov     eax, 0</span><br><span class="line">add     rsp, 30h</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">main endp</span><br></pre></td></tr></table></figure>
-
-<p>IDA Pro中的do_something函数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; Attributes: bp-based frame</span><br><span class="line"></span><br><span class="line">public do_something</span><br><span class="line">do_something proc near</span><br><span class="line">push    rbp</span><br><span class="line">mov     rbp, rsp</span><br><span class="line">xor     eax, eax</span><br><span class="line">mov     eax, ecx</span><br><span class="line">add     eax, eax</span><br><span class="line">mov     rsp, rbp</span><br><span class="line">pop     rbp</span><br><span class="line">retn</span><br><span class="line">do_something endp</span><br></pre></td></tr></table></figure>
-
-<p>很明显，这里do_something函数是fastcall。函数的调用规则不知道怎么修改，谷歌、SO查了好多也不行= =，等我再去看看吧。</p>
-<p>这算是认真研究汇编的一个开始吧，且行且珍惜。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4240,7 +4219,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

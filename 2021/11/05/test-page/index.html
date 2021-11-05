@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="666老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。 IDA Pro打开，就不看main了，直接进入核心函数： 123456789101112131415161718192021int __fastcall encode(const char *a1, __int64 a2)&amp;#12">
+<meta name="description" content="31231231">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ADWORLD [REV] 666">
-<meta property="og:url" content="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/index.html">
+<meta property="og:title" content="test page">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/11/05/test-page/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="666老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。 IDA Pro打开，就不看main了，直接进入核心函数： 123456789101112131415161718192021int __fastcall encode(const char *a1, __int64 a2)&amp;#12">
+<meta property="og:description" content="31231231">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-10-07T03:35:05.000Z">
-<meta property="article:modified_time" content="2021-10-07T03:41:41.551Z">
+<meta property="og:image" content="https://zsy-arch.github.io/test-page/image-20211105152005755.png">
+<meta property="article:published_time" content="2021-11-05T07:18:48.000Z">
+<meta property="article:modified_time" content="2021-11-05T07:20:20.481Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf, reverse, security, binary, exploit">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zsy-arch.github.io/test-page/image-20211105152005755.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/"/>
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/11/05/test-page/"/>
 
 
 
 
 
-  <title>ADWORLD [REV] 666 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  <title>test page | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
   
 
 
@@ -233,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/05/test-page/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -250,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ADWORLD [REV] 666</h1>
+          <h1 class="post-title" itemprop="name headline">test page</h1>
         
 
         <div class="post-meta">
@@ -262,8 +264,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-07T11:35:05+08:00">
-                2021-10-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-05T15:18:48+08:00">
+                2021-11-05
               </time>
             
 
@@ -300,17 +302,8 @@
       
 
       
-        <h2 id="666"><a href="#666" class="headerlink" title="666"></a>666</h2><p>老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。</p>
-<p>IDA Pro打开，就不看main了，直接进入核心函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">encode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, __int64 a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v3[<span class="number">104</span>]; <span class="comment">// [rsp+10h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [rsp+78h] [rbp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+7Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(a1) != key )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Your Length is Wrong&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; key; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3[i + <span class="number">64</span>] = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">    v3[i + <span class="number">33</span>] = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">    v3[i + <span class="number">2</span>] = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br><span class="line">    *(_BYTE *)(a2 + i) = v3[i + <span class="number">64</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">1LL</span>) = v3[i + <span class="number">33</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">2LL</span>) = v3[i + <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>key是一个全局变量，恒为0x12 。v3其实就是一个tmp数组不用管，for循环里的可以简化为：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_BYTE *)(a2 + i) = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">1LL</span>) = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">2LL</span>) = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br></pre></td></tr></table></figure>
-
-<p>解密脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">0x69</span>, <span class="number">0x7A</span>, <span class="number">0x77</span>, <span class="number">0x68</span>, <span class="number">0x72</span>, <span class="number">0x6F</span>, <span class="number">0x7A</span>, <span class="number">0x22</span>, <span class="number">0x22</span>, <span class="number">0x77</span>, <span class="number">0x22</span>, <span class="number">0x76</span>, <span class="number">0x2E</span>, <span class="number">0x4B</span>, <span class="number">0x22</span>, <span class="number">0x2E</span>, <span class="number">0x4E</span>, <span class="number">0x69</span>]</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(s))</span><br><span class="line">key = <span class="number">18</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &lt; key:</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i] ^ key) - <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">1</span>] ^ key) + <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">2</span>] ^ <span class="number">6</span>) ^ key)</span><br><span class="line">    i += <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
-
-<p>水完一节课，去吃饭了冲冲冲。</p>
+        <p><img src="/test-page/image-20211105152005755.png" alt="image-20211105152005755"></p>
+<p>31231231</p>
 
       
     </div>
@@ -335,8 +328,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/" rel="next" title="Win Kernel 链表">
-                <i class="fa fa-chevron-left"></i> Win Kernel 链表
+              <a href="/2021/11/01/CISCN-rev-babybc/" rel="next" title="CISCN [rev] babybc">
+                <i class="fa fa-chevron-left"></i> CISCN [rev] babybc
               </a>
             
           </div>
@@ -344,10 +337,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/10/08/ADWORLD-REV-HW-RE1/" rel="prev" title="ADWORLD [REV] HW_RE1">
-                ADWORLD [REV] HW_RE1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -399,17 +388,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -451,22 +431,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#666"><span class="nav-number">1.</span> <span class="nav-text">666</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
