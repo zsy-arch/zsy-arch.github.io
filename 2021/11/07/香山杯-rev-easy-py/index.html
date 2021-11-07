@@ -88,7 +88,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/1_decode.png">
 <meta property="article:published_time" content="2021-11-07T14:38:18.000Z">
-<meta property="article:modified_time" content="2021-11-07T14:44:06.684Z">
+<meta property="article:modified_time" content="2021-11-07T14:45:41.635Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf, reverse, security, binary, exploit">
 <meta name="twitter:card" content="summary">
@@ -309,6 +309,8 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">enc, length</span>):</span></span><br><span class="line">    <span class="keyword">if</span> length &gt; <span class="number">16</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        enc[length + i] ^= enc[i]</span><br><span class="line">    decode(enc, length &lt;&lt; <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
 <img src="/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/1_decode.png" class="" title="decode">
+
+<p>今日教训：比赛摸鱼不好好看题，痛失一血= =。</p>
 
       
     </div>
