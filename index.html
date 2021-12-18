@@ -230,6 +230,268 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/12/19/BUUOJ-rev-signal1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/12/19/BUUOJ-rev-signal1/" itemprop="url">BUUOJ [rev] signal1</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-19T01:59:58+08:00">
+                2021-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="BUUOJ-rev-signal1"><a href="#BUUOJ-rev-signal1" class="headerlink" title="BUUOJ [rev] signal1"></a>BUUOJ [rev] signal1</h1><p>时隔好久再次更新博客。（失踪人口回归，这段时间学习了下编译原理还要准备期末考试）。写个简单题练练手。</p>
+<img src="/2021/12/19/BUUOJ-rev-signal1/main.png" class="" title="main函数">
+
+<p>逻辑过于简单就不用F5了。 就是一个简单的虚拟机，虚拟机dispatcher在<code>__Z9vm_operadPii</code> 里面找。</p>
+<p>写个脚本试试:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">vm_codes = [<span class="number">0x0A</span>, <span class="number">0x4</span>, <span class="number">0x10</span>, <span class="number">0x8</span>, <span class="number">0x3</span>, <span class="number">0x5</span>, <span class="number">0x1</span>, <span class="number">0x4</span>, <span class="number">0x20</span>, <span class="number">0x8</span>, <span class="number">0x5</span>, <span class="number">0x3</span>, <span class="number">0x1</span>, <span class="number">0x3</span>, <span class="number">0x2</span>, <span class="number">0x8</span>, <span class="number">0x0B</span>, <span class="number">0x1</span>, <span class="number">0x0C</span>, <span class="number">0x8</span>,</span><br><span class="line">            <span class="number">0x4</span>, <span class="number">0x4</span>, <span class="number">0x1</span>, <span class="number">0x5</span>, <span class="number">0x3</span>, <span class="number">0x8</span>, <span class="number">0x3</span>, <span class="number">0x21</span>, <span class="number">0x1</span>, <span class="number">0x0B</span>, <span class="number">0x8</span>, <span class="number">0x0B</span>, <span class="number">0x1</span>, <span class="number">0x4</span>, <span class="number">0x9</span>, <span class="number">0x8</span>, <span class="number">0x3</span>, <span class="number">0x20</span>, <span class="number">0x1</span>, <span class="number">0x2</span>,</span><br><span class="line">            <span class="number">0x51</span>, <span class="number">0x8</span>, <span class="number">0x4</span>, <span class="number">0x24</span>, <span class="number">0x1</span>, <span class="number">0x0C</span>, <span class="number">0x8</span>, <span class="number">0x0B</span>, <span class="number">0x1</span>, <span class="number">0x5</span>, <span class="number">0x2</span>, <span class="number">0x8</span>, <span class="number">0x2</span>, <span class="number">0x25</span>, <span class="number">0x1</span>, <span class="number">0x2</span>, <span class="number">0x36</span>, <span class="number">0x8</span>, <span class="number">0x4</span>, <span class="number">0x41</span>,</span><br><span class="line">            <span class="number">0x1</span>, <span class="number">0x2</span>, <span class="number">0x20</span>, <span class="number">0x8</span>, <span class="number">0x5</span>, <span class="number">0x1</span>, <span class="number">0x1</span>, <span class="number">0x5</span>, <span class="number">0x3</span>, <span class="number">0x8</span>, <span class="number">0x2</span>, <span class="number">0x25</span>, <span class="number">0x1</span>, <span class="number">0x4</span>, <span class="number">0x9</span>, <span class="number">0x8</span>, <span class="number">0x3</span>, <span class="number">0x20</span>, <span class="number">0x1</span>, <span class="number">0x2</span>, <span class="number">0x41</span>,</span><br><span class="line">            <span class="number">0x8</span>, <span class="number">0x0C</span>, <span class="number">0x1</span>, <span class="number">0x7</span>, <span class="number">0x22</span>, <span class="number">0x7</span>, <span class="number">0x3F</span>, <span class="number">0x7</span>, <span class="number">0x34</span>, <span class="number">0x7</span>, <span class="number">0x32</span>, <span class="number">0x7</span>, <span class="number">0x72</span>, <span class="number">0x7</span>, <span class="number">0x33</span>, <span class="number">0x7</span>, <span class="number">0x18</span>, <span class="number">0x7</span>,</span><br><span class="line">            <span class="number">0x0FFFFFFA7</span>, <span class="number">0x7</span>, <span class="number">0x31</span>, <span class="number">0x7</span>, <span class="number">0x0FFFFFFF1</span>, <span class="number">0x7</span>, <span class="number">0x28</span>, <span class="number">0x7</span>, <span class="number">0x0FFFFFF84</span>, <span class="number">0x7</span>, <span class="number">0x0FFFFFFC1</span>, <span class="number">0x7</span>, <span class="number">0x1E</span>, <span class="number">0x7</span>,</span><br><span class="line">            <span class="number">0x7A</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dis_1</span>(<span class="params">codes</span>):</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="number">0x72</span>:</span><br><span class="line">        <span class="keyword">if</span> codes[i] == <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;Str[j_v6 + 100] = v4;</span></span><br><span class="line"><span class="string">    ++i_v9;</span></span><br><span class="line"><span class="string">    ++j_v6;</span></span><br><span class="line"><span class="string">    ++m_v8;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">2</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = a1[i_v9 + 1] + Str[m_v8];</span></span><br><span class="line"><span class="string">    i_v9 += 2;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">3</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = Str[m_v8] - LOBYTE(a1[i_v9 + 1]);</span></span><br><span class="line"><span class="string">    i_v9 += 2;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">4</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = a1[i_v9 + 1] ^ Str[m_v8];</span></span><br><span class="line"><span class="string">    i_v9 += 2;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">5</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = a1[i_v9 + 1] * Str[m_v8];</span></span><br><span class="line"><span class="string">    i_v9 += 2;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">6</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;    ++i_v9;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">7</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;if ( Str[v7 + 100] != a1[i_v9 + 1] )</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  printf(&quot;what a shame...&quot;);</span></span><br><span class="line"><span class="string">  exit(0);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">    ++v7;</span></span><br><span class="line"><span class="string">    i_v9 += 2;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">8</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;Str[v5] = v4;</span></span><br><span class="line"><span class="string">    ++i_v9;</span></span><br><span class="line"><span class="string">    ++v5;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">10</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;read(Str);</span></span><br><span class="line"><span class="string">    ++i_v9;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">11</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = Str[m_v8] - 1;</span></span><br><span class="line"><span class="string">    ++i_v9;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">12</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;v4 = Str[m_v8] + 1;</span></span><br><span class="line"><span class="string">    ++i_v9;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dis_2</span>(<span class="params">codes</span>):</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    m = <span class="number">0</span></span><br><span class="line">    v7 = <span class="number">0</span></span><br><span class="line">    v5 = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="number">0x72</span>:</span><br><span class="line">        <span class="keyword">if</span> codes[i] == <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;Str[<span class="subst">&#123;j&#125;</span> + 100] = tmp;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">            m += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">2</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = a1[<span class="subst">&#123;i&#125;</span> + 1] + Str[<span class="subst">&#123;m&#125;</span>];&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">3</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = Str[<span class="subst">&#123;m&#125;</span>] - LOBYTE(a1[<span class="subst">&#123;i&#125;</span> + 1]);&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">4</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = a1[<span class="subst">&#123;i&#125;</span> + 1] ^ Str[<span class="subst">&#123;m&#125;</span>];&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">5</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = a1[<span class="subst">&#123;i&#125;</span> + 1] * Str[<span class="subst">&#123;m&#125;</span>];&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">6</span>:</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">7</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;if ( Str[<span class="subst">&#123;v7&#125;</span> + 100] != a1[<span class="subst">&#123;i&#125;</span> + 1] )</span></span><br><span class="line"><span class="string">&#123;&#123;</span></span><br><span class="line"><span class="string">  printf(&quot;what a shame...&quot;);</span></span><br><span class="line"><span class="string">  exit(0);</span></span><br><span class="line"><span class="string">&#125;&#125;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">2</span></span><br><span class="line">            v7 += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">8</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;Str[<span class="subst">&#123;v5&#125;</span>] = tmp;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            v5 += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">10</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;&quot;&quot;read(Str);&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">11</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = Str[<span class="subst">&#123;m&#125;</span>] - 1;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> codes[i] == <span class="number">12</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;&quot;&quot;tmp = Str[<span class="subst">&#123;m&#125;</span>] + 1;&quot;&quot;&quot;</span>)</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dis_2(codes=vm_codes)</span><br></pre></td></tr></table></figure>
+
+<p>上面的脚本只是把虚拟机字节码转换成IDA得到的C代码，其实在脚本中可以直接逆向拿到flag，但是我时间比较多（bushi，没有想到）拿手算完了。</p>
+<img src="/2021/12/19/BUUOJ-rev-signal1/complete.png" class="" title="完成">
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/10/useless-for-u-2021-11-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/11/10/useless-for-u-2021-11-10/" itemprop="url">useless for u 2021-11-10</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-10T00:19:30+08:00">
+                2021-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>写这篇文章是为了能够让刚刚接触计算机的人能够快速形成一个对计算机的整体认知，也是对自己一个阶段的总结。想写的内容过多，所以这篇文章会不间断的更新。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>首先我们会了解计算机的硬件，了解CPU、主存、辅存等的功能，它们是如何共同运作的。</p>
+<p>同时会了解包括机器指令、汇编、C语言这三者的关系，为理解编译器，其他编译型语言以及解释型语言奠定好基础，然后我们会了解如何去分析写好的程序，即调试。</p>
+<p>有了一定的知识之后便可了解操作系统、系统中的程序是如何运行的，然后我们会了解虚拟机。当我们对单独的一台计算机有了充分的了解之后，便可去看看许多个计算机是如何一起工作的，也就是网络。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="一、计算机的产生"><a href="#一、计算机的产生" class="headerlink" title="一、计算机的产生"></a>一、计算机的产生</h3><p>这里任何一个百科都会比我讲的更详细，直接放链接了：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%94%B5%E5%AD%90%E8%AE%A1%E7%AE%97%E6%9C%BA#%E5%8E%86%E5%8F%B2">维基百科</a></p>
+<h3 id="二、CPU，存储设备，输入-输出设备"><a href="#二、CPU，存储设备，输入-输出设备" class="headerlink" title="二、CPU，存储设备，输入/输出设备"></a>二、CPU，存储设备，输入/输出设备</h3><p>很明显，计算机的功能不过就是：（1）计算（2）将结果展示出来。比如我们想让计算机能够计算<code>1 + 2</code>的结果并显示在屏幕中，第一步必定是要告诉计算机：我要你计算<code>1 + 2</code>，快点告诉我答案。这一步我们需要的就是输入设备，比如键盘，我们先输入数字1，再输入加号，最后输入2 。</p>
+<p>就像平时人与人交流一样，A指示B去做某一件事，B正确接收到指令，或者说要记住了去做的事之后才能完成要做的事。那么我们指示计算机去做某一件事，计算机也需要“记住”要做的事。</p>
+<p>这里就是需要存储设备了，在这个例子里，存储设备存储了数字1和2，同样也需要存储能够表示“加法”的一个东西，在这里我们还不知道什么能够表示“加法”，可能就是一个加法符号、一个程序用来标记加法指令的数字、汇编指令等等。</p>
+<p>当<code>1 + 2</code>这个指令存储到存储器里了，计算机的运算器——CPU便可以读取这个指令将运算后的结果<code>3</code>放回到存储器中。这样我们的运算就已经完成。</p>
+<p>我们的输入设备可以将人输入的东西传递给计算机，同样的，也可以使用输出设备将计算机中存储的东西显示给我们。这里就是将<code>3</code>展示出来，比如用显示屏。</p>
+<h3 id="三、存储设备"><a href="#三、存储设备" class="headerlink" title="三、存储设备"></a>三、存储设备</h3><p>CPU和存储设备可以说是计算机中的两大主角，我们先从存储设备说起。顾名思义，存储设备就是用来存储的，它存储了计算机所需的数据，不论是图片、视频、Word文档，还是程序、系统都可以说成数据，在计算机中的任何数据其实就是由二进制0和1组成的。</p>
+<p>比如上一节中的<code>1 + 2</code>，数字1用二进制表示就是<code>1</code>，数字2用二进制表示就是<code>10</code>，又如数字1000用二进制表示就是<code>1111101000</code>，以及加法指令也可以用二进制表示。</p>
+<p>用二进制来表示所有数据是因为计算机的运行需要用电，而电可以简单地分成高电平和低电平，比如我们现在有一个电容，如果这个电容里没有电荷或者说储存的电荷很少，那么它放出的电流可以说成是低电平，也就是这个电容里存储了二进制0，如果这个电容里存有很多电荷甚至存满了电荷，那么它放出的电流可以说成是高电平，也就是这个电容里存储了二进制1。</p>
+<p>那么我们可以用许多个类似电容的东西去存储电荷，并用高低电平来区分它们存储的是二进制位0还是1。</p>
+<p>一般来说我们的数据可能需要由很多个二进制位组成，我们需要一个工具能够方便地使用、管理这些二进制位，那就是字节。我们将存储器中每8个二进制位当作一个字节，以后这些二进制位就属于它所在的那个字节里。同样的，我们的存储器也分成了一个一个的字节，并且这些字节都有它自己在这个存储器里的地址。以后我们想访问某些字节时，告诉存储器我们要访问的字节的地址即可。另外，我们要访问字节中某些二进制位的话，需要使用位运算，包括：左移、右移、与、或、非。</p>
+<h3 id="四、CPU"><a href="#四、CPU" class="headerlink" title="四、CPU"></a>四、CPU</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3895,270 +4157,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/08/12/Sublime-text-4-GoFmter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/08/12/Sublime-text-4-GoFmter/" itemprop="url">Sublime text 4 GoFmter</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-12T22:59:04+08:00">
-                2021-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这几天在学习Go语言，又心血来潮向回去用用Sublime Text，发现已经Sublime Text 4了 = =，安装gofmt又一直不成功，就自己写了小插件，</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime</span><br><span class="line"><span class="keyword">import</span> sublime_plugin</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GofmterCommand</span>(<span class="params">sublime_plugin.TextCommand</span>):</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self, edit</span>):</span></span><br><span class="line">		fn = self.view.file_name()</span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">not</span> fn <span class="keyword">or</span> <span class="keyword">not</span> fn.endswith(<span class="string">&#x27;.go&#x27;</span>):</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">&#x27;not go file&#x27;</span>)</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">&#x27;find go file&#x27;</span>)</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">&#x27;ok&#x27;</span>)</span><br><span class="line">			si = subprocess.STARTUPINFO()</span><br><span class="line">			si.dwFlags |= subprocess.STARTF_USESHOWWINDOW</span><br><span class="line">			output = subprocess.check_output([<span class="string">&#x27;gofmt.exe&#x27;</span>, <span class="string">&#x27;%s&#x27;</span> % (fn)], startupinfo=si)</span><br><span class="line">			<span class="built_in">print</span>(output)</span><br><span class="line">			r = sublime.Region(<span class="number">0</span>, self.view.size())</span><br><span class="line">			self.view.replace(edit, r, output.decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br></pre></td></tr></table></figure>
-
-<p>可以添加快捷键，将command直接设为gofmter就行了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/07/16/WinDBG%E6%9F%A5%E7%9C%8B%E5%86%85%E6%A0%B8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" itemprop="url">WinDBG查看内核初始化过程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-16T15:59:59+08:00">
-                2021-07-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>环境：</strong></p>
-<ol>
-<li>host：Win11 预览版</li>
-<li>guest：VMwarre Pro 16 + Windows 10 18362 x64</li>
-<li>其他工具：VirtualKD-Redux、WinDBG</li>
-</ol>
-<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><ol>
-<li>打开VirtualKD-Redux，将<code>DbgBreakPoint() on start</code>勾选。</li>
-<li>开启虚拟机</li>
-<li>在VirtualKD-Redux中选中目标虚拟机，开启WinDBG</li>
-</ol>
-<h3 id="正式开启"><a href="#正式开启" class="headerlink" title="正式开启"></a>正式开启</h3><p>进入虚拟机后打开WinDBG，立即就触发了一个断点，在命令窗口输入kc，查看调用栈：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; kc</span><br><span class="line"> # Call Site</span><br><span class="line">00 nt!DebugService2</span><br><span class="line">01 nt!DbgLoadImageSymbols</span><br><span class="line">02 nt!KdInitSystem</span><br><span class="line">03 nt!KiSystemStartup</span><br></pre></td></tr></table></figure>
-
-<p>先来看看这个KiSystemStartup函数，顾名思义就是系统开始启动的地方，它接收一个参数——结构体LOADER_PARAMETER_BLOCK，先来看看结构体的定义：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dt nt!_LOADER_PARAMETER_BLOCK</span><br><span class="line">   +0x000 OsMajorVersion   : Uint4B</span><br><span class="line">   +0x004 OsMinorVersion   : Uint4B</span><br><span class="line">   +0x008 Size             : Uint4B</span><br><span class="line">   +0x00c OsLoaderSecurityVersion : Uint4B</span><br><span class="line">   +0x010 LoadOrderListHead : _LIST_ENTRY</span><br><span class="line">   +0x020 MemoryDescriptorListHead : _LIST_ENTRY</span><br><span class="line">   +0x030 BootDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x040 EarlyLaunchListHead : _LIST_ENTRY</span><br><span class="line">   +0x050 CoreDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x060 CoreExtensionsDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x070 TpmCoreDriverListHead : _LIST_ENTRY</span><br><span class="line">   +0x080 KernelStack      : Uint8B</span><br><span class="line">   +0x088 Prcb             : Uint8B</span><br><span class="line">   +0x090 Process          : Uint8B</span><br><span class="line">   +0x098 Thread           : Uint8B</span><br><span class="line">   +0x0a0 KernelStackSize  : Uint4B</span><br><span class="line">   +0x0a4 RegistryLength   : Uint4B</span><br><span class="line">   +0x0a8 RegistryBase     : Ptr64 Void</span><br><span class="line">   +0x0b0 ConfigurationRoot : Ptr64 _CONFIGURATION_COMPONENT_DATA</span><br><span class="line">   +0x0b8 ArcBootDeviceName : Ptr64 Char</span><br><span class="line">   +0x0c0 ArcHalDeviceName : Ptr64 Char</span><br><span class="line">   +0x0c8 NtBootPathName   : Ptr64 Char</span><br><span class="line">   +0x0d0 NtHalPathName    : Ptr64 Char</span><br><span class="line">   +0x0d8 LoadOptions      : Ptr64 Char</span><br><span class="line">   +0x0e0 NlsData          : Ptr64 _NLS_DATA_BLOCK</span><br><span class="line">   +0x0e8 ArcDiskInformation : Ptr64 _ARC_DISK_INFORMATION</span><br><span class="line">   +0x0f0 Extension        : Ptr64 _LOADER_PARAMETER_EXTENSION</span><br><span class="line">   +0x0f8 u                : &lt;anonymous-tag&gt;</span><br><span class="line">   +0x108 FirmwareInformation : _FIRMWARE_INFORMATION_LOADER_BLOCK</span><br><span class="line">   +0x148 OsBootstatPathName : Ptr64 Char</span><br><span class="line">   +0x150 ArcOSDataDeviceName : Ptr64 Char</span><br><span class="line">   +0x158 ArcWindowsSysPartName : Ptr64 Char</span><br></pre></td></tr></table></figure>
-
-<p>此时，也就是KiSystemStartup函数执行后，会将参数地址赋予全局变量KeLoaderBlock，来看一看：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dq nt!KeLoaderBlock L1</span><br><span class="line">fffff801`1ea1a3d8  fffff801`1d00df60</span><br></pre></td></tr></table></figure>
-
-<p>在内核启动结束后，KeLoaderBlock会被设置为0，现在并没有，来看看KeLoaderBlock所指向的结构体的具体内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; dt nt!_LOADER_PARAMETER_BLOCK fffff801`1d00df60</span><br><span class="line">   +0x000 OsMajorVersion   : 0xa</span><br><span class="line">   +0x004 OsMinorVersion   : 0</span><br><span class="line">   +0x008 Size             : 0x160</span><br><span class="line">   +0x00c OsLoaderSecurityVersion : 1</span><br><span class="line">   +0x010 LoadOrderListHead : _LIST_ENTRY [ 0xfffff801`1d120000 - 0xfffff801`1d1d2b60 ]</span><br><span class="line">   +0x020 MemoryDescriptorListHead : _LIST_ENTRY [ 0xfffff801`1d1fa000 - 0xfffff801`1d1fc148 ]</span><br><span class="line">   +0x030 BootDriverListHead : _LIST_ENTRY [ 0xfffff801`1d134d20 - 0xfffff801`1d132e40 ]</span><br><span class="line">   +0x040 EarlyLaunchListHead : _LIST_ENTRY [ 0xfffff801`1d1365b0 - 0xfffff801`1d1365b0 ]</span><br><span class="line">   +0x050 CoreDriverListHead : _LIST_ENTRY [ 0xfffff801`1d136760 - 0xfffff801`1d135200 ]</span><br><span class="line">   +0x060 CoreExtensionsDriverListHead : _LIST_ENTRY [ 0xfffff801`1d133b40 - 0xfffff801`1d136e60 ]</span><br><span class="line">   +0x070 TpmCoreDriverListHead : _LIST_ENTRY [ 0xfffff801`1d125bc0 - 0xfffff801`1d125bc0 ]</span><br><span class="line">   +0x080 KernelStack      : 0xfffff801`20c83000</span><br><span class="line">   +0x088 Prcb             : 0xfffff801`1d380180</span><br><span class="line">   +0x090 Process          : 0xfffff801`1ea349c0</span><br><span class="line">   +0x098 Thread           : 0xfffff801`1ea37400</span><br><span class="line">   +0x0a0 KernelStackSize  : 0x6000</span><br><span class="line">   +0x0a4 RegistryLength   : 0xb40000</span><br><span class="line">   +0x0a8 RegistryBase     : 0xfffff801`1d3fa000 Void</span><br><span class="line">   +0x0b0 ConfigurationRoot : 0xfffff801`1d03a480 _CONFIGURATION_COMPONENT_DATA</span><br><span class="line">   +0x0b8 ArcBootDeviceName : 0xfffff801`1d039fd0  &quot;multi(0)disk(0)rdisk(0)partition(3)&quot;</span><br><span class="line">   +0x0c0 ArcHalDeviceName : 0xfffff801`1d039ed0  &quot;multi(0)disk(0)rdisk(0)partition(1)&quot;</span><br><span class="line">   +0x0c8 NtBootPathName   : 0xfffff801`1d03e010  &quot;\Windows\&quot;</span><br><span class="line">   +0x0d0 NtHalPathName    : 0xfffff801`1d04d0b0  &quot;\&quot;</span><br><span class="line">   +0x0d8 LoadOptions      : 0xfffff801`1d03a1e0  &quot; TESTSIGNING  NOEXECUTE=OPTIN  DEBUG  DISABLE_INTEGRITY_CHECKS&quot;</span><br><span class="line">   +0x0e0 NlsData          : 0xfffff801`1d1beac0 _NLS_DATA_BLOCK</span><br><span class="line">   +0x0e8 ArcDiskInformation : 0xfffff801`1d0383d0 _ARC_DISK_INFORMATION</span><br><span class="line">   +0x0f0 Extension        : 0xfffff801`1d00e0c0 _LOADER_PARAMETER_EXTENSION</span><br><span class="line">   +0x0f8 u                : &lt;anonymous-tag&gt;</span><br><span class="line">   +0x108 FirmwareInformation : _FIRMWARE_INFORMATION_LOADER_BLOCK</span><br><span class="line">   +0x148 OsBootstatPathName : (null) </span><br><span class="line">   +0x150 ArcOSDataDeviceName : (null) </span><br><span class="line">   +0x158 ArcWindowsSysPartName : (null) </span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4209,7 +4207,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
