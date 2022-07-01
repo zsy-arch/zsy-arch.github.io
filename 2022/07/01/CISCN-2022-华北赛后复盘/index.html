@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="reverse ctf," />
 
 
 
@@ -79,20 +79,16 @@
 
 
 
-<meta name="description" content="逆向PYC文件： 123456789101112131415161718def encode(enc, length):    if length &#x3D;&#x3D; 0:        return 0    for i in range(length):        enc[length + i] ^&#x3D; enc[i]    encode(enc, length &gt;&gt; 1)tmp &#x3D; [100,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="香山杯 [rev] easy_py">
-<meta property="og:url" content="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/index.html">
+<meta property="og:title" content="CISCN 2022 华北赛后复盘">
+<meta property="og:url" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="逆向PYC文件： 123456789101112131415161718def encode(enc, length):    if length &#x3D;&#x3D; 0:        return 0    for i in range(length):        enc[length + i] ^&#x3D; enc[i]    encode(enc, length &gt;&gt; 1)tmp &#x3D; [100,">
 <meta property="og:locale">
-<meta property="og:image" content="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/1_decode.png">
-<meta property="article:published_time" content="2021-11-07T14:38:18.000Z">
-<meta property="article:modified_time" content="2021-11-07T14:45:41.635Z">
+<meta property="article:published_time" content="2022-07-01T02:27:06.000Z">
+<meta property="article:modified_time" content="2022-07-01T02:28:49.474Z">
 <meta property="article:author" content="zsy">
-<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta property="article:tag" content="reverse ctf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/1_decode.png">
 
 
 
@@ -122,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://zsy-arch.github.io/2021/11/07/香山杯-rev-easy-py/"/>
+  <link rel="canonical" href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-华北赛后复盘/"/>
 
 
 
 
 
-  <title>香山杯 [rev] easy_py | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  <title>CISCN 2022 华北赛后复盘 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
   
 
 
@@ -235,7 +231,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -252,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">香山杯 [rev] easy_py</h1>
+          <h1 class="post-title" itemprop="name headline">CISCN 2022 华北赛后复盘</h1>
         
 
         <div class="post-meta">
@@ -264,8 +260,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-07T22:38:18+08:00">
-                2021-11-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-07-01T10:27:06+08:00">
+                2022-07-01
               </time>
             
 
@@ -302,16 +298,7 @@
       
 
       
-        <p>逆向PYC文件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">enc, length</span>):</span></span><br><span class="line">    <span class="keyword">if</span> length == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        enc[length + i] ^= enc[i]</span><br><span class="line">    encode(enc, length &gt;&gt; <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">tmp = [<span class="number">100</span>, <span class="number">5</span>, <span class="number">87</span>, <span class="number">2</span>, <span class="number">86</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">84</span>, <span class="number">80</span>, <span class="number">2</span>, <span class="number">87</span>, <span class="number">80</span>, <span class="number">80</span>, <span class="number">86</span>, <span class="number">85</span>, <span class="number">2</span>, <span class="number">85</span>, <span class="number">87</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">87</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">84</span>, <span class="number">84</span>, <span class="number">11</span>, <span class="number">81</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">13</span>]</span><br><span class="line">flag = <span class="string">&quot;?&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(flag) != <span class="number">32</span>:</span><br><span class="line">    exit(<span class="number">0</span>)</span><br><span class="line">enc = <span class="built_in">map</span>(<span class="built_in">ord</span>, flag)</span><br><span class="line">encode(enc, <span class="built_in">len</span>(enc) &gt;&gt; <span class="number">1</span>)</span><br><span class="line"><span class="keyword">if</span> tmp == enc:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;yes&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;wrong&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>解密：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">enc, length</span>):</span></span><br><span class="line">    <span class="keyword">if</span> length &gt; <span class="number">16</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        enc[length + i] ^= enc[i]</span><br><span class="line">    decode(enc, length &lt;&lt; <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<img src="/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/1_decode.png" class="" title="decode">
-
-<p>今日教训：比赛摸鱼不好好看题，痛失一血= =。</p>
-
+        
       
     </div>
     
@@ -326,6 +313,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/reverse-ctf/" rel="tag"># reverse ctf</a>
+          
+        </div>
+      
 
       
       
@@ -335,8 +328,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/11/05/test-page/" rel="next" title="test page">
-                <i class="fa fa-chevron-left"></i> test page
+              <a href="/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/" rel="next" title="Windows驱动开发 用户层与内核层通信">
+                <i class="fa fa-chevron-left"></i> Windows驱动开发 用户层与内核层通信
               </a>
             
           </div>
@@ -344,10 +337,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/11/10/useless-for-u-2021-11-10/" rel="prev" title="useless for u 2021-11-10">
-                useless for u 2021-11-10 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

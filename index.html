@@ -230,6 +230,251 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/" itemprop="url">CISCN 2022 华北赛后复盘</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-07-01T10:27:06+08:00">
+                2022-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/" itemprop="url">Windows驱动开发 用户层与内核层通信</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-02-01T13:37:01+08:00">
+                2022-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="内核层"><a href="#内核层" class="headerlink" title="内核层"></a>内核层</h2><p>用户层与内核层通信可以使用<code>IoCreateDeviceSecure</code>函数创建的设备(Device)作为中间媒介<code>IoCreateDeviceSecure</code>在成功情况下会通过参数返回一个DeviceObject,此时的设备还不能直接被用户层程序使用,需要为其创建一个符号链接(Symbolic Link).</p>
+<p>创建好符号链接后可以被用户层程序使用.设备本身有自己的名字,比如<code>\\Device\\mydevice_1tyuf2uhiu</code>,符号链接可以理解为是供用户层使用的别名,比如<code>\\??\\mydevice_sym_1tyuf2uhiu</code>.</p>
+<p>另外,内核层的符号链接和用户层的符号链接也不太一样,比如对于<code>\\??\\mydevice_sym_1tyuf2uhiu</code>这个内核层的符号链接,在用户层访问需要改成<code>\\\\.\\mydevice_sym_1tyuf2uhiu</code>才能正确访问设备.</p>
+<p>根据MSDN的说法,通过IO请求传输数据给驱动需要使用IRP作为信息的载体,为驱动(Driver)设置Major Function的Dispatcher是因为IO请求包括许多类操作,包括从设备读取数据、向设备写入数据、开启/关闭设备等,这样就可以编写不同的Dispatcher函数来处理不同的IO请求.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ntifs.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wdmsec.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS <span class="title">DriverEntry</span><span class="params">(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)</span></span>;</span><br><span class="line"><span class="function">VOID <span class="title">DriverUnload</span><span class="params">(PDRIVER_OBJECT DriverObject)</span></span>;</span><br><span class="line"><span class="function">NTSTATUS <span class="title">MyDispatcher</span><span class="params">(IN PDEVICE_OBJECT Device, IN PIRP Irp)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> GUID DeviceClassGuid =</span><br><span class="line">&#123; <span class="number">0xe8ac357a</span>, <span class="number">0x4a7f</span>, <span class="number">0x46ce</span>, &#123; <span class="number">0xa1</span>, <span class="number">0x5e</span>, <span class="number">0x9d</span>, <span class="number">0x4c</span>, <span class="number">0x8a</span>, <span class="number">0x94</span>, <span class="number">0xb9</span>, <span class="number">0xd4</span> &#125; &#125;;</span><br><span class="line">PDEVICE_OBJECT DeviceObject;</span><br><span class="line">UNICODE_STRING DeviceName = <span class="built_in">RTL_CONSTANT_STRING</span>(<span class="string">L&quot;\\Device\\mydevice_1tyuf2uhiu&quot;</span>);</span><br><span class="line">UNICODE_STRING DeviceSymName = <span class="built_in">RTL_CONSTANT_STRING</span>(<span class="string">L&quot;\\??\\mydevice_sym_1tyuf2uhiu&quot;</span>);</span><br><span class="line">UNICODE_STRING SDDLString = <span class="built_in">RTL_CONSTANT_STRING</span>(<span class="string">L&quot;D:P(A;;GA;;;WD)&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CTL_CODE_SEND_PTR \</span></span><br><span class="line"><span class="meta">	(ULONG) CTL_CODE( \</span></span><br><span class="line"><span class="meta">	FILE_DEVICE_UNKNOWN, \</span></span><br><span class="line"><span class="meta">	0x900, \</span></span><br><span class="line"><span class="meta">	METHOD_BUFFERED, \</span></span><br><span class="line"><span class="meta">	FILE_WRITE_DATA \</span></span><br><span class="line"><span class="meta">	)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CTL_CODE_RECV_PTR \</span></span><br><span class="line"><span class="meta">	(ULONG) CTL_CODE( \</span></span><br><span class="line"><span class="meta">	FILE_DEVICE_UNKNOWN, \</span></span><br><span class="line"><span class="meta">	0x901, \</span></span><br><span class="line"><span class="meta">	METHOD_BUFFERED, \</span></span><br><span class="line"><span class="meta">	FILE_READ_DATA \</span></span><br><span class="line"><span class="meta">	)</span></span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS <span class="title">DriverEntry</span><span class="params">(PDRIVER_OBJECT _DriverObject, PUNICODE_STRING _RegistryPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS status = STATUS_SUCCESS;</span><br><span class="line">	_DriverObject-&gt;DriverUnload = DriverUnload;</span><br><span class="line">	<span class="built_in">DbgPrint</span>(<span class="string">&quot;[TEST] Hello World\r\n&quot;</span>);</span><br><span class="line">	status = <span class="built_in">IoCreateDeviceSecure</span>(</span><br><span class="line">		_DriverObject,</span><br><span class="line">		<span class="number">0</span>,</span><br><span class="line">		&amp;DeviceName,</span><br><span class="line">		FILE_DEVICE_UNKNOWN,</span><br><span class="line">		FILE_DEVICE_SECURE_OPEN,</span><br><span class="line">		FALSE,</span><br><span class="line">		&amp;SDDLString,</span><br><span class="line">		&amp;DeviceClassGuid,</span><br><span class="line">		&amp;DeviceObject</span><br><span class="line">	);</span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">NT_SUCCESS</span>(status))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> status;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">IoDeleteSymbolicLink</span>(&amp;DeviceSymName);</span><br><span class="line">	status = <span class="built_in">IoCreateSymbolicLink</span>(&amp;DeviceSymName, &amp;DeviceName);</span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">NT_SUCCESS</span>(status))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> status;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; IRP_MJ_MAXIMUM_FUNCTION; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		_DriverObject-&gt;MajorFunction[i] = MyDispatcher;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">VOID <span class="title">DriverUnload</span><span class="params">(PDRIVER_OBJECT _DriverObject)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">ASSERT</span>(DeviceObject != <span class="literal">NULL</span>);</span><br><span class="line">	<span class="built_in">IoDeleteSymbolicLink</span>(&amp;DeviceSymName);</span><br><span class="line">	<span class="built_in">IoDeleteDevice</span>(DeviceObject);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS <span class="title">MyDispatcher</span><span class="params">(IN PDEVICE_OBJECT _Device, IN PIRP _Irp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	PIO_STACK_LOCATION irpsp = <span class="built_in">IoGetCurrentIrpStackLocation</span>(_Irp);</span><br><span class="line">	NTSTATUS status = STATUS_SUCCESS;</span><br><span class="line">	ULONG ret_len = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (_Device == DeviceObject)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (irpsp-&gt;MajorFunction == IRP_MJ_CREATE || irpsp-&gt;MajorFunction == IRP_MJ_CLOSE)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (irpsp-&gt;MajorFunction == IRP_MJ_DEVICE_CONTROL)</span><br><span class="line">		&#123;</span><br><span class="line">			PVOID buffer = _Irp-&gt;AssociatedIrp.SystemBuffer;</span><br><span class="line">			ULONG inlen = irpsp-&gt;Parameters.DeviceIoControl.InputBufferLength;</span><br><span class="line">			ULONG outlen = irpsp-&gt;Parameters.DeviceIoControl.OutputBufferLength;</span><br><span class="line">			<span class="built_in"><span class="keyword">switch</span></span> (irpsp-&gt;Parameters.DeviceIoControl.IoControlCode)</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">case</span> CTL_CODE_SEND_PTR:</span><br><span class="line">				<span class="built_in">ASSERT</span>(buffer != <span class="literal">NULL</span>);</span><br><span class="line">				<span class="built_in">ASSERT</span>(inlen &gt; <span class="number">0</span>);</span><br><span class="line">				<span class="built_in">ASSERT</span>(outlen == <span class="number">0</span>);</span><br><span class="line">				<span class="built_in">DbgPrint</span>(<span class="string">&quot;[TEST] get buffer: %s\r\n&quot;</span>, (<span class="keyword">char</span>*)buffer);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> CTL_CODE_RECV_PTR:</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				status = STATUS_INVALID_PARAMETER;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	_Irp-&gt;IoStatus.Information = ret_len;</span><br><span class="line">	_Irp-&gt;IoStatus.Status = status;</span><br><span class="line">	<span class="built_in">IoCompleteRequest</span>(_Irp, IO_NO_INCREMENT);</span><br><span class="line">	<span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="用户层"><a href="#用户层" class="headerlink" title="用户层"></a>用户层</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CTL_CODE_SEND_PTR \</span></span><br><span class="line"><span class="meta">	(ULONG) CTL_CODE( \</span></span><br><span class="line"><span class="meta">	FILE_DEVICE_UNKNOWN, \</span></span><br><span class="line"><span class="meta">	0x900, \</span></span><br><span class="line"><span class="meta">	METHOD_BUFFERED, \</span></span><br><span class="line"><span class="meta">	FILE_WRITE_DATA \</span></span><br><span class="line"><span class="meta">	)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CTL_CODE_RECV_PTR \</span></span><br><span class="line"><span class="meta">	(ULONG) CTL_CODE( \</span></span><br><span class="line"><span class="meta">	FILE_DEVICE_UNKNOWN, \</span></span><br><span class="line"><span class="meta">	0x901, \</span></span><br><span class="line"><span class="meta">	METHOD_BUFFERED, \</span></span><br><span class="line"><span class="meta">	FILE_READ_DATA \</span></span><br><span class="line"><span class="meta">	)</span></span><br><span class="line"></span><br><span class="line">LPCWSTR DeviceSymName = <span class="string">L&quot;\\\\.\\mydevice_sym_1tyuf2uhiu&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	LPCSTR message = <span class="string">&quot;HELLO DEVICE.\r\n&quot;</span>;</span><br><span class="line">	HANDLE hDevice = <span class="built_in">CreateFile</span>(</span><br><span class="line">		DeviceSymName,</span><br><span class="line">		GENERIC_READ | GENERIC_WRITE,</span><br><span class="line">		<span class="number">0</span>,</span><br><span class="line">		<span class="literal">NULL</span>,</span><br><span class="line">		OPEN_EXISTING,</span><br><span class="line">		FILE_ATTRIBUTE_SYSTEM,</span><br><span class="line">		<span class="literal">NULL</span></span><br><span class="line">		);</span><br><span class="line">	DWORD ret_len = <span class="number">0</span>;</span><br><span class="line">	BOOL result = FALSE;</span><br><span class="line">	<span class="keyword">if</span> (hDevice == INVALID_HANDLE_VALUE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[-]Cannot create file handle. Error Code: %d\n&quot;</span>, <span class="built_in">GetLastError</span>());</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[+] Openning device successfully\n&quot;</span>);</span><br><span class="line">	result = <span class="built_in">DeviceIoControl</span>(hDevice, CTL_CODE_SEND_PTR, (LPVOID)message, <span class="built_in">strlen</span>(message) + <span class="number">1</span>, <span class="literal">NULL</span>, <span class="number">0</span>, &amp;ret_len, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">if</span> (!result)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[-]Cannot send message. Error Code: %d\n&quot;</span>, <span class="built_in">GetLastError</span>());</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[+] Sending message successfully\n&quot;</span>);</span><br><span class="line">	<span class="built_in">CloseHandle</span>(hDevice);</span><br><span class="line">	hDevice = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -567,126 +812,6 @@
         
           
             <h2 id="android-app-100"><a href="#android-app-100" class="headerlink" title="android-app-100"></a>android-app-100</h2><h2 id="Reversing-x64Elf-100"><a href="#Reversing-x64Elf-100" class="headerlink" title="Reversing-x64Elf-100"></a>Reversing-x64Elf-100</h2><h2 id="ReverseMe-120"><a href="#ReverseMe-120" class="headerlink" title="ReverseMe-120"></a>ReverseMe-120</h2><h2 id="re2-cpp-is-awesome"><a href="#re2-cpp-is-awesome" class="headerlink" title="re2-cpp-is-awesome"></a>re2-cpp-is-awesome</h2><h2 id="serial-150"><a href="#serial-150" class="headerlink" title="serial-150"></a>serial-150</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/" itemprop="url">adworld [rev] reverse-for-the-holy-grail-350</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-23T02:13:36+08:00">
-                2021-12-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>太困了，直接上脚本。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">firstChars = [<span class="number">0x41</span>, <span class="number">0x69</span>, <span class="number">0x6E</span>, <span class="number">0x45</span>, <span class="number">0x6F</span>, <span class="number">0x61</span>]</span><br><span class="line">thirdChars = [<span class="number">0x02EF</span>, <span class="number">0x02C4</span>, <span class="number">0x02DC</span>, <span class="number">0x02C7</span>, <span class="number">0x02DE</span>, <span class="number">0x02FC</span>]</span><br><span class="line">masterArray = [<span class="number">0x1D7</span>, <span class="number">0x0C</span>, <span class="number">0x244</span>, <span class="number">0x25E</span>, <span class="number">0x93</span>, <span class="number">0x6C</span>]</span><br><span class="line">flag = [<span class="number">0</span>] * <span class="number">18</span></span><br><span class="line">hashCode = <span class="number">666</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">18</span>, <span class="number">3</span>):</span><br><span class="line">    flag[i] = firstChars[j]</span><br><span class="line">    tmp = hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">128</span>):</span><br><span class="line">        <span class="keyword">if</span> (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:</span><br><span class="line">            flag[i + <span class="number">1</span>] = k</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    flag[i + <span class="number">2</span>] = thirdChars[j] ^ hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">chr</span>, flag))))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
           
         
       
@@ -3960,127 +4085,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/08/20/Golang-deferred%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/08/20/Golang-deferred%E5%87%BD%E6%95%B0/" itemprop="url">Golang deferred函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-20T23:28:57+08:00">
-                2021-08-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="deferred函数调用"><a href="#deferred函数调用" class="headerlink" title="deferred函数调用"></a>deferred函数调用</h2><p>在大多数编程语言中，一个函数结束后便会返回到调用者的代码处，但是Go语言提供了一个关键词<strong>deferred</strong>，可以实现函数返回后先执行<code>deferred</code>指定的一个或几个函数，当这些deferred函数全部执行完毕后，再回到调用者的代码处。</p>
-<h2 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">(a <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;defer1&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (a &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;a &gt;= 0&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;a &lt; 0&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> -a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4131,7 +4135,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4139,6 +4143,15 @@
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
             
 
           </nav>
