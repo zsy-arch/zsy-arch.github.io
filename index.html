@@ -301,7 +301,21 @@
       
         
           
-            <h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><h2 id="rtMaze"><a href="#rtMaze" class="headerlink" title="rtMaze"></a>rtMaze</h2><img src="/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-ida.png" class="" title="CISCN-2022-华北赛后复盘">
+            <h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><h2 id="rtMaze"><a href="#rtMaze" class="headerlink" title="rtMaze"></a>rtMaze</h2><p>首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM. </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [ ! -f &quot;sd.bin&quot; ]; then</span><br><span class="line">dd if=/dev/zero of=sd.bin bs=1024 count=65536</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">qemu-system-arm -M vexpress-a9 -smp cpus=2 -kernel rtMaze.bin -serial stdio -sd sd.bin -show-cursor</span><br></pre></td></tr></table></figure>
+
+<p>使用IDA打开rmMaze.bin, 将基址设为0x60010000. </p>
+<img src="/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-ida.png" class="" title="IDA">
+
+<p>由<code>LDR PC, =sub_6001E684</code>可知固件入口函数是在sub_6001E684.<br>固件里的函数太多, 直接搜索flag字符串:</p>
+<img src="/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-string.png" class="" title="string">
+
+<p>在字符串<code>input your flag: /&gt;</code>这里, 发现有xref, 跳转到<code>sub_600100B4</code>: </p>
+<img src="/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-xref.png" class="" title="string">
+
+<p>基本可以判断<code>sub_600100B4</code>就是我们要找的核心函数: </p>
+
+
 
           
         
@@ -2763,17 +2777,17 @@
       
         
           
-            <h2 id="666"><a href="#666" class="headerlink" title="666"></a>666</h2><p>老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。</p>
-<p>IDA Pro打开，就不看main了，直接进入核心函数：</p>
+            <h2 id="666"><a href="#666" class="headerlink" title="666"></a>666</h2><p>老题新做了属于是.本来是一道入门级题目,但是当年想不出来是因为对这种类似crypt的题目比较生疏.越学越发现密码学确实对逆向手来说很重要,趁着水课时间来回忆一下.</p>
+<p>IDA Pro打开,就不看main了,直接进入核心函数:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">encode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, __int64 a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v3[<span class="number">104</span>]; <span class="comment">// [rsp+10h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [rsp+78h] [rbp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+7Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(a1) != key )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Your Length is Wrong&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; key; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3[i + <span class="number">64</span>] = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">    v3[i + <span class="number">33</span>] = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">    v3[i + <span class="number">2</span>] = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br><span class="line">    *(_BYTE *)(a2 + i) = v3[i + <span class="number">64</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">1LL</span>) = v3[i + <span class="number">33</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">2LL</span>) = v3[i + <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>key是一个全局变量，恒为0x12 。v3其实就是一个tmp数组不用管，for循环里的可以简化为：</p>
+<p>key是一个全局变量,恒为0x12 .v3其实就是一个tmp数组不用管,for循环里的可以简化为:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_BYTE *)(a2 + i) = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">1LL</span>) = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">2LL</span>) = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br></pre></td></tr></table></figure>
 
-<p>解密脚本：</p>
+<p>解密脚本:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">0x69</span>, <span class="number">0x7A</span>, <span class="number">0x77</span>, <span class="number">0x68</span>, <span class="number">0x72</span>, <span class="number">0x6F</span>, <span class="number">0x7A</span>, <span class="number">0x22</span>, <span class="number">0x22</span>, <span class="number">0x77</span>, <span class="number">0x22</span>, <span class="number">0x76</span>, <span class="number">0x2E</span>, <span class="number">0x4B</span>, <span class="number">0x22</span>, <span class="number">0x2E</span>, <span class="number">0x4E</span>, <span class="number">0x69</span>]</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(s))</span><br><span class="line">key = <span class="number">18</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &lt; key:</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i] ^ key) - <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">1</span>] ^ key) + <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">2</span>] ^ <span class="number">6</span>) ^ key)</span><br><span class="line">    i += <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
 
-<p>水完一节课，去吃饭了冲冲冲。</p>
+<p>水完一节课,去吃饭了冲冲冲.</p>
 
           
         
