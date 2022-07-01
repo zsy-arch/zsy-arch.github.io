@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="666老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。 IDA Pro打开，就不看main了，直接进入核心函数： 123456789101112131415161718192021int __fastcall encode(const char *a1, __int64 a2)&amp;#12">
+<meta name="description" content="太困了,直接上脚本. 12345678910111213141516171819202122firstChars &#x3D; [0x41, 0x69, 0x6E, 0x45, 0x6F, 0x61]thirdChars &#x3D; [0x02EF, 0x02C4, 0x02DC, 0x02C7, 0x02DE, 0x02FC]masterArray &#x3D; [0x1D7, 0x0C, 0x244, 0x25E, 0x">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ADWORLD [REV] 666">
-<meta property="og:url" content="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/index.html">
+<meta property="og:title" content="adworld [rev] reverse-for-the-holy-grail-350">
+<meta property="og:url" content="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="666老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。 IDA Pro打开，就不看main了，直接进入核心函数： 123456789101112131415161718192021int __fastcall encode(const char *a1, __int64 a2)&amp;#12">
+<meta property="og:description" content="太困了,直接上脚本. 12345678910111213141516171819202122firstChars &#x3D; [0x41, 0x69, 0x6E, 0x45, 0x6F, 0x61]thirdChars &#x3D; [0x02EF, 0x02C4, 0x02DC, 0x02C7, 0x02DE, 0x02FC]masterArray &#x3D; [0x1D7, 0x0C, 0x244, 0x25E, 0x">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-10-07T03:35:05.000Z">
-<meta property="article:modified_time" content="2021-10-07T03:41:41.551Z">
+<meta property="article:published_time" content="2021-12-22T18:13:36.000Z">
+<meta property="article:modified_time" content="2022-07-01T02:34:15.156Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf, reverse, security, binary, exploit">
 <meta name="twitter:card" content="summary">
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/"/>
+  <link rel="canonical" href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/"/>
 
 
 
 
 
-  <title>ADWORLD [REV] 666 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  <title>adworld [rev] reverse-for-the-holy-grail-350 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ADWORLD [REV] 666</h1>
+          <h1 class="post-title" itemprop="name headline">adworld [rev] reverse-for-the-holy-grail-350</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-07T11:35:05+08:00">
-                2021-10-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-23T02:13:36+08:00">
+                2021-12-23
               </time>
             
 
@@ -300,18 +300,8 @@
       
 
       
-        <h2 id="666"><a href="#666" class="headerlink" title="666"></a>666</h2><p>老题新做了属于是。本来是一道入门级题目，但是当年想不出来是因为对这种类似crypt的题目比较生疏。越学越发现密码学确实对逆向手来说很重要，趁着水课时间来回忆一下。</p>
-<p>IDA Pro打开，就不看main了，直接进入核心函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">encode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, __int64 a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v3[<span class="number">104</span>]; <span class="comment">// [rsp+10h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [rsp+78h] [rbp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+7Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(a1) != key )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Your Length is Wrong&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; key; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3[i + <span class="number">64</span>] = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">    v3[i + <span class="number">33</span>] = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">    v3[i + <span class="number">2</span>] = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br><span class="line">    *(_BYTE *)(a2 + i) = v3[i + <span class="number">64</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">1LL</span>) = v3[i + <span class="number">33</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">2LL</span>) = v3[i + <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>key是一个全局变量，恒为0x12 。v3其实就是一个tmp数组不用管，for循环里的可以简化为：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_BYTE *)(a2 + i) = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">1LL</span>) = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">2LL</span>) = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br></pre></td></tr></table></figure>
-
-<p>解密脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">0x69</span>, <span class="number">0x7A</span>, <span class="number">0x77</span>, <span class="number">0x68</span>, <span class="number">0x72</span>, <span class="number">0x6F</span>, <span class="number">0x7A</span>, <span class="number">0x22</span>, <span class="number">0x22</span>, <span class="number">0x77</span>, <span class="number">0x22</span>, <span class="number">0x76</span>, <span class="number">0x2E</span>, <span class="number">0x4B</span>, <span class="number">0x22</span>, <span class="number">0x2E</span>, <span class="number">0x4E</span>, <span class="number">0x69</span>]</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(s))</span><br><span class="line">key = <span class="number">18</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &lt; key:</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i] ^ key) - <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">1</span>] ^ key) + <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">2</span>] ^ <span class="number">6</span>) ^ key)</span><br><span class="line">    i += <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
-
-<p>水完一节课，去吃饭了冲冲冲。</p>
-
+        <p>太困了,直接上脚本.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">firstChars = [<span class="number">0x41</span>, <span class="number">0x69</span>, <span class="number">0x6E</span>, <span class="number">0x45</span>, <span class="number">0x6F</span>, <span class="number">0x61</span>]</span><br><span class="line">thirdChars = [<span class="number">0x02EF</span>, <span class="number">0x02C4</span>, <span class="number">0x02DC</span>, <span class="number">0x02C7</span>, <span class="number">0x02DE</span>, <span class="number">0x02FC</span>]</span><br><span class="line">masterArray = [<span class="number">0x1D7</span>, <span class="number">0x0C</span>, <span class="number">0x244</span>, <span class="number">0x25E</span>, <span class="number">0x93</span>, <span class="number">0x6C</span>]</span><br><span class="line">flag = [<span class="number">0</span>] * <span class="number">18</span></span><br><span class="line">hashCode = <span class="number">666</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">18</span>, <span class="number">3</span>):</span><br><span class="line">    flag[i] = firstChars[j]</span><br><span class="line">    tmp = hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">128</span>):</span><br><span class="line">        <span class="keyword">if</span> (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:</span><br><span class="line">            flag[i + <span class="number">1</span>] = k</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    flag[i + <span class="number">2</span>] = thirdChars[j] ^ hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">chr</span>, flag))))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -335,8 +325,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/10/07/Win-Kernel-%E9%93%BE%E8%A1%A8/" rel="next" title="Win Kernel 链表">
-                <i class="fa fa-chevron-left"></i> Win Kernel 链表
+              <a href="/2021/12/21/adworld-rev-babymips/" rel="next" title="adworld [rev] babymips">
+                <i class="fa fa-chevron-left"></i> adworld [rev] babymips
               </a>
             
           </div>
@@ -345,8 +335,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/10/08/ADWORLD-REV-HW-RE1/" rel="prev" title="ADWORLD [REV] HW_RE1">
-                ADWORLD [REV] HW_RE1 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/" rel="prev" title="2021-2022 CTF寒假训练Week1-12/27-1/2">
+                2021-2022 CTF寒假训练Week1-12/27-1/2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -399,17 +389,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -460,22 +441,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#666"><span class="nav-number">1.</span> <span class="nav-text">666</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

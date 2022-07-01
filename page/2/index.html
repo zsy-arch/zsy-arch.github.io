@@ -230,6 +230,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/08/28/corCTF2021-%E5%A4%8D%E7%9B%98/" itemprop="url">corCTF2021 复盘</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-28T12:42:54+08:00">
+                2021-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="babyrev"><a href="#babyrev" class="headerlink" title="babyrev"></a>babyrev</h2><ol>
+<li>memfrob函数：将字符串的每个字符与42进行异或实现加密。</li>
+</ol>
+<p>解密脚本:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_prime</span>(<span class="params">n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">bool</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    i = <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> i &lt;= n // <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">if</span> n % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rot_n</span>(<span class="params">c, n</span>):</span></span><br><span class="line">    ASCII_UPPER = <span class="string">&#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#x27;</span></span><br><span class="line">    ASCII_LOWER = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyz&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> c <span class="keyword">in</span> ASCII_UPPER:</span><br><span class="line">        <span class="keyword">return</span> ASCII_UPPER[(ASCII_UPPER.index(c) + n) % <span class="number">26</span>]</span><br><span class="line">    <span class="keyword">elif</span> c <span class="keyword">in</span> ASCII_LOWER:</span><br><span class="line">        <span class="keyword">return</span> ASCII_LOWER[(ASCII_LOWER.index(c) + n) % <span class="number">26</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">check = [<span class="number">0x5f</span>, <span class="number">0x40</span>, <span class="number">0x5a</span>, <span class="number">0x15</span>, <span class="number">0x75</span>, <span class="number">0x45</span>, <span class="number">0x62</span>, <span class="number">0x53</span>, <span class="number">0x75</span>, <span class="number">0x46</span>, <span class="number">0x52</span>, <span class="number">0x43</span>, <span class="number">0x5f</span>, <span class="number">0x75</span>, <span class="number">0x50</span>, <span class="number">0x52</span>, <span class="number">0x75</span>, <span class="number">0x5f</span>,</span><br><span class="line">         <span class="number">0x5c</span>, <span class="number">0x4f</span>]</span><br><span class="line"><span class="comment"># memfrob</span></span><br><span class="line">check = [c ^ <span class="number">42</span> <span class="keyword">for</span> c <span class="keyword">in</span> check]</span><br><span class="line">flag = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(check)):</span><br><span class="line">    p = <span class="number">4</span> * i</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> is_prime(p):</span><br><span class="line">        p += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(rot_n(<span class="built_in">chr</span>(check[i]), -p), end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/08/20/Golang-deferred%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2326,7 +2450,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
