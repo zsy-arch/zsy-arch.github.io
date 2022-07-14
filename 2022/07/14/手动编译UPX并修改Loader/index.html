@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="编译UPX源码获取UPX源码123git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;upx&#x2F;upx.git # --recursive 用于将lzma-sdk子模块一并获取cd upx  安装&amp;配置必要库12sudo apt install libucl-dev zlib1g-dev zlib1g zlib1g:i386sudo ln -s &#x2F;usr&#x2F;lib">
+<meta name="description" content="编译UPX源码系统环境:  Ubuntu 22.04 Python 2 Gcc 11, G++ 11, Make 4.3  获取UPX源码123git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;upx&#x2F;upx.git # --recursive 用于将lzma-sdk子模块一并获取cd upx  安装&amp;配置必要库12sudo apt install libu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="手动编译UPX并修改Loader">
 <meta property="og:url" content="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="编译UPX源码获取UPX源码123git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;upx&#x2F;upx.git # --recursive 用于将lzma-sdk子模块一并获取cd upx  安装&amp;配置必要库12sudo apt install libucl-dev zlib1g-dev zlib1g zlib1g:i386sudo ln -s &#x2F;usr&#x2F;lib">
+<meta property="og:description" content="编译UPX源码系统环境:  Ubuntu 22.04 Python 2 Gcc 11, G++ 11, Make 4.3  获取UPX源码123git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;upx&#x2F;upx.git # --recursive 用于将lzma-sdk子模块一并获取cd upx  安装&amp;配置必要库12sudo apt install libu">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-07-14T05:44:02.000Z">
-<meta property="article:modified_time" content="2022-07-14T06:05:08.490Z">
+<meta property="article:modified_time" content="2022-07-14T06:11:10.191Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="UPX">
 <meta property="article:tag" content="Binary Security">
@@ -301,9 +301,15 @@
       
 
       
-        <h1 id="编译UPX源码"><a href="#编译UPX源码" class="headerlink" title="编译UPX源码"></a>编译UPX源码</h1><h2 id="获取UPX源码"><a href="#获取UPX源码" class="headerlink" title="获取UPX源码"></a>获取UPX源码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/upx/upx.git </span><br><span class="line"><span class="comment"># --recursive 用于将lzma-sdk子模块一并获取</span></span><br><span class="line"><span class="built_in">cd</span> upx</span><br></pre></td></tr></table></figure>
+        <h1 id="编译UPX源码"><a href="#编译UPX源码" class="headerlink" title="编译UPX源码"></a>编译UPX源码</h1><p>系统环境:</p>
+<ul>
+<li>Ubuntu 22.04</li>
+<li>Python 2</li>
+<li>Gcc 11, G++ 11, Make 4.3</li>
+</ul>
+<h2 id="获取UPX源码"><a href="#获取UPX源码" class="headerlink" title="获取UPX源码"></a>获取UPX源码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/upx/upx.git </span><br><span class="line"><span class="comment"># --recursive 用于将lzma-sdk子模块一并获取</span></span><br><span class="line"><span class="built_in">cd</span> upx</span><br></pre></td></tr></table></figure>
 
-<h2 id="安装-amp-配置必要库"><a href="#安装-amp-配置必要库" class="headerlink" title="安装&amp;配置必要库"></a>安装&amp;配置必要库</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libucl-dev zlib1g-dev zlib1g zlib1g:i386</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4</span><br></pre></td></tr></table></figure>
+<h2 id="安装-amp-配置必要库"><a href="#安装-amp-配置必要库" class="headerlink" title="安装&amp;配置必要库"></a>安装&amp;配置必要库</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libucl-dev zlib1g-dev zlib1g zlib1g:i386 libmpfr6</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4</span><br></pre></td></tr></table></figure>
 
 <h2 id="下载UPX-STUBTOOLS"><a href="#下载UPX-STUBTOOLS" class="headerlink" title="下载UPX-STUBTOOLS"></a>下载UPX-STUBTOOLS</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/<span class="built_in">local</span>/bin</span><br><span class="line"><span class="built_in">cd</span> ~/<span class="built_in">local</span>/bin</span><br><span class="line">wget https://github.com/upx/upx-stubtools/releases/download/v20210104/bin-upx-20210104.tar.xz</span><br><span class="line">tar xvJf bin-upx-20210104.tar.xz</span><br><span class="line">mv bin-upx-20210104 bin-upx</span><br><span class="line"><span class="built_in">cd</span> - <span class="comment"># 回到UPX源码根目录</span></span><br></pre></td></tr></table></figure>
 
