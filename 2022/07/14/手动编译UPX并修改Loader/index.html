@@ -87,8 +87,9 @@
 <meta property="og:description" content="编译UPX源码系统环境:  Ubuntu 22.04 Python 2 Gcc 11, G++ 11, Make 4.3  获取UPX源码123git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;upx&#x2F;upx.git # --recursive 用于将lzma-sdk子模块一并获取cd upx  安装&amp;配置必要库12sudo apt install libu">
 <meta property="og:locale">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/pic1.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/pic2.png">
 <meta property="article:published_time" content="2022-07-14T05:44:02.000Z">
-<meta property="article:modified_time" content="2022-07-14T06:16:10.243Z">
+<meta property="article:modified_time" content="2022-07-14T06:29:02.492Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="UPX">
 <meta property="article:tag" content="Binary Security">
@@ -317,10 +318,23 @@
 
 <h2 id="编译UPX源码-1"><a href="#编译UPX源码-1" class="headerlink" title="编译UPX源码"></a>编译UPX源码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make all <span class="comment"># 编译</span></span><br><span class="line">./src/upx.out <span class="comment"># 运行UPX</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="修改UPX-Loader"><a href="#修改UPX-Loader" class="headerlink" title="修改UPX Loader"></a>修改UPX Loader</h1><p>UPX的Loader用于加载、解压, 在src/stub/src目录下可以看到这种名字为<code>架构-系统.类型.S</code>的汇编代码文件, 比如<code>i386-linux.elf-entry.S</code>和<code>amd64-win64.pep.S</code>.</p>
-<p>修改这些代码然后重新编译UPX(<code>make all</code>)就可以了.</p>
+<h1 id="修改UPX-Loader"><a href="#修改UPX-Loader" class="headerlink" title="修改UPX Loader"></a>修改UPX Loader</h1><p>UPX的Loader用于加载、解压, 在src/stub/src目录下可以看到这种名字为<code>架构-系统.类型.S</code>的汇编代码文件, 比如<code>i386-linux.elf-entry.S</code>和<code>amd64-win64.pep.S</code>. 修改这些代码然后重新编译UPX(<code>make all</code>)就可以了.</p>
+<p>以<code>amd64-win64.pep.S</code>为例(也就是Windows 64位PE):</p>
+<p>我们在section PEMAIN01中加入以下代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nop</span><br><span class="line">push rax</span><br><span class="line">mov rax, 0x1234</span><br><span class="line">pop rax</span><br><span class="line">nop</span><br></pre></td></tr></table></figure>
+
 <img src="/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/pic1.png" class="" title="custom loader">
 
+<p>保存修改后,重新编译UPX:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make all</span><br></pre></td></tr></table></figure>
+
+<p>然后对某个程序进行加壳(<code>tests/test1.exe</code>是一个我自己写的Hello World测试程序, 且使用Windows 64位编译器中编译):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">zsy@ubuntu:/mnt/hgfs/E/CODE/git/upx$ file tests/test1.exe</span><br><span class="line">tests/test1.exe: PE32+ executable (console) x86-64, for MS Windows</span><br><span class="line"></span><br><span class="line">zsy@ubuntu:/mnt/hgfs/E/CODE/git/upx$ ./src/upx.out tests/test1.exe -o tests/test1-p1.exe</span><br><span class="line">                       Ultimate Packer for eXecutables</span><br><span class="line">                          Copyright (C) 1996 - 2021</span><br><span class="line">UPX git-d61edc+ Markus Oberhumer, Laszlo Molnar &amp; John Reiser    Jan 1st 2021</span><br><span class="line"></span><br><span class="line">        File size         Ratio      Format      Name</span><br><span class="line">   --------------------   ------   -----------   -----------</span><br><span class="line">    297288 -&gt;    135496   45.58%    win64/pe     test1-p1.exe</span><br><span class="line"></span><br><span class="line">Packed 1 file.</span><br><span class="line"></span><br><span class="line">WARNING: this is an unstable beta version - use for testing only! Really.</span><br></pre></td></tr></table></figure>
+
+<p>使用IDA打开UPX加壳后的<code>test1-p1.exe</code>:</p>
+<img src="/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/pic2.png" class="" title="IDA">
+
+<p>可以发现UPX Loader已经成功修改.</p>
 
       
     </div>
