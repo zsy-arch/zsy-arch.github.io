@@ -230,6 +230,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/" itemprop="url">手动编译UPX并修改Loader</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-07-14T13:44:02+08:00">
+                2022-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="编译UPX源码"><a href="#编译UPX源码" class="headerlink" title="编译UPX源码"></a>编译UPX源码</h1><h2 id="获取UPX源码"><a href="#获取UPX源码" class="headerlink" title="获取UPX源码"></a>获取UPX源码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/upx/upx.git </span><br><span class="line"><span class="comment"># --recursive 用于将lzma-sdk子模块一并获取</span></span><br><span class="line"><span class="built_in">cd</span> upx</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-amp-配置必要库"><a href="#安装-amp-配置必要库" class="headerlink" title="安装&amp;配置必要库"></a>安装&amp;配置必要库</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libucl-dev zlib1g-dev zlib1g zlib1g:i386</span><br><span class="line">sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载UPX-STUBTOOLS"><a href="#下载UPX-STUBTOOLS" class="headerlink" title="下载UPX-STUBTOOLS"></a>下载UPX-STUBTOOLS</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/<span class="built_in">local</span>/bin</span><br><span class="line"><span class="built_in">cd</span> ~/<span class="built_in">local</span>/bin</span><br><span class="line">wget https://github.com/upx/upx-stubtools/releases/download/v20210104/bin-upx-20210104.tar.xz</span><br><span class="line">tar xvJf bin-upx-20210104.tar.xz</span><br><span class="line">mv bin-upx-20210104 bin-upx</span><br><span class="line"><span class="built_in">cd</span> - <span class="comment"># 回到UPX源码根目录</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="编译UPX源码-1"><a href="#编译UPX源码-1" class="headerlink" title="编译UPX源码"></a>编译UPX源码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make all <span class="comment"># 编译</span></span><br><span class="line">./src/upx.out <span class="comment"># 运行UPX</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="修改UPX-Loader"><a href="#修改UPX-Loader" class="headerlink" title="修改UPX Loader"></a>修改UPX Loader</h1><p>UPX的Loader用于加载、解压, 在src/stub/src目录下可以看到这种名字为<code>架构-系统.类型.S</code>的汇编代码文件, 比如<code>i386-linux.elf-entry.S</code>和<code>amd64-win64.pep.S</code>.</p>
+<p>修改这些代码然后重新编译UPX(<code>make all</code>)就可以了.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4052,127 +4181,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/08/28/C-argument-dependent-name-lookup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/08/28/C-argument-dependent-name-lookup/" itemprop="url">C++ argument-dependent name lookup</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-28T14:55:15+08:00">
-                2021-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>概念：函数中参数的命名空间会添加到函数搜索列表中。</p>
-<p>示例：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> X &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(C c)</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;X::foo&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    X::C c;</span><br><span class="line">    <span class="built_in">foo</span>(c);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4223,7 +4231,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4236,7 +4244,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
