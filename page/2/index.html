@@ -230,6 +230,138 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/" itemprop="url">CSAPP 1 - 原码、反码、补码、IEEE 754 实战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-01T22:03:02+08:00">
+                2021-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="求任意数x的补码"><a href="#求任意数x的补码" class="headerlink" title="求任意数x的补码"></a>求任意数x的补码</h2><ol>
+<li>求x绝对值abs(x)的原码为Bin_1，比如 <code>0001 0100</code></li>
+<li>如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。</li>
+<li>从右向左开始，找到第一个为1的二进制位，此二进制位<strong>左侧</strong>且<strong>不包括</strong>它的取反码为Bin_2。</li>
+</ol>
+<p>此例中，Bin_2 = 1110 1100</p>
+<h2 id="求浮点数y的IEEE-754格式"><a href="#求浮点数y的IEEE-754格式" class="headerlink" title="求浮点数y的IEEE 754格式"></a>求浮点数y的IEEE 754格式</h2><ol>
+<li>求y的绝对值abs(y)，将abs(y)的<strong>整数部分</strong>通过<strong>除二取余法</strong>得到原码为Bin_1，<strong>小数部分</strong>通过<strong>乘二取整法</strong>得到原码为Bin_2；则abs(y)的二进制表示为Bin_1.Bin_2。</li>
+<li>向左或向右移动小数点E位，使得正数部分为单独一个二进制位 1，即：Bin_1.Bin_2 = 1.Bin_3 的 E 次方。记M = Bin_3。</li>
+<li>根据 E = exp - Bias，得到exp的值。32位（float类型）IEEE 754中，Bias = 127，64位（double类型）中Bias = 1023。</li>
+<li>若y为正数，则记二进制位s等于0，否则等于1。</li>
+<li>则浮点数y的IEEE 754格式为：s | exp | M，其中|为分隔符，实际编写中不需要。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/09/30/Cross-compile-and-QEMU/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2823,7 +2955,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
