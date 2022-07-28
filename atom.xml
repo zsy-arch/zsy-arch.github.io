@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- </title>
+  <icon>https://zsy-arch.github.io/icon.png</icon>
+  <subtitle>flag{zsy_arch_f0r_s0me7hinG}</subtitle>
+  <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://zsy-arch.github.io/"/>
+  <updated>2022-07-24T16:20:23.036Z</updated>
+  <id>https://zsy-arch.github.io/</id>
+  
+  <author>
+    <name>zsy</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SCTF2019 babyre</title>
+    <link href="https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/"/>
+    <id>https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/</id>
+    <published>2022-07-24T15:33:52.000Z</published>
+    <updated>2022-07-24T16:20:23.036Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;babyre&quot;&gt;&lt;a href=&quot;#babyre&quot; class=&quot;headerlink&quot; title=&quot;babyre&quot;&gt;&lt;/a&gt;babyre&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ACTF2022 复现 2</title>
+    <link href="https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/"/>
+    <id>https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/</id>
+    <published>2022-07-20T02:53:01.000Z</published>
+    <updated>2022-07-20T03:49:52.393Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;kcov&quot;&gt;&lt;a href=&quot;#kcov&quot; class=&quot;headerlink&quot; title=&quot;kcov&quot;&gt;&lt;/a&gt;kcov&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>buuoj reverse crackMe</title>
+    <link href="https://zsy-arch.github.io/2022/07/17/buuoj-reverse-crackMe/"/>
+    <id>https://zsy-arch.github.io/2022/07/17/buuoj-reverse-crackMe/</id>
+    <published>2022-07-17T15:01:46.000Z</published>
+    <updated>2022-07-17T16:00:49.211Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;crackMe&quot;&gt;&lt;a href=&quot;#crackMe&quot; class=&quot;headerlink&quot; title=&quot;crackMe&quot;&gt;&lt;/a&gt;crackMe&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>手动编译UPX并修改Loader</title>
+    <link href="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/"/>
+    <id>https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/</id>
+    <published>2022-07-14T05:44:02.000Z</published>
+    <updated>2022-07-14T06:33:15.820Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;编译UPX源码&quot;&gt;&lt;a href=&quot;#编译UPX源码&quot; class=&quot;headerlink&quot; title=&quot;编译UPX源码&quot;&gt;&lt;/a&gt;编译UPX源码&lt;/h1&gt;&lt;p&gt;系统环境:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ubuntu 22.04&lt;/li&gt;
+&lt;li&gt;Python</summary>
+        
+      
+    
+    
+    
+    
+    <category term="UPX" scheme="https://zsy-arch.github.io/tags/UPX/"/>
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ACTF2022 复现</title>
+    <link href="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-07-12T07:10:45.000Z</published>
+    <updated>2022-07-12T10:20:49.633Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;dropper&quot;&gt;&lt;a href=&quot;#dropper&quot; class=&quot;headerlink&quot; title=&quot;dropper&quot;&gt;&lt;/a&gt;dropper&lt;/h1&gt;&lt;h2 id=&quot;脱壳-amp-多进程&quot;&gt;&lt;a href=&quot;#脱壳-amp-多进程&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CISCN 2022 华北赛后复盘</title>
+    <link href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/"/>
+    <id>https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/</id>
+    <published>2022-07-01T02:27:06.000Z</published>
+    <updated>2022-07-01T03:26:56.695Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;reverse&quot;&gt;&lt;a href=&quot;#reverse&quot; class=&quot;headerlink&quot; title=&quot;reverse&quot;&gt;&lt;/a&gt;reverse&lt;/h1&gt;&lt;h2 id=&quot;rtMaze&quot;&gt;&lt;a href=&quot;#rtMaze&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="wp" scheme="https://zsy-arch.github.io/tags/wp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows驱动开发 用户层与内核层通信</title>
+    <link href="https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/"/>
+    <id>https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/</id>
+    <published>2022-02-01T05:37:01.000Z</published>
+    <updated>2022-07-01T02:28:13.663Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;内核层&quot;&gt;&lt;a href=&quot;#内核层&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>buuoj rev xx</title>
+    <link href="https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/"/>
+    <id>https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/</id>
+    <published>2022-01-05T15:42:52.000Z</published>
+    <updated>2022-01-05T15:57:24.430Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;buuoj-rev-xx&quot;&gt;&lt;a href=&quot;#buuoj-rev-xx&quot; class=&quot;headerlink&quot; title=&quot;buuoj [rev] xx&quot;&gt;&lt;/a&gt;buuoj [rev]</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>BUUOJ rev equation1</title>
+    <link href="https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/"/>
+    <id>https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/</id>
+    <published>2022-01-04T12:28:58.000Z</published>
+    <updated>2022-01-04T12:42:03.822Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;buuoj-reverse-equation&quot;&gt;&lt;a href=&quot;#buuoj-reverse-equation&quot; class=&quot;headerlink&quot; title=&quot;buuoj [reverse] equation&quot;&gt;&lt;/a&gt;buuoj [reverse]</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2021-2022 CTF寒假训练Week1-12/27-1/2</title>
+    <link href="https://zsy-arch.github.io/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/"/>
+    <id>https://zsy-arch.github.io/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/</id>
+    <published>2021-12-30T05:43:51.000Z</published>
+    <updated>2021-12-30T06:08:55.276Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;android-app-100&quot;&gt;&lt;a href=&quot;#android-app-100&quot; class=&quot;headerlink&quot; title=&quot;android-app-100&quot;&gt;&lt;/a&gt;android-app-100&lt;/h2&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>adworld [rev] reverse-for-the-holy-grail-350</title>
+    <link href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/"/>
+    <id>https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/</id>
+    <published>2021-12-22T18:13:36.000Z</published>
+    <updated>2022-07-01T02:34:15.156Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;太困了,直接上脚本.&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>adworld [rev] babymips</title>
+    <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/"/>
+    <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/</id>
+    <published>2021-12-21T15:00:17.000Z</published>
+    <updated>2021-12-21T15:08:02.088Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;adworld-rev-babymips&quot;&gt;&lt;a href=&quot;#adworld-rev-babymips&quot; class=&quot;headerlink&quot; title=&quot;adworld [rev] babymips&quot;&gt;&lt;/a&gt;adworld [rev]</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>adworld [rev] easyhook</title>
+    <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/"/>
+    <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/</id>
+    <published>2021-12-20T17:13:48.000Z</published>
+    <updated>2022-07-01T02:33:45.651Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;ADWorld-rev-EASYHOOK&quot;&gt;&lt;a href=&quot;#ADWorld-rev-EASYHOOK&quot; class=&quot;headerlink&quot; title=&quot;ADWorld [rev] EASYHOOK&quot;&gt;&lt;/a&gt;ADWorld [rev]</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>BUUOJ [rev] signal1</title>
+    <link href="https://zsy-arch.github.io/2021/12/19/BUUOJ-rev-signal1/"/>
+    <id>https://zsy-arch.github.io/2021/12/19/BUUOJ-rev-signal1/</id>
+    <published>2021-12-18T17:59:58.000Z</published>
+    <updated>2021-12-18T18:11:20.220Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;BUUOJ-rev-signal1&quot;&gt;&lt;a href=&quot;#BUUOJ-rev-signal1&quot; class=&quot;headerlink&quot; title=&quot;BUUOJ [rev] signal1&quot;&gt;&lt;/a&gt;BUUOJ [rev]</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>useless for u 2021-11-10</title>
+    <link href="https://zsy-arch.github.io/2021/11/10/useless-for-u-2021-11-10/"/>
+    <id>https://zsy-arch.github.io/2021/11/10/useless-for-u-2021-11-10/</id>
+    <published>2021-11-09T16:19:30.000Z</published>
+    <updated>2021-11-09T17:43:11.676Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>香山杯 [rev] easy_py</title>
+    <link href="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/"/>
+    <id>https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/</id>
+    <published>2021-11-07T14:38:18.000Z</published>
+    <updated>2021-11-07T14:45:41.635Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;逆向PYC文件：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>test page</title>
+    <link href="https://zsy-arch.github.io/2021/11/05/test-page/"/>
+    <id>https://zsy-arch.github.io/2021/11/05/test-page/</id>
+    <published>2021-11-05T07:18:48.000Z</published>
+    <updated>2021-11-05T07:33:11.687Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;img src=&quot;/2021/11/05/test-page/image-20211105152005755.png&quot; class=&quot;&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CISCN [rev] babybc</title>
+    <link href="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/"/>
+    <id>https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/</id>
+    <published>2021-11-01T00:28:25.000Z</published>
+    <updated>2021-11-01T01:12:00.962Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;babybc&quot;&gt;&lt;a href=&quot;#babybc&quot; class=&quot;headerlink&quot; title=&quot;babybc&quot;&gt;&lt;/a&gt;babybc&lt;/h2&gt;&lt;p&gt;查看附件，发现是bc文件，经过一番搜索可知是LLVM</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>天津大学生信安大赛 2021 [rev] Bytecode</title>
+    <link href="https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/"/>
+    <id>https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/</id>
+    <published>2021-10-30T05:11:33.000Z</published>
+    <updated>2021-10-30T05:13:21.211Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;bytecode&quot;&gt;&lt;a href=&quot;#bytecode&quot; class=&quot;headerlink&quot; title=&quot;bytecode&quot;&gt;&lt;/a&gt;bytecode&lt;/h2&gt;&lt;p&gt;上来一个py字节码：&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>MIMIC 2021 [Rev] fastjs</title>
+    <link href="https://zsy-arch.github.io/2021/10/28/MIMIC-2021-Rev-fastjs/"/>
+    <id>https://zsy-arch.github.io/2021/10/28/MIMIC-2021-Rev-fastjs/</id>
+    <published>2021-10-28T10:33:29.000Z</published>
+    <updated>2021-10-28T11:04:45.634Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;fastjs&quot;&gt;&lt;a href=&quot;#fastjs&quot; class=&quot;headerlink&quot; title=&quot;fastjs&quot;&gt;&lt;/a&gt;fastjs&lt;/h1&gt;&lt;p&gt;IDA</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
