@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="VvufYZh-K8JyCy1zH8D63T51xhTbqQ_p4bNLs98ynas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="binary security," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="符号执行引用自维基百科：  符号执行（英语：symbolic execution）是一种计算机科学领域的程序分析技术，通过采用抽象的符号代替精确值作为程序输入变量，得出每个路径抽象的输出结果。这一技术在硬件、底层程序测试中有一定的应用[1]，能够有效的发现程序中的漏洞。  例子easy xor (static)下面我们编写一个简单的例子： 12345678910111213141516171819">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angr for ctf 入门">
+<meta property="og:url" content="https://zsy-arch.github.io/2022/08/12/angr-for-ctf-%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="符号执行引用自维基百科：  符号执行（英语：symbolic execution）是一种计算机科学领域的程序分析技术，通过采用抽象的符号代替精确值作为程序输入变量，得出每个路径抽象的输出结果。这一技术在硬件、底层程序测试中有一定的应用[1]，能够有效的发现程序中的漏洞。  例子easy xor (static)下面我们编写一个简单的例子： 12345678910111213141516171819">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-08-12T06:10:51.000Z">
+<meta property="article:modified_time" content="2022-08-12T10:55:09.760Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="binary security">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2022/08/12/angr-for-ctf-入门/"/>
+
+
+
+
+
+  <title>angr for ctf 入门 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title><meta name="robots" content="noindex">
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/08/12/angr-for-ctf-%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">angr for ctf 入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-08-12T14:10:51+08:00">
+                2022-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="符号执行"><a href="#符号执行" class="headerlink" title="符号执行"></a>符号执行</h1><p>引用自维基百科：</p>
+<blockquote>
+<p>符号执行（英语：symbolic execution）是一种计算机科学领域的程序分析技术，通过采用抽象的符号代替精确值作为程序输入变量，得出每个路径抽象的输出结果。这一技术在硬件、底层程序测试中有一定的应用[1]，能够有效的发现程序中的漏洞。</p>
+</blockquote>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><h2 id="easy-xor-static"><a href="#easy-xor-static" class="headerlink" title="easy xor (static)"></a>easy xor (static)</h2><p>下面我们编写一个简单的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> secret[] = &#123;</span><br><span class="line">	<span class="number">29</span>, <span class="number">18</span>, <span class="number">27</span>, <span class="number">14</span>, <span class="number">35</span>, <span class="number">21</span>, <span class="number">15</span>, <span class="number">35</span>, <span class="number">15</span>, <span class="number">76</span>, <span class="number">35</span>, <span class="number">21</span>, <span class="number">18</span>, <span class="number">8</span>, <span class="number">79</span>, <span class="number">14</span>, <span class="number">79</span>, <span class="number">15</span>, <span class="number">8</span>, <span class="number">21</span>, <span class="number">18</span>, <span class="number">27</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">char</span> *str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n = <span class="built_in">strlen</span>(str);</span><br><span class="line">	<span class="keyword">if</span> (n != (<span class="keyword">sizeof</span>(secret) / <span class="keyword">sizeof</span>(<span class="keyword">char</span>)))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(str); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (secret[i] != (str[i] ^ <span class="number">0x7c</span>))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> input[<span class="number">100</span>];</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, input); <span class="comment">// angr_is_s0_int3r3sting</span></span><br><span class="line">	<span class="keyword">if</span> (check(input))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;yes\n&quot;</span>);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;wrong\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很明显，flag为 <code>angr_is_s0_int3r3sting</code>，这里我们使用gcc静态链接(statically linked)。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc easy_xor.c -o test1 -static</span><br></pre></td></tr></table></figure>
+
+<p>静态链接的特点就是如果使用到libc里面的函数，比如printf、scanf、strlen，那么这些函数的代码会直接嵌入到程序中，而不是像动态链接时需要加载libc.so后调用libc.so里面的代码。</p>
+<p>接下来，我们使用IDA Pro打开程序，观察check函数的汇编：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">.text:<span class="number">0000000000401</span>AD5                             <span class="keyword">public</span> check</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             check           proc near               ; CODE XREF: main+<span class="number">44</span>↓p</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             var_28          = qword ptr <span class="number">-28</span>h</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             var_18          = dword ptr <span class="number">-18</span>h</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             var_14          = dword ptr <span class="number">-14</span>h</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             var_8           = qword ptr <span class="number">-8</span></span><br><span class="line">.text:<span class="number">0000000000401</span>AD5</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5             ; __unwind &#123;</span><br><span class="line">.text:<span class="number">0000000000401</span>AD5 F3 <span class="number">0F</span> <span class="number">1</span>E FA                 endbr64</span><br><span class="line">.text:<span class="number">0000000000401</span>AD9 <span class="number">55</span>                          push    rbp</span><br><span class="line">.text:<span class="number">0000000000401</span>ADA <span class="number">48</span> <span class="number">89</span> E5                    mov     rbp, rsp</span><br><span class="line">.text:<span class="number">0000000000401</span>ADD <span class="number">53</span>                          push    rbx</span><br><span class="line">.text:<span class="number">0000000000401</span>ADE <span class="number">48</span> <span class="number">83</span> EC <span class="number">28</span>                 sub     rsp, <span class="number">28</span>h</span><br><span class="line">.text:<span class="number">0000000000401</span>AE2 <span class="number">48</span> <span class="number">89</span> <span class="number">7</span>D D8                 mov     [rbp+var_28], rdi</span><br><span class="line">.text:<span class="number">0000000000401</span>AE6 <span class="number">48</span> <span class="number">8B</span> <span class="number">45</span> D8                 mov     rax, [rbp+var_28]</span><br><span class="line">.text:<span class="number">0000000000401</span>AEA <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax</span><br><span class="line">.text:<span class="number">0000000000401</span>AED E8 <span class="number">9</span>E F6 FF+                call    j_strlen_ifunc</span><br><span class="line">.text:<span class="number">0000000000401</span>AED FF</span><br><span class="line">.text:<span class="number">0000000000401</span>AF2 <span class="number">89</span> <span class="number">45</span> EC                    mov     [rbp+var_14], eax</span><br><span class="line">.text:<span class="number">0000000000401</span>AF5 <span class="number">83</span> <span class="number">7</span>D EC <span class="number">16</span>                 cmp     [rbp+var_14], <span class="number">16</span>h</span><br><span class="line">.text:<span class="number">0000000000401</span>AF9 <span class="number">74</span> <span class="number">07</span>                       jz      <span class="keyword">short</span> loc_401B02</span><br><span class="line">.text:<span class="number">0000000000401</span>AFB B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">0000000000401</span>AFB <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>00 EB <span class="number">57</span>                       jmp     <span class="keyword">short</span> loc_401B59</span><br><span class="line">.text:<span class="number">0000000000401B</span>02             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">0000000000401B</span>02</span><br><span class="line">.text:<span class="number">0000000000401B</span>02             loc_401B02:                             ; CODE XREF: check+<span class="number">24</span>↑j</span><br><span class="line">.text:<span class="number">0000000000401B</span>02 C7 <span class="number">45</span> E8 <span class="number">00</span>+                mov     [rbp+var_18], <span class="number">0</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>02 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>09 EB <span class="number">32</span>                       jmp     <span class="keyword">short</span> loc_401B3D</span><br><span class="line">.text:<span class="number">0000000000401B</span>0B             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">0000000000401B</span>0B</span><br><span class="line">.text:<span class="number">0000000000401B</span>0B             loc_401B0B:                             ; CODE XREF: check+<span class="number">7</span>D↓j</span><br><span class="line">.text:<span class="number">0000000000401B</span>0B <span class="number">8B</span> <span class="number">45</span> E8                    mov     eax, [rbp+var_18]</span><br><span class="line">.text:<span class="number">0000000000401B</span>0E <span class="number">48</span> <span class="number">98</span>                       cdqe</span><br><span class="line">.text:<span class="number">0000000000401B</span>10 <span class="number">48</span> <span class="number">8</span>D <span class="number">15</span> D9+                lea     rdx, secret</span><br><span class="line">.text:<span class="number">0000000000401B</span>10 <span class="number">35</span> <span class="number">0</span>E <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>17 <span class="number">0F</span> B6 <span class="number">04</span> <span class="number">10</span>                 movzx   eax, byte ptr [rax+rdx]</span><br><span class="line">.text:<span class="number">0000000000401B</span>1B <span class="number">8B</span> <span class="number">55</span> E8                    mov     edx, [rbp+var_18]</span><br><span class="line">.text:<span class="number">0000000000401B</span>1E <span class="number">48</span> <span class="number">63</span> CA                    movsxd  rcx, edx</span><br><span class="line">.text:<span class="number">0000000000401B</span>21 <span class="number">48</span> <span class="number">8B</span> <span class="number">55</span> D8                 mov     rdx, [rbp+var_28]</span><br><span class="line">.text:<span class="number">0000000000401B</span>25 <span class="number">48</span> <span class="number">01</span> CA                    add     rdx, rcx</span><br><span class="line">.text:<span class="number">0000000000401B</span>28 <span class="number">0F</span> B6 <span class="number">12</span>                    movzx   edx, byte ptr [rdx]</span><br><span class="line">.text:<span class="number">0000000000401B</span>2B <span class="number">83</span> F2 <span class="number">7</span>C                    <span class="keyword">xor</span>     edx, <span class="number">7</span>Ch</span><br><span class="line">.text:<span class="number">0000000000401B</span>2E <span class="number">38</span> D0                       cmp     al, dl</span><br><span class="line">.text:<span class="number">0000000000401B</span>30 <span class="number">74</span> <span class="number">07</span>                       jz      <span class="keyword">short</span> loc_401B39</span><br><span class="line">.text:<span class="number">0000000000401B</span>32 B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>32 <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>37 EB <span class="number">20</span>                       jmp     <span class="keyword">short</span> loc_401B59</span><br><span class="line">.text:<span class="number">0000000000401B</span>39             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">0000000000401B</span>39</span><br><span class="line">.text:<span class="number">0000000000401B</span>39             loc_401B39:                             ; CODE XREF: check+<span class="number">5B</span>↑j</span><br><span class="line">.text:<span class="number">0000000000401B</span>39 <span class="number">83</span> <span class="number">45</span> E8 <span class="number">01</span>                 add     [rbp+var_18], <span class="number">1</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>3D</span><br><span class="line">.text:<span class="number">0000000000401B</span>3D             loc_401B3D:                             ; CODE XREF: check+<span class="number">34</span>↑j</span><br><span class="line">.text:<span class="number">0000000000401B</span>3D <span class="number">8B</span> <span class="number">45</span> E8                    mov     eax, [rbp+var_18]</span><br><span class="line">.text:<span class="number">0000000000401B</span>40 <span class="number">48</span> <span class="number">63</span> D8                    movsxd  rbx, eax</span><br><span class="line">.text:<span class="number">0000000000401B</span>43 <span class="number">48</span> <span class="number">8B</span> <span class="number">45</span> D8                 mov     rax, [rbp+var_28]</span><br><span class="line">.text:<span class="number">0000000000401B</span>47 <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax</span><br><span class="line">.text:<span class="number">0000000000401B</span>4A E8 <span class="number">41</span> F6 FF+                call    j_strlen_ifunc</span><br><span class="line">.text:<span class="number">0000000000401B</span>4A FF</span><br><span class="line">.text:<span class="number">0000000000401B</span>4F <span class="number">48</span> <span class="number">39</span> C3                    cmp     rbx, rax</span><br><span class="line">.text:<span class="number">0000000000401B</span>52 <span class="number">72</span> B7                       jb      <span class="keyword">short</span> loc_401B0B</span><br><span class="line">.text:<span class="number">0000000000401B</span>54 B8 <span class="number">01</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">1</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>54 <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>59</span><br><span class="line">.text:<span class="number">0000000000401B</span>59             loc_401B59:                             ; CODE XREF: check+<span class="number">2B</span>↑j</span><br><span class="line">.text:<span class="number">0000000000401B</span>59                                                     ; check+<span class="number">62</span>↑j</span><br><span class="line">.text:<span class="number">0000000000401B</span>59 <span class="number">48</span> <span class="number">8B</span> <span class="number">5</span>D F8                 mov     rbx, [rbp+var_8]</span><br><span class="line">.text:<span class="number">0000000000401B</span>5D C9                          leave</span><br><span class="line">.text:<span class="number">0000000000401B</span>5E C3                          retn</span><br><span class="line">.text:<span class="number">0000000000401B</span>5E             ; &#125; <span class="comment">// starts at 401AD5</span></span><br><span class="line">.text:<span class="number">0000000000401B</span>5E             check           endp</span><br></pre></td></tr></table></figure>
+
+<p>如果我们以check函数为入口，那么我们需要在angr的blank_state中将addr参数设置为上面的<code>0x401AD5</code>，我们希望最后函数返回true，那么simulation.explore的find参数需要设置为<code>0x401B54</code>，同时我们不希望返回false，那么avoid参数就是<code>[0x401AFB, 0x401B32]</code>。</p>
+<p>另外，由于是静态链接导致strlen的代码直接嵌入在了程序中，那么angr就无法判断出上面的<code>j_strlen_ifunc</code>其实就是一个简单的strlen函数，也就是angr在分析程序的时候会将<code>j_strlen_ifunc</code>当做普通的函数进行分析，这就导致了angr将时间浪费在了分析这个strlen中，而且很大概率会导致angr最终无法成功计算出结果。</p>
+<p>这时，我们可以用angr提供的hook机制，也就是当程序执行到调用<code>j_strlen_ifunc</code>时，我们来提醒angr此处就是一个libc中的strlen函数，让angr使用其内置的strlen（见 <a target="_blank" rel="noopener" href="https://github.com/angr/angr/blob/master/angr/procedures/libc/strlen.py">https://github.com/angr/angr/blob/master/angr/procedures/libc/strlen.py</a> ）。</p>
+<p>下面是angr脚本：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> angr</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> claripy</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">argv</span>):</span></span><br><span class="line">    path_to_binary = argv[<span class="number">1</span>]</span><br><span class="line">    project = angr.Project(path_to_binary)</span><br><span class="line">    main = <span class="number">0x401AD5</span></span><br><span class="line">    state = project.factory.blank_state(</span><br><span class="line">        addr=main,</span><br><span class="line">        add_options=&#123;angr.options.SYMBOL_FILL_UNCONSTRAINED_MEMORY,</span><br><span class="line">                     angr.options.SYMBOL_FILL_UNCONSTRAINED_REGISTERS&#125;</span><br><span class="line">    )</span><br><span class="line">    project.hook(<span class="number">0x401190</span>, angr.SIM_PROCEDURES[<span class="string">&#x27;libc&#x27;</span>][<span class="string">&#x27;strlen&#x27;</span>]())</span><br><span class="line"></span><br><span class="line">    flag = claripy.BVS(<span class="string">&#x27;flag&#x27;</span>, <span class="number">23</span> * <span class="number">8</span>)</span><br><span class="line">    state.memory.store(<span class="number">0x660000</span>, flag)</span><br><span class="line">    state.regs.rdi = <span class="number">0x660000</span></span><br><span class="line">    simulation = project.factory.simgr(state)</span><br><span class="line"></span><br><span class="line">    print_good_address = <span class="number">0x401B54</span></span><br><span class="line">    will_not_succeed_address = [<span class="number">0x401AFB</span>, <span class="number">0x401B32</span>]</span><br><span class="line">    simulation.explore(find=print_good_address, avoid=will_not_succeed_address)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> simulation.found:</span><br><span class="line">        solution_state = simulation.found[<span class="number">0</span>]</span><br><span class="line">        <span class="built_in">print</span>(solution_state.solver.<span class="built_in">eval</span>(flag))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&#x27;Could not find the solution&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main(sys.argv)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="easy-xor-dynamic"><a href="#easy-xor-dynamic" class="headerlink" title="easy xor (dynamic)"></a>easy xor (dynamic)</h2><p>我们还是使用上面例子的代码，只不过这一次我们使用动态链接，也就是在gcc中不使用-static参数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">.text:<span class="number">00000000000011</span>A9                             <span class="keyword">public</span> check</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             check           proc near               ; CODE XREF: main+<span class="number">44</span>↓p</span><br><span class="line">.text:<span class="number">00000000000011</span>A9</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             s               = qword ptr <span class="number">-28</span>h</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             var_18          = dword ptr <span class="number">-18</span>h</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             var_14          = dword ptr <span class="number">-14</span>h</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             var_8           = qword ptr <span class="number">-8</span></span><br><span class="line">.text:<span class="number">00000000000011</span>A9</span><br><span class="line">.text:<span class="number">00000000000011</span>A9             ; __unwind &#123;</span><br><span class="line">.text:<span class="number">00000000000011</span>A9 F3 <span class="number">0F</span> <span class="number">1</span>E FA                 endbr64</span><br><span class="line">.text:<span class="number">00000000000011</span>AD <span class="number">55</span>                          push    rbp</span><br><span class="line">.text:<span class="number">00000000000011</span>AE <span class="number">48</span> <span class="number">89</span> E5                    mov     rbp, rsp</span><br><span class="line">.text:<span class="number">00000000000011B</span>1 <span class="number">53</span>                          push    rbx</span><br><span class="line">.text:<span class="number">00000000000011B</span>2 <span class="number">48</span> <span class="number">83</span> EC <span class="number">28</span>                 sub     rsp, <span class="number">28</span>h</span><br><span class="line">.text:<span class="number">00000000000011B</span>6 <span class="number">48</span> <span class="number">89</span> <span class="number">7</span>D D8                 mov     [rbp+s], rdi</span><br><span class="line">.text:<span class="number">00000000000011B</span>A <span class="number">48</span> <span class="number">8B</span> <span class="number">45</span> D8                 mov     rax, [rbp+s]</span><br><span class="line">.text:<span class="number">00000000000011B</span>E <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax        ; s</span><br><span class="line">.text:<span class="number">00000000000011</span>C1 E8 CA FE FF+                call    _strlen</span><br><span class="line">.text:<span class="number">00000000000011</span>C1 FF</span><br><span class="line">.text:<span class="number">00000000000011</span>C6 <span class="number">89</span> <span class="number">45</span> EC                    mov     [rbp+var_14], eax</span><br><span class="line">.text:<span class="number">00000000000011</span>C9 <span class="number">83</span> <span class="number">7</span>D EC <span class="number">16</span>                 cmp     [rbp+var_14], <span class="number">16</span>h</span><br><span class="line">.text:<span class="number">00000000000011</span>CD <span class="number">74</span> <span class="number">07</span>                       jz      <span class="keyword">short</span> loc_11D6</span><br><span class="line">.text:<span class="number">00000000000011</span>CF B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">00000000000011</span>CF <span class="number">00</span></span><br><span class="line">.text:<span class="number">00000000000011</span>D4 EB <span class="number">57</span>                       jmp     <span class="keyword">short</span> loc_122D</span><br><span class="line">.text:<span class="number">00000000000011</span>D6             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">00000000000011</span>D6</span><br><span class="line">.text:<span class="number">00000000000011</span>D6             loc_11D6:                               ; CODE XREF: check+<span class="number">24</span>↑j</span><br><span class="line">.text:<span class="number">00000000000011</span>D6 C7 <span class="number">45</span> E8 <span class="number">00</span>+                mov     [rbp+var_18], <span class="number">0</span></span><br><span class="line">.text:<span class="number">00000000000011</span>D6 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">00000000000011</span>DD EB <span class="number">32</span>                       jmp     <span class="keyword">short</span> loc_1211</span><br><span class="line">.text:<span class="number">00000000000011</span>DF             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">00000000000011</span>DF</span><br><span class="line">.text:<span class="number">00000000000011</span>DF             loc_11DF:                               ; CODE XREF: check+<span class="number">7</span>D↓j</span><br><span class="line">.text:<span class="number">00000000000011</span>DF <span class="number">8B</span> <span class="number">45</span> E8                    mov     eax, [rbp+var_18]</span><br><span class="line">.text:<span class="number">00000000000011E2</span> <span class="number">48</span> <span class="number">98</span>                       cdqe</span><br><span class="line">.text:<span class="number">00000000000011E4</span> <span class="number">48</span> <span class="number">8</span>D <span class="number">15</span> <span class="number">25</span>+                lea     rdx, secret</span><br><span class="line">.text:<span class="number">00000000000011E4</span> <span class="number">2</span>E <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">00000000000011</span>EB <span class="number">0F</span> B6 <span class="number">04</span> <span class="number">10</span>                 movzx   eax, byte ptr [rax+rdx]</span><br><span class="line">.text:<span class="number">00000000000011</span>EF <span class="number">8B</span> <span class="number">55</span> E8                    mov     edx, [rbp+var_18]</span><br><span class="line">.text:<span class="number">00000000000011F</span>2 <span class="number">48</span> <span class="number">63</span> CA                    movsxd  rcx, edx</span><br><span class="line">.text:<span class="number">00000000000011F</span>5 <span class="number">48</span> <span class="number">8B</span> <span class="number">55</span> D8                 mov     rdx, [rbp+s]</span><br><span class="line">.text:<span class="number">00000000000011F</span>9 <span class="number">48</span> <span class="number">01</span> CA                    add     rdx, rcx</span><br><span class="line">.text:<span class="number">00000000000011F</span>C <span class="number">0F</span> B6 <span class="number">12</span>                    movzx   edx, byte ptr [rdx]</span><br><span class="line">.text:<span class="number">00000000000011F</span>F <span class="number">83</span> F2 <span class="number">7</span>C                    <span class="keyword">xor</span>     edx, <span class="number">7</span>Ch</span><br><span class="line">.text:<span class="number">0000000000001202</span> <span class="number">38</span> D0                       cmp     al, dl</span><br><span class="line">.text:<span class="number">0000000000001204</span> <span class="number">74</span> <span class="number">07</span>                       jz      <span class="keyword">short</span> loc_120D</span><br><span class="line">.text:<span class="number">0000000000001206</span> B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">0000000000001206</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">000000000000120B</span> EB <span class="number">20</span>                       jmp     <span class="keyword">short</span> loc_122D</span><br><span class="line">.text:<span class="number">000000000000120</span>D             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">000000000000120</span>D</span><br><span class="line">.text:<span class="number">000000000000120</span>D             loc_120D:                               ; CODE XREF: check+<span class="number">5B</span>↑j</span><br><span class="line">.text:<span class="number">000000000000120</span>D <span class="number">83</span> <span class="number">45</span> E8 <span class="number">01</span>                 add     [rbp+var_18], <span class="number">1</span></span><br><span class="line">.text:<span class="number">0000000000001211</span></span><br><span class="line">.text:<span class="number">0000000000001211</span>             loc_1211:                               ; CODE XREF: check+<span class="number">34</span>↑j</span><br><span class="line">.text:<span class="number">0000000000001211</span> <span class="number">8B</span> <span class="number">45</span> E8                    mov     eax, [rbp+var_18]</span><br><span class="line">.text:<span class="number">0000000000001214</span> <span class="number">48</span> <span class="number">63</span> D8                    movsxd  rbx, eax</span><br><span class="line">.text:<span class="number">0000000000001217</span> <span class="number">48</span> <span class="number">8B</span> <span class="number">45</span> D8                 mov     rax, [rbp+s]</span><br><span class="line">.text:<span class="number">000000000000121B</span> <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax        ; s</span><br><span class="line">.text:<span class="number">000000000000121</span>E E8 <span class="number">6</span>D FE FF+                call    _strlen</span><br><span class="line">.text:<span class="number">000000000000121</span>E FF</span><br><span class="line">.text:<span class="number">0000000000001223</span> <span class="number">48</span> <span class="number">39</span> C3                    cmp     rbx, rax</span><br><span class="line">.text:<span class="number">0000000000001226</span> <span class="number">72</span> B7                       jb      <span class="keyword">short</span> loc_11DF</span><br><span class="line">.text:<span class="number">0000000000001228</span> B8 <span class="number">01</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">1</span></span><br><span class="line">.text:<span class="number">0000000000001228</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">000000000000122</span>D</span><br><span class="line">.text:<span class="number">000000000000122</span>D             loc_122D:                               ; CODE XREF: check+<span class="number">2B</span>↑j</span><br><span class="line">.text:<span class="number">000000000000122</span>D                                                     ; check+<span class="number">62</span>↑j</span><br><span class="line">.text:<span class="number">000000000000122</span>D <span class="number">48</span> <span class="number">8B</span> <span class="number">5</span>D F8                 mov     rbx, [rbp+var_8]</span><br><span class="line">.text:<span class="number">0000000000001231</span> C9                          leave</span><br><span class="line">.text:<span class="number">0000000000001232</span> C3                          retn</span><br><span class="line">.text:<span class="number">0000000000001232</span>             ; &#125; <span class="comment">// starts at 11A9</span></span><br><span class="line">.text:<span class="number">0000000000001232</span>             check           endp</span><br></pre></td></tr></table></figure>
+
+<p>那么这时我们可以不用hook libc的strlen函数了，直接上angr脚本：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> angr</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> claripy</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">argv</span>):</span></span><br><span class="line">    path_to_binary = argv[<span class="number">1</span>]</span><br><span class="line">    project = angr.Project(path_to_binary)</span><br><span class="line">    main = <span class="number">0x11A9</span> + <span class="number">0x400000</span></span><br><span class="line">    state = project.factory.blank_state(</span><br><span class="line">        addr=main,</span><br><span class="line">        add_options=&#123;angr.options.SYMBOL_FILL_UNCONSTRAINED_MEMORY,</span><br><span class="line">                     angr.options.SYMBOL_FILL_UNCONSTRAINED_REGISTERS&#125;</span><br><span class="line">    )</span><br><span class="line">    simulation = project.factory.simgr(state)</span><br><span class="line">    </span><br><span class="line">    flag = claripy.BVS(<span class="string">&#x27;flag&#x27;</span>, <span class="number">23</span> * <span class="number">8</span>)</span><br><span class="line">    state.memory.store(<span class="number">0x660000</span>, flag)</span><br><span class="line">    state.regs.rdi = <span class="number">0x660000</span></span><br><span class="line">    simulation = project.factory.simgr(state)</span><br><span class="line"></span><br><span class="line">    print_good_address = <span class="number">0x1228</span> + <span class="number">0x400000</span></span><br><span class="line">    will_not_succeed_address = [<span class="number">0x11CF</span> + <span class="number">0x400000</span>, <span class="number">0x1206</span> + <span class="number">0x400000</span>]</span><br><span class="line">    simulation.explore(find=print_good_address, avoid=will_not_succeed_address)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> simulation.found:</span><br><span class="line">        solution_state = simulation.found[<span class="number">0</span>]</span><br><span class="line">        <span class="built_in">print</span>(solution_state.solver.<span class="built_in">eval</span>(flag))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&#x27;Could not find the solution&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main(sys.argv)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="easy-xor-最直接的方法"><a href="#easy-xor-最直接的方法" class="headerlink" title="easy xor (最直接的方法)"></a>easy xor (最直接的方法)</h2><p>上面两个例子是通过分析check来得到flag，其实angr还可以有更加直接的方法。这次我们使用动态链接的程序。<br>其实我们在最开始分析程序时肯定是先看到的main函数，在easy xor中main接收scanf的输入，进行check，如果<br>check返回true就输出yes，否则就是wrong。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">.text:<span class="number">0000000000001233</span>             ; <span class="function"><span class="keyword">int</span> __cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function">.text:0000000000001233                             <span class="keyword">public</span> main</span></span><br><span class="line"><span class="function">.text:0000000000001233             main            proc near               </span>; DATA XREF: _start+<span class="number">18</span>↑o</span><br><span class="line">.text:<span class="number">0000000000001233</span></span><br><span class="line">.text:<span class="number">0000000000001233</span>             var_80          = qword ptr <span class="number">-80</span>h</span><br><span class="line">.text:<span class="number">0000000000001233</span>             var_74          = dword ptr <span class="number">-74</span>h</span><br><span class="line">.text:<span class="number">0000000000001233</span>             var_70          = byte ptr <span class="number">-70</span>h</span><br><span class="line">.text:<span class="number">0000000000001233</span>             var_8           = qword ptr <span class="number">-8</span></span><br><span class="line">.text:<span class="number">0000000000001233</span></span><br><span class="line">.text:<span class="number">0000000000001233</span>             ; __unwind &#123;</span><br><span class="line">.text:<span class="number">0000000000001233</span> F3 <span class="number">0F</span> <span class="number">1</span>E FA                 endbr64</span><br><span class="line">.text:<span class="number">0000000000001237</span> <span class="number">55</span>                          push    rbp</span><br><span class="line">.text:<span class="number">0000000000001238</span> <span class="number">48</span> <span class="number">89</span> E5                    mov     rbp, rsp</span><br><span class="line">.text:<span class="number">000000000000123B</span> <span class="number">48</span> <span class="number">83</span> C4 <span class="number">80</span>                 add     rsp, <span class="number">0F</span>FFFFFFFFFFFFF80h</span><br><span class="line">.text:<span class="number">000000000000123F</span> <span class="number">89</span> <span class="number">7</span>D <span class="number">8</span>C                    mov     [rbp+var_74], edi</span><br><span class="line">.text:<span class="number">0000000000001242</span> <span class="number">48</span> <span class="number">89</span> <span class="number">75</span> <span class="number">80</span>                 mov     [rbp+var_80], rsi</span><br><span class="line">.text:<span class="number">0000000000001246</span> <span class="number">64</span> <span class="number">48</span> <span class="number">8B</span> <span class="number">04</span>+                mov     rax, fs:<span class="number">28</span>h</span><br><span class="line">.text:<span class="number">0000000000001246</span> <span class="number">25</span> <span class="number">28</span> <span class="number">00</span> <span class="number">00</span>+</span><br><span class="line">.text:<span class="number">0000000000001246</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">000000000000124F</span> <span class="number">48</span> <span class="number">89</span> <span class="number">45</span> F8                 mov     [rbp+var_8], rax</span><br><span class="line">.text:<span class="number">0000000000001253</span> <span class="number">31</span> C0                       <span class="keyword">xor</span>     eax, eax</span><br><span class="line">.text:<span class="number">0000000000001255</span> <span class="number">48</span> <span class="number">8</span>D <span class="number">45</span> <span class="number">90</span>                 lea     rax, [rbp+var_70]</span><br><span class="line">.text:<span class="number">0000000000001259</span> <span class="number">48</span> <span class="number">89</span> C6                    mov     rsi, rax</span><br><span class="line">.text:<span class="number">000000000000125</span>C <span class="number">48</span> <span class="number">8</span>D <span class="number">05</span> A1+                lea     rax, unk_2004</span><br><span class="line">.text:<span class="number">000000000000125</span>C <span class="number">0</span>D <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000001263</span> <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax</span><br><span class="line">.text:<span class="number">0000000000001266</span> B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">0000000000001266</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">000000000000126B</span> E8 <span class="number">40</span> FE FF+                call    ___isoc99_scanf</span><br><span class="line">.text:<span class="number">000000000000126B</span> FF</span><br><span class="line">.text:<span class="number">0000000000001270</span> <span class="number">48</span> <span class="number">8</span>D <span class="number">45</span> <span class="number">90</span>                 lea     rax, [rbp+var_70]</span><br><span class="line">.text:<span class="number">0000000000001274</span> <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax</span><br><span class="line">.text:<span class="number">0000000000001277</span> E8 <span class="number">2</span>D FF FF+                call    check</span><br><span class="line">.text:<span class="number">0000000000001277</span> FF</span><br><span class="line">.text:<span class="number">000000000000127</span>C <span class="number">84</span> C0                       test    al, al</span><br><span class="line">.text:<span class="number">000000000000127</span>E <span class="number">74</span> <span class="number">11</span>                       jz      <span class="keyword">short</span> loc_1291</span><br><span class="line">.text:<span class="number">0000000000001280</span> <span class="number">48</span> <span class="number">8</span>D <span class="number">05</span> <span class="number">80</span>+                lea     rax, s          ; <span class="string">&quot;yes&quot;</span></span><br><span class="line">.text:<span class="number">0000000000001280</span> <span class="number">0</span>D <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000001287</span> <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax        ; s</span><br><span class="line">.text:<span class="number">000000000000128</span>A E8 F1 FD FF+                call    _puts</span><br><span class="line">.text:<span class="number">000000000000128</span>A FF</span><br><span class="line">.text:<span class="number">000000000000128F</span> EB <span class="number">0F</span>                       jmp     <span class="keyword">short</span> loc_12A0</span><br><span class="line">.text:<span class="number">0000000000001291</span>             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">0000000000001291</span></span><br><span class="line">.text:<span class="number">0000000000001291</span>             loc_1291:                               ; CODE XREF: main+<span class="number">4B</span>↑j</span><br><span class="line">.text:<span class="number">0000000000001291</span> <span class="number">48</span> <span class="number">8</span>D <span class="number">05</span> <span class="number">73</span>+                lea     rax, aWrong     ; <span class="string">&quot;wrong&quot;</span></span><br><span class="line">.text:<span class="number">0000000000001291</span> <span class="number">0</span>D <span class="number">00</span> <span class="number">00</span></span><br><span class="line">.text:<span class="number">0000000000001298</span> <span class="number">48</span> <span class="number">89</span> C7                    mov     rdi, rax        ; s</span><br><span class="line">.text:<span class="number">000000000000129B</span> E8 E0 FD FF+                call    _puts</span><br><span class="line">.text:<span class="number">000000000000129B</span> FF</span><br><span class="line">.text:<span class="number">00000000000012</span>A0</span><br><span class="line">.text:<span class="number">00000000000012</span>A0             loc_12A0:                               ; CODE XREF: main+<span class="number">5</span>C↑j</span><br><span class="line">.text:<span class="number">00000000000012</span>A0 B8 <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>+                mov     eax, <span class="number">0</span></span><br><span class="line">.text:<span class="number">00000000000012</span>A0 <span class="number">00</span></span><br><span class="line">.text:<span class="number">00000000000012</span>A5 <span class="number">48</span> <span class="number">8B</span> <span class="number">55</span> F8                 mov     rdx, [rbp+var_8]</span><br><span class="line">.text:<span class="number">00000000000012</span>A9 <span class="number">64</span> <span class="number">48</span> <span class="number">2B</span> <span class="number">14</span>+                sub     rdx, fs:<span class="number">28</span>h</span><br><span class="line">.text:<span class="number">00000000000012</span>A9 <span class="number">25</span> <span class="number">28</span> <span class="number">00</span> <span class="number">00</span>+</span><br><span class="line">.text:<span class="number">00000000000012</span>A9 <span class="number">00</span></span><br><span class="line">.text:<span class="number">00000000000012B</span>2 <span class="number">74</span> <span class="number">05</span>                       jz      <span class="keyword">short</span> locret_12B9</span><br><span class="line">.text:<span class="number">00000000000012B</span>4 E8 E7 FD FF+                call    ___stack_chk_fail</span><br><span class="line">.text:<span class="number">00000000000012B</span>4 FF</span><br><span class="line">.text:<span class="number">00000000000012B</span>9             ; ---------------------------------------------------------------------------</span><br><span class="line">.text:<span class="number">00000000000012B</span>9</span><br><span class="line">.text:<span class="number">00000000000012B</span>9             locret_12B9:                            ; CODE XREF: main+<span class="number">7F</span>↑j</span><br><span class="line">.text:<span class="number">00000000000012B</span>9 C9                          leave</span><br><span class="line">.text:<span class="number">00000000000012B</span>A C3                          retn</span><br><span class="line">.text:<span class="number">00000000000012B</span>A             ; &#125; <span class="comment">// starts at 1233</span></span><br><span class="line">.text:<span class="number">00000000000012B</span>A             main            endp</span><br></pre></td></tr></table></figure>
+
+<p>那么我们可以直接用angr对main函数进行分析，首先起始地址就是main函数的地址<code>0x1233 + 0x400000</code>，<br><code>0x1280 + 0x400000</code>是输出yes的地址，也就是find的参数，<code>0x1291 + 0x400000</code>是输出wrong的地址，<br>就是avoid参数。</p>
+<!-- flag of hidden posts -->
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/binary-security/" rel="tag"># binary security</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">符号执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#easy-xor-static"><span class="nav-number">2.1.</span> <span class="nav-text">easy xor (static)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy-xor-dynamic"><span class="nav-number">2.2.</span> <span class="nav-text">easy xor (dynamic)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy-xor-%E6%9C%80%E7%9B%B4%E6%8E%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">easy xor (最直接的方法)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '4b176ec7ff80f8899820',
+          clientSecret: '1e7ab01131351f460347b88b1338c9dd8bec1bc7',
+          repo: 'zsy-arch.github.io',
+          owner: 'zsy-arch',
+          admin: ['zsy-arch'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
