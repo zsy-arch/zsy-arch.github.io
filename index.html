@@ -2466,140 +2466,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/10/useless-for-u-2021-11-10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/11/10/useless-for-u-2021-11-10/" itemprop="url">useless for u 2021-11-10</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-10T00:19:30+08:00">
-                2021-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>写这篇文章是为了能够让刚刚接触计算机的人能够快速形成一个对计算机的整体认知，也是对自己一个阶段的总结。想写的内容过多，所以这篇文章会不间断的更新。</p>
-<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>首先我们会了解计算机的硬件，了解CPU、主存、辅存等的功能，它们是如何共同运作的。</p>
-<p>同时会了解包括机器指令、汇编、C语言这三者的关系，为理解编译器，其他编译型语言以及解释型语言奠定好基础，然后我们会了解如何去分析写好的程序，即调试。</p>
-<p>有了一定的知识之后便可了解操作系统、系统中的程序是如何运行的，然后我们会了解虚拟机。当我们对单独的一台计算机有了充分的了解之后，便可去看看许多个计算机是如何一起工作的，也就是网络。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="一、计算机的产生"><a href="#一、计算机的产生" class="headerlink" title="一、计算机的产生"></a>一、计算机的产生</h3><p>这里任何一个百科都会比我讲的更详细，直接放链接了：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%94%B5%E5%AD%90%E8%AE%A1%E7%AE%97%E6%9C%BA#%E5%8E%86%E5%8F%B2">维基百科</a></p>
-<h3 id="二、CPU，存储设备，输入-输出设备"><a href="#二、CPU，存储设备，输入-输出设备" class="headerlink" title="二、CPU，存储设备，输入/输出设备"></a>二、CPU，存储设备，输入/输出设备</h3><p>很明显，计算机的功能不过就是：（1）计算（2）将结果展示出来。比如我们想让计算机能够计算<code>1 + 2</code>的结果并显示在屏幕中，第一步必定是要告诉计算机：我要你计算<code>1 + 2</code>，快点告诉我答案。这一步我们需要的就是输入设备，比如键盘，我们先输入数字1，再输入加号，最后输入2 。</p>
-<p>就像平时人与人交流一样，A指示B去做某一件事，B正确接收到指令，或者说要记住了去做的事之后才能完成要做的事。那么我们指示计算机去做某一件事，计算机也需要“记住”要做的事。</p>
-<p>这里就是需要存储设备了，在这个例子里，存储设备存储了数字1和2，同样也需要存储能够表示“加法”的一个东西，在这里我们还不知道什么能够表示“加法”，可能就是一个加法符号、一个程序用来标记加法指令的数字、汇编指令等等。</p>
-<p>当<code>1 + 2</code>这个指令存储到存储器里了，计算机的运算器——CPU便可以读取这个指令将运算后的结果<code>3</code>放回到存储器中。这样我们的运算就已经完成。</p>
-<p>我们的输入设备可以将人输入的东西传递给计算机，同样的，也可以使用输出设备将计算机中存储的东西显示给我们。这里就是将<code>3</code>展示出来，比如用显示屏。</p>
-<h3 id="三、存储设备"><a href="#三、存储设备" class="headerlink" title="三、存储设备"></a>三、存储设备</h3><p>CPU和存储设备可以说是计算机中的两大主角，我们先从存储设备说起。顾名思义，存储设备就是用来存储的，它存储了计算机所需的数据，不论是图片、视频、Word文档，还是程序、系统都可以说成数据，在计算机中的任何数据其实就是由二进制0和1组成的。</p>
-<p>比如上一节中的<code>1 + 2</code>，数字1用二进制表示就是<code>1</code>，数字2用二进制表示就是<code>10</code>，又如数字1000用二进制表示就是<code>1111101000</code>，以及加法指令也可以用二进制表示。</p>
-<p>用二进制来表示所有数据是因为计算机的运行需要用电，而电可以简单地分成高电平和低电平，比如我们现在有一个电容，如果这个电容里没有电荷或者说储存的电荷很少，那么它放出的电流可以说成是低电平，也就是这个电容里存储了二进制0，如果这个电容里存有很多电荷甚至存满了电荷，那么它放出的电流可以说成是高电平，也就是这个电容里存储了二进制1。</p>
-<p>那么我们可以用许多个类似电容的东西去存储电荷，并用高低电平来区分它们存储的是二进制位0还是1。</p>
-<p>一般来说我们的数据可能需要由很多个二进制位组成，我们需要一个工具能够方便地使用、管理这些二进制位，那就是字节。我们将存储器中每8个二进制位当作一个字节，以后这些二进制位就属于它所在的那个字节里。同样的，我们的存储器也分成了一个一个的字节，并且这些字节都有它自己在这个存储器里的地址。以后我们想访问某些字节时，告诉存储器我们要访问的字节的地址即可。另外，我们要访问字节中某些二进制位的话，需要使用位运算，包括：左移、右移、与、或、非。</p>
-<h3 id="四、CPU"><a href="#四、CPU" class="headerlink" title="四、CPU"></a>四、CPU</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4316,6 +4182,133 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/06/DownUnderCTF-2021-Flag-Checker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/10/06/DownUnderCTF-2021-Flag-Checker/" itemprop="url">DownUnderCTF 2021 Flag_Checker</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-06T11:26:35+08:00">
+                2021-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Flag-Checker"><a href="#Flag-Checker" class="headerlink" title="Flag Checker"></a>Flag Checker</h2><p>IDA Pro 打开：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> __fastcall __noreturn <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+0h] [rbp-40h]</span></span><br><span class="line">  <span class="keyword">int</span> j; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  __int64 v5; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">40</span>]; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v7; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v7 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">sub_11EF</span>(a1, a2, a3);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;What&#x27;s the flag?: &quot;</span>);</span><br><span class="line">  <span class="built_in">fgets</span>(s, <span class="number">37</span>, stdin);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(s) != <span class="number">36</span> )</span><br><span class="line">    <span class="built_in">sub_1BDC</span>();</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">15</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">combine</span>((__int64)s);</span><br><span class="line">    v5 = <span class="built_in">shuffle1</span>(s);</span><br><span class="line">    <span class="built_in">shuffle2</span>(s, v5);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">35</span>; ++j )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( s[j] != byte_4080[j] )</span><br><span class="line">      <span class="built_in">sub_1BDC</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Correct! :)&quot;</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序先读取输入，进行十六次加密操作（combine、shuffle1、shuffle2）。最终将加密结果与<br>数组 <code>byte_4080</code> 进行比对。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> __int64 __fastcall <span class="title">combine</span><span class="params">(__int64 a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> v2[<span class="number">8</span>]; <span class="comment">// [rsp+10h] [rbp-C0h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v3[<span class="number">8</span>]; <span class="comment">// [rsp+30h] [rbp-A0h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v4[<span class="number">8</span>]; <span class="comment">// [rsp+50h] [rbp-80h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v5[<span class="number">8</span>]; <span class="comment">// [rsp+70h] [rbp-60h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v6[<span class="number">8</span>]; <span class="comment">// [rsp+90h] [rbp-40h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v7[<span class="number">6</span>]; <span class="comment">// [rsp+B0h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v8; <span class="comment">// [rsp+C8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v8 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v2[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  v2[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  v2[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">  v2[<span class="number">3</span>] = <span class="number">6</span>;</span><br><span class="line">  v2[<span class="number">4</span>] = <span class="number">12</span>;</span><br><span class="line">  v2[<span class="number">5</span>] = <span class="number">18</span>;</span><br><span class="line">  v3[<span class="number">0</span>] = <span class="number">3</span>;</span><br><span class="line">  v3[<span class="number">1</span>] = <span class="number">4</span>;</span><br><span class="line">  v3[<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">  v3[<span class="number">3</span>] = <span class="number">11</span>;</span><br><span class="line">  v3[<span class="number">4</span>] = <span class="number">17</span>;</span><br><span class="line">  v3[<span class="number">5</span>] = <span class="number">23</span>;</span><br><span class="line">  v4[<span class="number">0</span>] = <span class="number">7</span>;</span><br><span class="line">  v4[<span class="number">1</span>] = <span class="number">8</span>;</span><br><span class="line">  v4[<span class="number">2</span>] = <span class="number">9</span>;</span><br><span class="line">  v4[<span class="number">3</span>] = <span class="number">13</span>;</span><br><span class="line">  v4[<span class="number">4</span>] = <span class="number">14</span>;</span><br><span class="line">  v4[<span class="number">5</span>] = <span class="number">15</span>;</span><br><span class="line">  v5[<span class="number">0</span>] = <span class="number">10</span>;</span><br><span class="line">  v5[<span class="number">1</span>] = <span class="number">16</span>;</span><br><span class="line">  v5[<span class="number">2</span>] = <span class="number">22</span>;</span><br><span class="line">  v5[<span class="number">3</span>] = <span class="number">28</span>;</span><br><span class="line">  v5[<span class="number">4</span>] = <span class="number">29</span>;</span><br><span class="line">  v5[<span class="number">5</span>] = <span class="number">35</span>;</span><br><span class="line">  v6[<span class="number">0</span>] = <span class="number">19</span>;</span><br><span class="line">  v6[<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">  v6[<span class="number">2</span>] = <span class="number">24</span>;</span><br><span class="line">  v6[<span class="number">3</span>] = <span class="number">25</span>;</span><br><span class="line">  v6[<span class="number">4</span>] = <span class="number">26</span>;</span><br><span class="line">  v6[<span class="number">5</span>] = <span class="number">30</span>;</span><br><span class="line">  v7[<span class="number">0</span>] = <span class="number">21</span>;</span><br><span class="line">  v7[<span class="number">1</span>] = <span class="number">27</span>;</span><br><span class="line">  v7[<span class="number">2</span>] = <span class="number">31</span>;</span><br><span class="line">  v7[<span class="number">3</span>] = <span class="number">32</span>;</span><br><span class="line">  v7[<span class="number">4</span>] = <span class="number">33</span>;</span><br><span class="line">  v7[<span class="number">5</span>] = <span class="number">34</span>;</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v2);</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v3);</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v4);</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v5);</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v6);</span><br><span class="line">  <span class="built_in">num_combine</span>(a1, v7);</span><br><span class="line">  <span class="keyword">return</span> v8 - __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">__int64 __fastcall <span class="title">num_combine</span><span class="params">(__int64 a1, <span class="keyword">int</span> *a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v2; <span class="comment">// bl</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// bl</span></span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// bl</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// bl</span></span><br><span class="line">  <span class="keyword">char</span> v6; <span class="comment">// bl</span></span><br><span class="line">  <span class="keyword">char</span> v7; <span class="comment">// al</span></span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v9; <span class="comment">// [rsp+14h] [rbp-14h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v10; <span class="comment">// [rsp+15h] [rbp-13h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v11; <span class="comment">// [rsp+16h] [rbp-12h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v12; <span class="comment">// [rsp+17h] [rbp-11h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v13; <span class="comment">// [rsp+18h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v14; <span class="comment">// [rsp+19h] [rbp-Fh]</span></span><br><span class="line">  <span class="keyword">char</span> v15; <span class="comment">// [rsp+1Ah] [rbp-Eh]</span></span><br><span class="line">  <span class="keyword">char</span> v16; <span class="comment">// [rsp+1Bh] [rbp-Dh]</span></span><br><span class="line">  <span class="keyword">char</span> v17; <span class="comment">// [rsp+1Ch] [rbp-Ch]</span></span><br><span class="line">  <span class="keyword">char</span> v18; <span class="comment">// [rsp+1Dh] [rbp-Bh]</span></span><br><span class="line">  <span class="keyword">char</span> v19; <span class="comment">// [rsp+1Eh] [rbp-Ah]</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int8 v20; <span class="comment">// [rsp+1Fh] [rbp-9h]</span></span><br><span class="line"></span><br><span class="line">  v9 = *(_BYTE *)(*a2 + a1);</span><br><span class="line">  v10 = *(_BYTE *)(a2[<span class="number">1</span>] + a1);</span><br><span class="line">  v11 = *(_BYTE *)(a2[<span class="number">2</span>] + a1);</span><br><span class="line">  v12 = *(_BYTE *)(a2[<span class="number">3</span>] + a1);</span><br><span class="line">  v13 = *(_BYTE *)(a2[<span class="number">4</span>] + a1);</span><br><span class="line">  v14 = *(_BYTE *)(a2[<span class="number">5</span>] + a1);</span><br><span class="line">  v2 = v11 ^ v9 ^ <span class="built_in">char_transform</span>(v9);</span><br><span class="line">  v3 = <span class="built_in">char_transform</span>(v11) ^ v2;</span><br><span class="line">  v15 = v3 ^ <span class="built_in">char_transform</span>(v13);</span><br><span class="line">  v4 = v12 ^ v10 ^ <span class="built_in">char_transform</span>(v10);</span><br><span class="line">  v5 = <span class="built_in">char_transform</span>(v12) ^ v4;</span><br><span class="line">  v16 = v5 ^ <span class="built_in">char_transform</span>(v14);</span><br><span class="line">  v17 = v13 ^ <span class="built_in">char_transform</span>(v9);</span><br><span class="line">  v18 = v14 ^ <span class="built_in">char_transform</span>(v10);</span><br><span class="line">  v6 = v9 ^ <span class="built_in">char_transform</span>(v9);</span><br><span class="line">  v19 = v6 ^ <span class="built_in">char_transform</span>(v11);</span><br><span class="line">  v7 = <span class="built_in">char_transform</span>(v10);</span><br><span class="line">  v20 = v10 ^ v7 ^ <span class="built_in">char_transform</span>(v12);</span><br><span class="line">  *(_BYTE *)(a1 + *a2) = v15;</span><br><span class="line">  *(_BYTE *)(a1 + a2[<span class="number">1</span>]) = v16;</span><br><span class="line">  *(_BYTE *)(a1 + a2[<span class="number">2</span>]) = v17;</span><br><span class="line">  *(_BYTE *)(a1 + a2[<span class="number">3</span>]) = v18;</span><br><span class="line">  *(_BYTE *)(a1 + a2[<span class="number">4</span>]) = v19;</span><br><span class="line">  result = v20;</span><br><span class="line">  *(_BYTE *)(a1 + a2[<span class="number">5</span>]) = v20;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">__int64 __fastcall <span class="title">char_transform</span><span class="params">(<span class="keyword">unsigned</span> __int8 a1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="number">2</span> * a1) ^ (<span class="number">27</span> * (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(a1 &gt;&gt; <span class="number">7</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>动态调试发现shuffle1不会修改<code>input</code>，我们只逆向combine和shuffle2。</p>
+<p>盗一个国外大佬写的脚本： <a target="_blank" rel="noopener" href="https://gist.github.com/00xc/4fc261156bd919c0179abf38e4eae637">https://gist.github.com/00xc/4fc261156bd919c0179abf38e4eae637</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> z3 <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ch_transform</span>(<span class="params">c</span>):</span></span><br><span class="line">	<span class="keyword">return</span> ((c &gt;&gt; <span class="number">7</span>) * <span class="number">0x1b</span> ^ c * <span class="number">2</span>) &amp; <span class="number">0xff</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverse_shuffle</span>(<span class="params">inp</span>):</span></span><br><span class="line"></span><br><span class="line">	mappings = &#123;<span class="number">0</span>: <span class="number">29</span>, <span class="number">1</span>: <span class="number">34</span>, <span class="number">2</span>: <span class="number">13</span>, <span class="number">3</span>: <span class="number">18</span>, <span class="number">4</span>: <span class="number">15</span>, <span class="number">5</span>: <span class="number">20</span>, <span class="number">6</span>: <span class="number">35</span>, <span class="number">7</span>: <span class="number">28</span>, <span class="number">8</span>: <span class="number">19</span>, <span class="number">9</span>: <span class="number">12</span>, <span class="number">10</span>: <span class="number">21</span>, <span class="number">11</span>: <span class="number">14</span>, <span class="number">12</span>: <span class="number">3</span>, <span class="number">13</span>: <span class="number">8</span>, <span class="number">14</span>: <span class="number">25</span>, <span class="number">15</span>: <span class="number">30</span>, <span class="number">16</span>: <span class="number">1</span>, <span class="number">17</span>: <span class="number">6</span>, <span class="number">18</span>: <span class="number">9</span>, <span class="number">19</span>: <span class="number">2</span>, <span class="number">20</span>: <span class="number">31</span>, <span class="number">21</span>: <span class="number">24</span>, <span class="number">22</span>: <span class="number">7</span>, <span class="number">23</span>: <span class="number">0</span>, <span class="number">24</span>: <span class="number">5</span>, <span class="number">25</span>: <span class="number">10</span>, <span class="number">26</span>: <span class="number">17</span>, <span class="number">27</span>: <span class="number">22</span>, <span class="number">28</span>: <span class="number">27</span>, <span class="number">29</span>: <span class="number">32</span>, <span class="number">30</span>: <span class="number">11</span>, <span class="number">31</span>: <span class="number">4</span>, <span class="number">32</span>: <span class="number">23</span>, <span class="number">33</span>: <span class="number">16</span>, <span class="number">34</span>: <span class="number">33</span>, <span class="number">35</span>: <span class="number">26</span>&#125;</span><br><span class="line">	mappings = &#123;v:k <span class="keyword">for</span> k,v <span class="keyword">in</span> mappings.items()&#125;</span><br><span class="line"></span><br><span class="line">	out = [<span class="literal">None</span>] * <span class="built_in">len</span>(inp)</span><br><span class="line">	<span class="keyword">for</span> orig, new <span class="keyword">in</span> mappings.items():</span><br><span class="line">		out[new] = inp[orig]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverse_num_combine</span>(<span class="params">inp, nums</span>):</span></span><br><span class="line"></span><br><span class="line">	<span class="comment"># The known output values</span></span><br><span class="line">	n_out = [inp[nums[i]] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>)]</span><br><span class="line"></span><br><span class="line">	<span class="comment"># The unknown input values that produce the output</span></span><br><span class="line">	n = [BitVec(<span class="string">f&quot;n<span class="subst">&#123;i&#125;</span>&quot;</span>, <span class="number">32</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>)]</span><br><span class="line"></span><br><span class="line">	s = Solver()</span><br><span class="line">	s.add(inp[nums[<span class="number">0</span>]] == ch_transform(n[<span class="number">4</span>]) ^ ch_transform(n[<span class="number">0</span>]) ^ n[<span class="number">0</span>] ^ n[<span class="number">2</span>] ^ ch_transform(n[<span class="number">2</span>]))</span><br><span class="line">	s.add(inp[nums[<span class="number">1</span>]] == ch_transform(n[<span class="number">5</span>]) ^ ch_transform(n[<span class="number">1</span>]) ^ n[<span class="number">1</span>] ^ n[<span class="number">3</span>] ^ ch_transform(n[<span class="number">3</span>]))</span><br><span class="line">	s.add(inp[nums[<span class="number">2</span>]] == ch_transform(n[<span class="number">0</span>]) ^ n[<span class="number">4</span>])</span><br><span class="line">	s.add(inp[nums[<span class="number">3</span>]] == ch_transform(n[<span class="number">1</span>]) ^ n[<span class="number">5</span>])</span><br><span class="line">	s.add(inp[nums[<span class="number">4</span>]] == ch_transform(n[<span class="number">2</span>]) ^ ch_transform(n[<span class="number">0</span>]) ^ n[<span class="number">0</span>])</span><br><span class="line">	s.add(inp[nums[<span class="number">5</span>]] == ch_transform(n[<span class="number">3</span>]) ^ ch_transform(n[<span class="number">1</span>]) ^ n[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> s.check() == sat:</span><br><span class="line"></span><br><span class="line">		m = s.model()</span><br><span class="line">		final_nums = [<span class="built_in">int</span>(<span class="built_in">str</span>(m[e])) <span class="keyword">for</span> e <span class="keyword">in</span> n]</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">			inp[nums[i]] = final_nums[i]</span><br><span class="line">		<span class="keyword">return</span> inp</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverse_combine</span>(<span class="params">inp</span>):</span></span><br><span class="line"></span><br><span class="line">	nums = [</span><br><span class="line">		[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">18</span>],</span><br><span class="line">		[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">11</span>,<span class="number">17</span>,<span class="number">23</span>],</span><br><span class="line">		[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">13</span>,<span class="number">14</span>,<span class="number">15</span>],</span><br><span class="line">		[<span class="number">10</span>,<span class="number">16</span>,<span class="number">22</span>,<span class="number">28</span>,<span class="number">29</span>,<span class="number">35</span>],</span><br><span class="line">		[<span class="number">19</span>,<span class="number">20</span>,<span class="number">24</span>,<span class="number">25</span>,<span class="number">26</span>,<span class="number">30</span>],</span><br><span class="line">		[<span class="number">21</span>,<span class="number">27</span>,<span class="number">31</span>,<span class="number">32</span>,<span class="number">33</span>,<span class="number">34</span>]</span><br><span class="line">	]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> n <span class="keyword">in</span> nums[::-<span class="number">1</span>]:</span><br><span class="line">		inp = reverse_num_combine(inp, n)</span><br><span class="line">	<span class="keyword">return</span> inp</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">	</span><br><span class="line">	target = <span class="built_in">bytes</span>.fromhex(<span class="string">&quot;0f4f733c41c6a4afb441d665c899aab36c99613c4edd704615663c1b7f16a66f2313126e&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>):</span><br><span class="line">		target = reverse_shuffle(target)</span><br><span class="line">		target = reverse_combine(target)</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;&quot;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>, target)))</span><br><span class="line">	<span class="comment"># DUCTF&#123;rev3rs1bl3___and___1nv3rtibl3&#125;</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -4366,7 +4359,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4379,7 +4372,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
