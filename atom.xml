@@ -150,7 +150,7 @@
     <link href="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/"/>
     <id>https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/</id>
     <published>2022-07-14T05:44:02.000Z</published>
-    <updated>2022-07-14T06:33:15.820Z</updated>
+    <updated>2022-08-13T15:08:29.375Z</updated>
     
     
       
@@ -167,9 +167,9 @@
     
     
     
-    <category term="UPX" scheme="https://zsy-arch.github.io/tags/UPX/"/>
-    
     <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="Loader" scheme="https://zsy-arch.github.io/tags/Loader/"/>
     
   </entry>
   
@@ -232,7 +232,7 @@
     <link href="https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/"/>
     <id>https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/</id>
     <published>2022-02-01T05:37:01.000Z</published>
-    <updated>2022-07-01T02:28:13.663Z</updated>
+    <updated>2022-08-13T15:09:01.710Z</updated>
     
     
       
@@ -245,6 +245,10 @@
     
     
     
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="Windows Kernel" scheme="https://zsy-arch.github.io/tags/Windows-Kernel/"/>
     
   </entry>
   
