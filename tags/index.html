@@ -75,8 +75,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml" />
 
@@ -541,8 +539,10 @@
 
 
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+
    <script type="text/javascript">
         var gitalk = new Gitalk({
           clientID: '4b176ec7ff80f8899820',
@@ -550,11 +550,13 @@
           repo: 'zsy-arch.github.io',
           owner: 'zsy-arch',
           admin: ['zsy-arch'],
-          id: location.pathname,
+
+          id: md5(location.pathname),
+
           distractionFreeMode: 'true'
         })
-        gitalk.render('gitalk-container')           
-       </script>
+        gitalk.render('gitalk-container')
+    </script>
 
 
   
