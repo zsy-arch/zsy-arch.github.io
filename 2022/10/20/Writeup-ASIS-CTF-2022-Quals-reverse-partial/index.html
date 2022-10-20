@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="VvufYZh-K8JyCy1zH8D63T51xhTbqQ_p4bNLs98ynas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="reverse,writeup," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。   main函数有一个call    cs:off_564C6050EB00，猜测是rust、nim之类的语言，通过搜索字符串发现有.rs可以判断是rust的程序。 直接进入到sub_564C604BFA40分析，发现这个函数汇编层面比较复杂，F5也不是很清晰。 在L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Writeup - ASIS CTF 2022 Quals reverse [partial]">
+<meta property="og:url" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。   main函数有一个call    cs:off_564C6050EB00，猜测是rust、nim之类的语言，通过搜索字符串发现有.rs可以判断是rust的程序。 直接进入到sub_564C604BFA40分析，发现这个函数汇编层面比较复杂，F5也不是很清晰。 在L">
+<meta property="og:locale">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-10-51.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-18-31.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-25-15.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-28-32.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-32-40.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-36-18.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-37-55.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-39-49.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-43-56.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-52-30.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-02-07.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-05-51.png">
+<meta property="article:published_time" content="2022-10-20T13:05:08.000Z">
+<meta property="article:modified_time" content="2022-10-20T14:22:37.130Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="reverse">
+<meta property="article:tag" content="writeup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-10-51.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/"/>
+
+
+
+
+
+  <title>Writeup - ASIS CTF 2022 Quals reverse [partial] | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Writeup - ASIS CTF 2022 Quals reverse [partial]</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-10-20T21:05:08+08:00">
+                2022-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="traditional"><a href="#traditional" class="headerlink" title="traditional"></a>traditional</h1><h2 id="analysis"><a href="#analysis" class="headerlink" title="analysis"></a>analysis</h2><p>附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-10-51.png" class="" title="main">
+
+<p>main函数有一个<code>call    cs:off_564C6050EB00</code>，猜测是rust、nim之类的语言，通过搜索字符串发现有<code>.rs</code>可以判断是rust的程序。</p>
+<p>直接进入到<code>sub_564C604BFA40</code>分析，发现这个函数汇编层面比较复杂，F5也不是很清晰。</p>
+<p>在Linux上尝试运行elf文件：</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-18-31.png" class="" title="linux">
+
+<p>发现触发了rust的panic，其中<code>&#39;We lost the flag!: Os &#123; code: 2, kind: NotFound, message: &quot;No such file or directory&quot; &#125;&#39;</code>引起了我们的注意，应该是程序在读取文件时发现没有找到flag文件。</p>
+<p>我们重新在ida搜索字符串，发现了flag.txt，由此可以推断：程序读取flag.txt，将其加密，然后将加密结果存入flag.enc。另外使用findcrypt发现程序里面有base64 table。</p>
+<p>接下来就是动态调试，在<code>sub_564C604BFA40</code>开头下好断点，在开始之前我还在程序同级目录下创建了flag.txt文件，写入了<code>helloworld123321</code>。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-25-15.png" class="" title="img">
+
+<p>此处在flag.txt文件不存在时会跳转到<code>loc_555870DE126D</code>，也就是文件不存在的情况。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-28-32.png" class="" width="2">
+
+<p>此处执行完<code>call    cs:off_555870E2FF90</code>后，会发现<code>rsp+148h+flag_txt_data</code>存储了文件内容的指针，即<code>helloworld123321</code>，说明该函数负责读取文件。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-32-40.png" class="" title="base64">
+
+<p>另外，<code>call    b64encode_564C604C19A0</code>执行完之后在<code>rsp+148h+src</code>里发现了<code>helloworld123321</code>base64编码后的字符串<code>aGVsbG93b3JsZDEyMzMyMTAw</code>。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-36-18.png" class="" title="contact">
+
+<p><code>call    cs:memcpy_ptr</code>是将<code>This is the flag:</code>和<code>aGVsbG93b3JsZDEyMzMyMTAw</code>进行拼接，</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-37-55.png" class="" title="contact">
+
+<p>接下来还将<code> Just decode it :P</code>拼接到新字符串末尾，并将整体字符串进行逆序。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-39-49.png" class="" title="rev">
+
+<p>得到了字符串<code>This is the flag: aGVsbG93b3JsZDEyMzMyMTAw Just decode it :P</code>，逆序后就是<code>P: ti edoced tsuJ wATMyMzMyEDZsJ3b39GbsVGa :galf eht si sihT</code>。</p>
+<p>接下来是一个循环，对字符串的每一个字符进行依次遍历，并根据各种情况对字符进行计算，将计算结果组成新的字符串。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-43-56.png" class="" title="rev">
+
+<p>大致的计算方法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27; &#x27;</span> -&gt; <span class="string">&#x27;/&#x27;</span></span><br><span class="line"><span class="string">&#x27;:&#x27;</span> -&gt; <span class="string">&#x27;+&#x27;</span></span><br><span class="line"><span class="string">&#x27;a&#x27;</span> - <span class="string">&#x27;z&#x27;</span> -&gt; (x - <span class="number">78</span>) % <span class="number">26</span> + <span class="number">97</span></span><br><span class="line"><span class="string">&#x27;A&#x27;</span> - <span class="string">&#x27;Z&#x27;</span> -&gt; (x - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span></span><br><span class="line"><span class="string">&#x27;0&#x27;</span> - <span class="string">&#x27;9&#x27;</span> -&gt; (x - <span class="number">43</span> - <span class="number">5</span> * ((((x - <span class="number">43</span>) / <span class="number">5</span>) / <span class="number">5</span>) &amp; <span class="number">0xFE</span>)) | <span class="number">0x30</span></span><br></pre></td></tr></table></figure>
+
+<p>循环结束后，就是本题思路最有意思的地方了，程序将上面循环计算得到的结果作为base64<em>解码</em>的输入，并将解码的结果写入flag.enc文件中。</p>
+<h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;../flag.enc&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    buffer = f.read()</span><br><span class="line"></span><br><span class="line">data = base64.b64encode(buffer)</span><br><span class="line">res = []</span><br><span class="line"><span class="comment"># [0, 17] L, U and spaces</span></span><br><span class="line"><span class="comment"># [-1, -18]</span></span><br><span class="line"><span class="comment"># [-17] is &#x27;:&#x27;</span></span><br><span class="line"><span class="comment"># [1] is &#x27;:&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">enumerate</span>(data):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">chr</span>(v) <span class="keyword">in</span> string.ascii_uppercase:</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> string.ascii_uppercase:</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">ord</span>(c) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span> == v: res += c</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">chr</span>(v) <span class="keyword">in</span> string.ascii_lowercase:</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> string.ascii_lowercase:</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">ord</span>(c) - <span class="number">78</span>) % <span class="number">26</span> + <span class="number">97</span> == v: res += c</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">chr</span>(v) <span class="keyword">in</span> <span class="string">&#x27;0123456789&#x27;</span>:</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="string">&#x27;0123456789&#x27;</span>:</span><br><span class="line">            x = <span class="built_in">ord</span>(c)</span><br><span class="line">            <span class="keyword">if</span> (x - <span class="number">43</span> - <span class="number">5</span> * ((((x - <span class="number">43</span>) // <span class="number">5</span>) // <span class="number">5</span>) &amp; <span class="number">0xFE</span>)) | <span class="number">0x30</span> == v: </span><br><span class="line">                res += c</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">chr</span>(v) == <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">            res += <span class="string">&#x27; &#x27;</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">chr</span>(v) == <span class="string">&#x27;+&#x27;</span>:</span><br><span class="line">            res += <span class="string">&#x27;:&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res += <span class="built_in">chr</span>(v)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(data.decode(<span class="string">&#x27;ascii&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(res))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(res)[::-<span class="number">1</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因为时间匆忙，这个脚本写的不是很好，最后需要自己手动补一个<code>&#125;</code>。</p>
+<h1 id="Figole"><a href="#Figole" class="headerlink" title="Figole"></a>Figole</h1><h2 id="analysis-1"><a href="#analysis-1" class="headerlink" title="analysis"></a>analysis</h2><p>一个apk文件，直接在手机上安装可以看到就是一个输入并检测。</p>
+<p>使用jadx打开。</p>
+<p>通过manifest文件发现入口在<code>com.example.shctf.DActivity</code>，手机点击check按钮之后会执行<code>m210lambda$onCreate$0$comexampleshctfDActivity</code>，另外secret、key通过l1、l2两个方法计算得到。</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-52-30.png" class="" title="jadx">
+
+<p>我们先看l1方法，cn通过base64解码得到，<code>com.example.shctfdex.UT</code>是很明显的java类，s是app的timesnewroman.ttf文件的路径，可以在jadx的资源文件/assets下发现。try代码块可以发现是利用java反射获取并调用<code>com.example.shctfdex.UT</code>的<code>gf</code>方法。</p>
+<p>l2方法同理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">l1</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    String cn = base64Decode(Util.pn1); <span class="comment">// com.example.shctfdex.UT</span></span><br><span class="line">    String s = context.getExternalFilesDir(<span class="keyword">null</span>).getAbsolutePath() + <span class="string">&quot;/&quot;</span> + Util.an;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ClassLoader dLoader = getInst(s);</span><br><span class="line">        Class&lt;?&gt; loadedClass = dLoader.loadClass(cn);</span><br><span class="line">        Object obj = loadedClass.newInstance();</span><br><span class="line">        Method m = loadedClass.getMethod(base64Decode(<span class="string">&quot;Z2Y=&quot;</span>), Context.class); <span class="comment">// gf</span></span><br><span class="line">        String re = (String) m.invoke(obj, context);</span><br><span class="line">        <span class="keyword">return</span> re;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> e.getMessage();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们把<code>timesnewroman.ttf</code>用jadx导出，可以发现是一个dex文件。那么我们直接用jadx打开：</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-02-07.png" class="" title="jadx">
+
+<p><code>com.example.shctfdex.UT</code>的<code>gf</code>方法调用了<code>gd</code>方法，从数据库中读取数据，也就是apk里面的<code>calibri.ttf</code>文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">gd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String r = <span class="string">&quot;null&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Cursor mCur = <span class="keyword">this</span>.mDb.rawQuery(<span class="string">&quot;SELECT * FROM calibri&quot;</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (mCur != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mCur.moveToPosition(<span class="number">0</span>);</span><br><span class="line">            r = mCur.getString(<span class="number">0</span>);</span><br><span class="line">            mCur.close();</span><br><span class="line">            <span class="keyword">return</span> r; <span class="comment">// 7mePfqpM6Wd1El2sj4dlUboU6PieF7La8IJ1e76cfp4=</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r; <span class="comment">// 7mePfqpM6Wd1El2sj4dlUboU6PieF7La8IJ1e76cfp4=</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException mSQLException) &#123;</span><br><span class="line">        mSQLException.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> r; <span class="comment">// 7mePfqpM6Wd1El2sj4dlUboU6PieF7La8IJ1e76cfp4=</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读取数据库的方法如下：（脑子抽了把<code>calibri.ttf</code>重命名成<code>calibri.ttf.dex</code>，可以忽略）</p>
+<img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-05-51.png" class="" title="jadx">
+
+<p>通过以上方法分析l1、l2可以找到secret和key的值，接下来分析加密部分。</p>
+<p><code>m210lambda$onCreate$0$comexampleshctfDActivity</code>里的result通过<code>l3</code>计算得到，里面调用了<code>com.example.shctfdex.DX</code>的<code>ech</code>方法。另外，l3的最后一个参数需要<code>cdec</code>方法计算得到，就是一个xor操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">ech</span><span class="params">(String message, String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">byte</span>[] srcBuff = message.getBytes(StandardCharsets.UTF_8);</span><br><span class="line">        SecretKeySpec keySpec = <span class="keyword">new</span> SecretKeySpec(getK(<span class="number">0</span>, s + UT.gb(<span class="string">&quot;Mzg2OTM3NjEzNDc0MzYzMTM1MzUzMjM2MzMzMjMxMzA=&quot;</span>)), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        IvParameterSpec ivSpec = <span class="keyword">new</span> IvParameterSpec(getK(<span class="number">1</span>, s + UT.gb(<span class="string">&quot;Mzg2OTM3NjEzNDc0MzYzMTM1MzUzMjM2MzMzMjMxMzA=&quot;</span>)));</span><br><span class="line">        Cipher ecipher = Cipher.getInstance(<span class="string">&quot;AES/CBC/PKCS7Padding&quot;</span>);</span><br><span class="line">        ecipher.init(<span class="number">1</span>, keySpec, ivSpec);</span><br><span class="line">        <span class="keyword">return</span> Base64.encodeToString(ecipher.doFinal(srcBuff), <span class="number">0</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        ex.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;encrypt :&quot;</span> + ex.getMessage();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出就是AES加密，Mode为CBC，aes key和aes iv需要通过<code>getK</code>计算得到。</p>
+<p>在动手之前先整理下程序的流程：</p>
+<ol>
+<li>secret 通过 l1 计算得到</li>
+<li>key 通过 l2 计算得到</li>
+<li>将 secret、key传递给<code>m210lambda$onCreate$0$comexampleshctfDActivity</code></li>
+<li>flag 就是我们的输入</li>
+<li>result 通过 l3 计算得到，将flag和<code>cdec(q)</code>以参数传递，这里的q就是key<ol>
+<li>cdec函数的参数是一个hexstring，将参数转换成整数数组，并将每一个元素进行异或加密</li>
+</ol>
+</li>
+<li>l3 调用了 ech 方法，AES的Key和IV需要getK方法进行计算</li>
+<li>将 y （也就是secret）与result进行比较</li>
+</ol>
+<h2 id="script-1"><a href="#script-1" class="headerlink" title="script"></a>script</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">salt = <span class="string">&#x27;Mzg2OTM3NjEzNDc0MzYzMTM1MzUzMjM2MzMzMjMxMzA=&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_key</span>():</span></span><br><span class="line">    k = [<span class="built_in">chr</span>(b) <span class="keyword">for</span> b <span class="keyword">in</span> <span class="built_in">bytes</span>.fromhex(</span><br><span class="line">        <span class="string">&#x27;58504e58564f5d504a59534a58544e59564d5d504a5e524d585c4f5a564f5c57&#x27;</span>)]</span><br><span class="line">    result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(k)):</span><br><span class="line">        result += <span class="built_in">chr</span>(<span class="built_in">ord</span>(k[i]) ^ <span class="built_in">ord</span>(<span class="string">&#x27;key&#x27;</span>[i % <span class="number">3</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_salt</span>(<span class="params">p, s, mode: <span class="built_in">int</span></span>) -&gt; <span class="built_in">str</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">t</span>(<span class="params">q</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">int</span>(q, <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">h</span>(<span class="params">q</span>):</span></span><br><span class="line">        a = t(q[<span class="number">0</span>])</span><br><span class="line">        b = t(q[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> ((a &lt;&lt; <span class="number">4</span>) + b) &amp; <span class="number">0xff</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">g</span>(<span class="params">q</span>):</span></span><br><span class="line">        result = [<span class="number">0</span>] * (<span class="built_in">len</span>(q) // <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(q), <span class="number">2</span>):</span><br><span class="line">            result[i // <span class="number">2</span>] = h(q[i:i+<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    total = g(p + s)</span><br><span class="line">    n = <span class="built_in">len</span>(total)</span><br><span class="line">    result = [<span class="number">0</span>] * (n // <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">enumerate</span>(total):</span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == mode:</span><br><span class="line">            result[i // <span class="number">2</span>] = v</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">aes_key = do_salt(get_key(), base64.b64decode(salt).decode(<span class="string">&#x27;ascii&#x27;</span>), <span class="number">0</span>)</span><br><span class="line">aes_iv = do_salt(get_key(), base64.b64decode(salt).decode(<span class="string">&#x27;ascii&#x27;</span>), <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>, aes_key)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>, aes_iv)))</span><br><span class="line"></span><br><span class="line">aes = AES.new(key=<span class="built_in">bytes</span>(aes_key), mode=AES.MODE_CBC, iv=<span class="built_in">bytes</span>(aes_iv))</span><br><span class="line">data = aes.decrypt(base64.b64decode(<span class="string">&#x27;7mePfqpM6Wd1El2sj4dlUboU6PieF7La8IJ1e76cfp4=&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/reverse/" rel="tag"># reverse</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/" rel="next" title="Windows kernel exploit - HEVD Stack Overflow">
+                <i class="fa fa-chevron-left"></i> Windows kernel exploit - HEVD Stack Overflow
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#traditional"><span class="nav-number">1.</span> <span class="nav-text">traditional</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#analysis"><span class="nav-number">1.1.</span> <span class="nav-text">analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#script"><span class="nav-number">1.2.</span> <span class="nav-text">script</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Figole"><span class="nav-number">2.</span> <span class="nav-text">Figole</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#analysis-1"><span class="nav-number">2.1.</span> <span class="nav-text">analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#script-1"><span class="nav-number">2.2.</span> <span class="nav-text">script</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '4b176ec7ff80f8899820',
+          clientSecret: '1e7ab01131351f460347b88b1338c9dd8bec1bc7',
+          repo: 'zsy-arch.github.io',
+          owner: 'zsy-arch',
+          admin: ['zsy-arch'],
+
+          id: md5(location.pathname),
+
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

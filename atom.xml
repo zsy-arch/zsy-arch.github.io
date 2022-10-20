@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2022-08-13T14:45:34.816Z</updated>
+  <updated>2022-10-20T14:22:37.130Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Writeup - ASIS CTF 2022 Quals reverse [partial]</title>
+    <link href="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/"/>
+    <id>https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/</id>
+    <published>2022-10-20T13:05:08.000Z</published>
+    <updated>2022-10-20T14:22:37.130Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;traditional&quot;&gt;&lt;a href=&quot;#traditional&quot; class=&quot;headerlink&quot; title=&quot;traditional&quot;&gt;&lt;/a&gt;traditional&lt;/h1&gt;&lt;h2 id=&quot;analysis&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows kernel exploit - HEVD Stack Overflow</title>
+    <link href="https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/"/>
+    <id>https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/</id>
+    <published>2022-10-03T14:29:15.000Z</published>
+    <updated>2022-10-03T14:44:36.559Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;HEVD-环境搭建&quot;&gt;&lt;a href=&quot;#HEVD-环境搭建&quot; class=&quot;headerlink&quot; title=&quot;HEVD 环境搭建&quot;&gt;&lt;/a&gt;HEVD 环境搭建&lt;/h1&gt;&lt;p&gt;安装Visual Studio 2022、cmake、git cli，然后从&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="Windows kernel" scheme="https://zsy-arch.github.io/tags/Windows-kernel/"/>
+    
+  </entry>
   
   <entry>
     <title>BUUOJ pwn刷题记录(持续更新)</title>
@@ -472,57 +522,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>CISCN [rev] babybc</title>
-    <link href="https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/"/>
-    <id>https://zsy-arch.github.io/2021/11/01/CISCN-rev-babybc/</id>
-    <published>2021-11-01T00:28:25.000Z</published>
-    <updated>2022-08-13T14:53:47.082Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;babybc&quot;&gt;&lt;a href=&quot;#babybc&quot; class=&quot;headerlink&quot; title=&quot;babybc&quot;&gt;&lt;/a&gt;babybc&lt;/h2&gt;&lt;p&gt;查看附件，发现是bc文件，经过一番搜索可知是LLVM</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>天津大学生信安大赛 2021 [rev] Bytecode</title>
-    <link href="https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/"/>
-    <id>https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/</id>
-    <published>2021-10-30T05:11:33.000Z</published>
-    <updated>2022-08-13T14:55:43.865Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;bytecode&quot;&gt;&lt;a href=&quot;#bytecode&quot; class=&quot;headerlink&quot; title=&quot;bytecode&quot;&gt;&lt;/a&gt;bytecode&lt;/h2&gt;&lt;p&gt;上来一个py字节码：&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
   </entry>
   
