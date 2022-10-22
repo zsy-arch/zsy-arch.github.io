@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="VvufYZh-K8JyCy1zH8D63T51xhTbqQ_p4bNLs98ynas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Binary Security," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- " type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="AES128 分析key expansionAES128的密钥拓展是将Nk * 4字节的密钥Key拓展为(Nr + 1) * Nb * 4字节的ExpKey。ExpKey里面的数据分成了(Nr + 1)组，每一组就是用来和state相加的RoundKey。 12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AES加密学习笔记">
+<meta property="og:url" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
+<meta property="og:description" content="AES128 分析key expansionAES128的密钥拓展是将Nk * 4字节的密钥Key拓展为(Nr + 1) * Nb * 4字节的ExpKey。ExpKey里面的数据分成了(Nr + 1)组，每一组就是用来和state相加的RoundKey。 12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta property="og:locale">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_19-56-38.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-05-41.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-15-27.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-18-39.png">
+<meta property="article:published_time" content="2022-10-22T07:18:11.000Z">
+<meta property="article:modified_time" content="2022-10-22T12:22:27.078Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="Binary Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_19-56-38.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2022/10/22/AES加密学习笔记/"/>
+
+
+
+
+
+  <title>AES加密学习笔记 | zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- </span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flag{zsy_arch_f0r_s0me7hinG}</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home-circle"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AES加密学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-10-22T15:18:11+08:00">
+                2022-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AES128-分析"><a href="#AES128-分析" class="headerlink" title="AES128 分析"></a>AES128 分析</h1><h2 id="key-expansion"><a href="#key-expansion" class="headerlink" title="key expansion"></a>key expansion</h2><p>AES128的密钥拓展是将<code>Nk * 4</code>字节的密钥Key拓展为<code>(Nr + 1) * Nb * 4</code>字节的ExpKey。<br>ExpKey里面的数据分成了<code>(Nr + 1)</code>组，每一组就是用来和state相加的RoundKey。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">KeyExpansion</span><span class="params">(<span class="keyword">uint8_t</span>* RoundKey, <span class="keyword">const</span> <span class="keyword">uint8_t</span>* Key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> i, j, k;</span><br><span class="line">  <span class="keyword">uint8_t</span> tempa[<span class="number">4</span>]; <span class="comment">// Used for the column/row operations</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// The first round key is the key itself.</span></span><br><span class="line">  <span class="comment">// 第一个循环，填充0号RoundKey</span></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; Nk; ++i)</span><br><span class="line">  &#123;</span><br><span class="line">    RoundKey[(i * <span class="number">4</span>) + <span class="number">0</span>] = Key[(i * <span class="number">4</span>) + <span class="number">0</span>];</span><br><span class="line">    RoundKey[(i * <span class="number">4</span>) + <span class="number">1</span>] = Key[(i * <span class="number">4</span>) + <span class="number">1</span>];</span><br><span class="line">    RoundKey[(i * <span class="number">4</span>) + <span class="number">2</span>] = Key[(i * <span class="number">4</span>) + <span class="number">2</span>];</span><br><span class="line">    RoundKey[(i * <span class="number">4</span>) + <span class="number">3</span>] = Key[(i * <span class="number">4</span>) + <span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// All other round keys are found from the previous round keys.</span></span><br><span class="line">  <span class="comment">// 第二个循环，计算剩余RoundKey</span></span><br><span class="line">  <span class="keyword">for</span> (i = Nk; i &lt; Nb * (Nr + <span class="number">1</span>); ++i)</span><br><span class="line">  &#123;</span><br><span class="line">    &#123;</span><br><span class="line">      k = (i - <span class="number">1</span>) * <span class="number">4</span>;</span><br><span class="line">      tempa[<span class="number">0</span>]=RoundKey[k + <span class="number">0</span>];</span><br><span class="line">      tempa[<span class="number">1</span>]=RoundKey[k + <span class="number">1</span>];</span><br><span class="line">      tempa[<span class="number">2</span>]=RoundKey[k + <span class="number">2</span>];</span><br><span class="line">      tempa[<span class="number">3</span>]=RoundKey[k + <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (i % Nk == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// This function shifts the 4 bytes in a word to the left once.</span></span><br><span class="line">      <span class="comment">// [a0,a1,a2,a3] becomes [a1,a2,a3,a0]</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// Function RotWord()</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">uint8_t</span> u8tmp = tempa[<span class="number">0</span>];</span><br><span class="line">        tempa[<span class="number">0</span>] = tempa[<span class="number">1</span>];</span><br><span class="line">        tempa[<span class="number">1</span>] = tempa[<span class="number">2</span>];</span><br><span class="line">        tempa[<span class="number">2</span>] = tempa[<span class="number">3</span>];</span><br><span class="line">        tempa[<span class="number">3</span>] = u8tmp;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// SubWord() is a function that takes a four-byte input word and </span></span><br><span class="line">      <span class="comment">// applies the S-box to each of the four bytes to produce an output word.</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// Function Subword()</span></span><br><span class="line">      &#123;</span><br><span class="line">        tempa[<span class="number">0</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">0</span>]);</span><br><span class="line">        tempa[<span class="number">1</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">1</span>]);</span><br><span class="line">        tempa[<span class="number">2</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">2</span>]);</span><br><span class="line">        tempa[<span class="number">3</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">3</span>]);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      tempa[<span class="number">0</span>] = tempa[<span class="number">0</span>] ^ Rcon[i/Nk];</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(AES256) &amp;&amp; (AES256 == 1)</span></span><br><span class="line">    <span class="keyword">if</span> (i % Nk == <span class="number">4</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// Function Subword()</span></span><br><span class="line">      &#123;</span><br><span class="line">        tempa[<span class="number">0</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">0</span>]);</span><br><span class="line">        tempa[<span class="number">1</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">1</span>]);</span><br><span class="line">        tempa[<span class="number">2</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">2</span>]);</span><br><span class="line">        tempa[<span class="number">3</span>] = <span class="built_in">getSBoxValue</span>(tempa[<span class="number">3</span>]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    j = i * <span class="number">4</span>; k=(i - Nk) * <span class="number">4</span>;</span><br><span class="line">    RoundKey[j + <span class="number">0</span>] = RoundKey[k + <span class="number">0</span>] ^ tempa[<span class="number">0</span>];</span><br><span class="line">    RoundKey[j + <span class="number">1</span>] = RoundKey[k + <span class="number">1</span>] ^ tempa[<span class="number">1</span>];</span><br><span class="line">    RoundKey[j + <span class="number">2</span>] = RoundKey[k + <span class="number">2</span>] ^ tempa[<span class="number">2</span>];</span><br><span class="line">    RoundKey[j + <span class="number">3</span>] = RoundKey[k + <span class="number">3</span>] ^ tempa[<span class="number">3</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个循环用来将Key复制到索引为0的RoundKey的位置，</p>
+<img src="/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_19-56-38.png" class="" title="mem1">
+
+<p>如图所示，假设我们的key为 <code>0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c</code>，经过第一次循环后，RoundKey前16个字节变为途中红色部分（也就是0号RoundKey）。</p>
+<p>第一个循环填充了<code>Nk * 4</code>个字节，即<code>Nk</code>个DWORD。第二个循环将剩余的<code>Nb * (Nr + 1) - Nk</code>个DWORD计算并填充到RoundKey。</p>
+<p>第二个循环首先获取已经填充到RoundKey的最后一个DWORD，存入tmpa，这里就是<code>09 cf 4f 3c</code>。接下来，如果当前循环变量i可以被Nk整除，就将tmpa的每一个字节循环移动一个位置，变成<code>cf 4f 3c 09</code>，然后每一个字节使用AES的SBox进行代换，得到<code>8a 84 eb 01</code>，并将tmpa[0]与Round Constant的索引为<code>i / Nk</code>的值进行异或。</p>
+<img src="/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-05-41.png" class="" title="mem2">
+
+<p>得到最终的tmpa结果后，从RoundKey的索引为<code>(i - Nk) * 4</code>也就是将要填充的位置的前16个字节开始读取一个DWORD，将该DWORD的4个字节与tmpa的4个字节对应进行异或。</p>
+<img src="/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-15-27.png" class="" title="end1">
+
+<p>比如此时，在第二个循环的第一次循环中，tmpa为<code>8a 84 eb 01</code>，从将要填充的位置的前16个字节开始读取一个DWORD得到的就是<code>2b 7e 15 16</code>，将它们对应异或之后得到<code>a0 fa fe 17</code>。</p>
+<img src="/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Snipaste_2022-10-22_20-18-39.png" class="" title="mem3">
+
+<h1 id="reverse中的AES128"><a href="#reverse中的AES128" class="headerlink" title="reverse中的AES128"></a>reverse中的AES128</h1><p>AES这种算法在CTF的reverse题目中还是比较常见的，出题人可以直接把AES原封不动放到题目里，也可以是魔改一部分代码，甚至是把AES最核心的GF(2^8)运算作为出题点。</p>
+<p>首先，我们的想法就是在了解了AES算法的基础上怎么快速地识别出AES算法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Binary-Security/" rel="tag"># Binary Security</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/" rel="next" title="Writeup - ASIS CTF 2022 Quals reverse [partial]">
+                <i class="fa fa-chevron-left"></i> Writeup - ASIS CTF 2022 Quals reverse [partial]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AES128-%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">AES128 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#key-expansion"><span class="nav-number">1.1.</span> <span class="nav-text">key expansion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reverse%E4%B8%AD%E7%9A%84AES128"><span class="nav-number">2.</span> <span class="nav-text">reverse中的AES128</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '4b176ec7ff80f8899820',
+          clientSecret: '1e7ab01131351f460347b88b1338c9dd8bec1bc7',
+          repo: 'zsy-arch.github.io',
+          owner: 'zsy-arch',
+          admin: ['zsy-arch'],
+
+          id: md5(location.pathname),
+
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

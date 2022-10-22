@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2022-10-20T14:23:48.292Z</updated>
+  <updated>2022-10-22T12:22:27.078Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>AES加密学习笔记</title>
+    <link href="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <published>2022-10-22T07:18:11.000Z</published>
+    <updated>2022-10-22T12:22:27.078Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;AES128-分析&quot;&gt;&lt;a href=&quot;#AES128-分析&quot; class=&quot;headerlink&quot; title=&quot;AES128 分析&quot;&gt;&lt;/a&gt;AES128 分析&lt;/h1&gt;&lt;h2 id=&quot;key-expansion&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Writeup - ASIS CTF 2022 Quals reverse [partial]</title>
     <link href="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/"/>
     <id>https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/</id>
     <published>2022-10-20T13:05:08.000Z</published>
-    <updated>2022-10-20T14:23:48.292Z</updated>
+    <updated>2022-10-22T07:27:42.060Z</updated>
     
     
       
@@ -501,27 +524,6 @@
     <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
     
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>test page</title>
-    <link href="https://zsy-arch.github.io/2021/11/05/test-page/"/>
-    <id>https://zsy-arch.github.io/2021/11/05/test-page/</id>
-    <published>2021-11-05T07:18:48.000Z</published>
-    <updated>2021-11-05T07:33:11.687Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;img src=&quot;/2021/11/05/test-page/image-20211105152005755.png&quot; class=&quot;&quot;</summary>
-        
-      
-    
-    
-    
     
   </entry>
   
