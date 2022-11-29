@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2022-10-22T13:16:27.180Z</updated>
+  <updated>2022-11-29T18:51:43.298Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DASCTF2022_11月赛</title>
+    <link href="https://zsy-arch.github.io/2022/11/29/DASCTF2022-11%E6%9C%88%E8%B5%9B/"/>
+    <id>https://zsy-arch.github.io/2022/11/29/DASCTF2022-11%E6%9C%88%E8%B5%9B/</id>
+    <published>2022-11-28T16:36:10.000Z</published>
+    <updated>2022-11-29T18:51:43.298Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;babytea&quot;&gt;&lt;a href=&quot;#babytea&quot; class=&quot;headerlink&quot; title=&quot;babytea&quot;&gt;&lt;/a&gt;babytea&lt;/h1&gt;&lt;p&gt;这个题目用到了比较简单的TEA加密，但是使用异常处理来打乱了控制流。&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+  </entry>
   
   <entry>
     <title>AES加密学习笔记</title>
@@ -489,32 +515,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;BUUOJ-rev-signal1&quot;&gt;&lt;a href=&quot;#BUUOJ-rev-signal1&quot; class=&quot;headerlink&quot; title=&quot;BUUOJ [rev] signal1&quot;&gt;&lt;/a&gt;BUUOJ [rev]</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>香山杯 [rev] easy_py</title>
-    <link href="https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/"/>
-    <id>https://zsy-arch.github.io/2021/11/07/%E9%A6%99%E5%B1%B1%E6%9D%AF-rev-easy-py/</id>
-    <published>2021-11-07T14:38:18.000Z</published>
-    <updated>2022-08-13T14:55:59.155Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;逆向PYC文件：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
         
       
     
