@@ -244,6 +244,129 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2024/02/04/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-2024-Reverse-WriteUp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/02/04/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-2024-Reverse-WriteUp/" itemprop="url">西湖论剑 2024 Reverse WriteUp</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-02-04T20:59:34+08:00">
+                2024-02-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="MZ"><a href="#MZ" class="headerlink" title="MZ"></a>MZ</h1><p>使用IDAPython脚本进行一次搜索即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> idaapi</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 512 dwords, 256 structs</span></span><br><span class="line">table = []</span><br><span class="line">table_addr = <span class="number">0x00449078</span></span><br><span class="line">steps = []</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(idaapi.get_dword(table_addr + (<span class="number">2</span> * <span class="built_in">ord</span>(<span class="string">&quot;a&quot;</span>)) * <span class="number">4</span>)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">enumerate</span>(string.printable):</span><br><span class="line">    c = <span class="built_in">ord</span>(v)</span><br><span class="line">    next_c = <span class="built_in">chr</span>(idaapi.get_dword(table_addr + (<span class="number">2</span> * c) * <span class="number">4</span>) &amp; <span class="number">0xFF</span>)</span><br><span class="line">    next_addr = idaapi.get_dword(table_addr + (<span class="number">2</span> * c + <span class="number">1</span>) * <span class="number">4</span>)</span><br><span class="line">    <span class="keyword">if</span> (c - <span class="number">5</span>) == <span class="built_in">ord</span>(next_c) <span class="keyword">or</span> (c + <span class="number">5</span>) == <span class="built_in">ord</span>(next_c):</span><br><span class="line">        steps.append(&#123;<span class="string">&quot;path&quot;</span>: v, <span class="string">&quot;addr&quot;</span>: next_addr&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(steps)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 剪枝，一遍遍从输出中找到有意义的子字符串，减少爆破时间</span></span><br><span class="line">steps = [&#123;<span class="string">&quot;path&quot;</span>: <span class="string">&quot;Somet1mes_ch0ice_i5_more_import@nt_tHan_effor&quot;</span>, <span class="string">&quot;addr&quot;</span>: <span class="number">4522496</span>&#125;]</span><br><span class="line">res = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># traverse</span></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">len</span>(steps) != <span class="number">0</span>:</span><br><span class="line">    step = steps[<span class="number">0</span>]</span><br><span class="line">    steps = steps[<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;------------------------&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(steps)</span><br><span class="line">    <span class="built_in">print</span>(step)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;------------------------&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(step[<span class="string">&quot;path&quot;</span>]) == <span class="number">48</span>:</span><br><span class="line">        res.append(step)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    addr = step[<span class="string">&quot;addr&quot;</span>]</span><br><span class="line">    <span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">enumerate</span>(string.printable):</span><br><span class="line">        c = <span class="built_in">ord</span>(v)</span><br><span class="line">        next_c = <span class="built_in">chr</span>(idaapi.get_dword(addr + (<span class="number">2</span> * c) * <span class="number">4</span>) &amp; <span class="number">0xFF</span>)</span><br><span class="line">        next_table = idaapi.get_dword(addr + (<span class="number">2</span> * c + <span class="number">1</span>) * <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">if</span> (c - <span class="number">5</span>) == <span class="built_in">ord</span>(next_c) <span class="keyword">or</span> (c + <span class="number">5</span>) == <span class="built_in">ord</span>(next_c):</span><br><span class="line">            new_step = step.copy()</span><br><span class="line">            new_step[<span class="string">&quot;path&quot;</span>] += v</span><br><span class="line">            new_step[<span class="string">&quot;addr&quot;</span>] = next_table</span><br><span class="line">            steps.append(new_step)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"><span class="comment"># &#x27;Somet1mes_ch0ice_i5_more_import@nt_tHan_effort~!&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="BabyCPP"><a href="#BabyCPP" class="headerlink" title="BabyCPP"></a>BabyCPP</h1><p>用到C++的STL，使用函数实现<code>&amp;</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code>、<code>^</code>，然后实现了TEA，后面有点体力活，有时间再更…</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2022/11/29/DASCTF2022-11%E6%9C%88%E8%B5%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4317,136 +4440,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/07/ADWORLD-REV-666/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zsy的小屋 -> D0 wh4t u w4n7 t0 d0 <- ">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/10/07/ADWORLD-REV-666/" itemprop="url">ADWORLD [REV] 666</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-07T11:35:05+08:00">
-                2021-10-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="666"><a href="#666" class="headerlink" title="666"></a>666</h2><p>老题新做了属于是.本来是一道入门级题目,但是当年想不出来是因为对这种类似crypt的题目比较生疏.越学越发现密码学确实对逆向手来说很重要,趁着水课时间来回忆一下.</p>
-<p>IDA Pro打开,就不看main了,直接进入核心函数:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __fastcall <span class="title">encode</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, __int64 a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v3[<span class="number">104</span>]; <span class="comment">// [rsp+10h] [rbp-70h]</span></span><br><span class="line">  <span class="keyword">int</span> v4; <span class="comment">// [rsp+78h] [rbp-8h]</span></span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+7Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  i = <span class="number">0</span>;</span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(a1) != key )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Your Length is Wrong&quot;</span>);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; key; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v3[i + <span class="number">64</span>] = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">    v3[i + <span class="number">33</span>] = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">    v3[i + <span class="number">2</span>] = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br><span class="line">    *(_BYTE *)(a2 + i) = v3[i + <span class="number">64</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">1LL</span>) = v3[i + <span class="number">33</span>];</span><br><span class="line">    *(_BYTE *)(a2 + i + <span class="number">2LL</span>) = v3[i + <span class="number">2</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>key是一个全局变量,恒为0x12 .v3其实就是一个tmp数组不用管,for循环里的可以简化为:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*(_BYTE *)(a2 + i) = key ^ (a1[i] + <span class="number">6</span>);</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">1LL</span>) = (a1[i + <span class="number">1</span>] - <span class="number">6</span>) ^ key;</span><br><span class="line">*(_BYTE *)(a2 + i + <span class="number">2LL</span>) = a1[i + <span class="number">2</span>] ^ <span class="number">6</span> ^ key;</span><br></pre></td></tr></table></figure>
-
-<p>解密脚本:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">0x69</span>, <span class="number">0x7A</span>, <span class="number">0x77</span>, <span class="number">0x68</span>, <span class="number">0x72</span>, <span class="number">0x6F</span>, <span class="number">0x7A</span>, <span class="number">0x22</span>, <span class="number">0x22</span>, <span class="number">0x77</span>, <span class="number">0x22</span>, <span class="number">0x76</span>, <span class="number">0x2E</span>, <span class="number">0x4B</span>, <span class="number">0x22</span>, <span class="number">0x2E</span>, <span class="number">0x4E</span>, <span class="number">0x69</span>]</span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(s))</span><br><span class="line">key = <span class="number">18</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i &lt; key:</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i] ^ key) - <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">1</span>] ^ key) + <span class="number">6</span>)</span><br><span class="line">    flag += <span class="built_in">chr</span>((s[i + <span class="number">2</span>] ^ <span class="number">6</span>) ^ key)</span><br><span class="line">    i += <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
-
-<p>水完一节课,去吃饭了冲冲冲.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4497,7 +4490,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4554,7 +4547,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
