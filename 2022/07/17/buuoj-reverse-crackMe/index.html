@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="crackMe附件 crackme.exe  分析IDA定位到wmain函数 123456789101112131415161718192021222324252627282930313233343536373839404142434445int wmain()&amp;#123;  FILE *v0; &#x2F;&#x2F; eax  FILE *v1; &#x2F;&#x2F; eax  char v3; &#x2F;&#x2F; [esp+3h] [ebp">
+<meta name="description" content="crackMe附件 crackme.exe  分析IDA定位到wmain函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="buuoj reverse crackMe">
 <meta property="og:url" content="https://zsy-arch.github.io/2022/07/17/buuoj-reverse-crackMe/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="crackMe附件 crackme.exe  分析IDA定位到wmain函数 123456789101112131415161718192021222324252627282930313233343536373839404142434445int wmain()&amp;#123;  FILE *v0; &#x2F;&#x2F; eax  FILE *v1; &#x2F;&#x2F; eax  char v3; &#x2F;&#x2F; [esp+3h] [ebp">
+<meta property="og:description" content="crackMe附件 crackme.exe  分析IDA定位到wmain函数">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-07-17T15:01:46.000Z">
-<meta property="article:modified_time" content="2022-07-17T16:00:49.211Z">
+<meta property="article:modified_time" content="2024-03-12T13:35:18.155Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -320,6 +320,7 @@
 <li>crackme.exe</li>
 </ul>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>IDA定位到wmain函数</p>
+<span id="more"></span>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">wmain</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  FILE *v0; <span class="comment">// eax</span></span><br><span class="line">  FILE *v1; <span class="comment">// eax</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [esp+3h] [ebp-405h]</span></span><br><span class="line">  <span class="keyword">char</span> v4[<span class="number">256</span>]; <span class="comment">// [esp+4h] [ebp-404h] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> Format[<span class="number">256</span>]; <span class="comment">// [esp+104h] [ebp-304h] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> v6[<span class="number">256</span>]; <span class="comment">// [esp+204h] [ebp-204h] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> v7[<span class="number">256</span>]; <span class="comment">// [esp+304h] [ebp-104h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Come one! Crack Me~~~\n&quot;</span>);</span><br><span class="line">  <span class="built_in">memset</span>(v7, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v7));</span><br><span class="line">  <span class="built_in">memset</span>(v6, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v6));</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">do</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;user(6-16 letters or numbers):&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, v7);</span><br><span class="line">        v0 = (FILE *)<span class="built_in">sub_CE24BE</span>();</span><br><span class="line">        <span class="built_in">fflush</span>(v0);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">while</span> ( !<span class="built_in">checkInput_CE1000</span>(v7) );</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;password(6-16 letters or numbers):&quot;</span>);</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, v6);</span><br><span class="line">      v1 = (FILE *)<span class="built_in">sub_CE24BE</span>();</span><br><span class="line">      <span class="built_in">fflush</span>(v1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ( !<span class="built_in">checkInput_CE1000</span>(v6) );</span><br><span class="line">    <span class="built_in">sub_CE1090</span>(v7);</span><br><span class="line">    <span class="built_in">memset</span>(Format, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(Format));</span><br><span class="line">    <span class="built_in">memset</span>(v4, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v4));</span><br><span class="line">    v3 = ((<span class="built_in"><span class="keyword">int</span></span> (__cdecl *)(<span class="keyword">char</span> *, <span class="keyword">char</span> *))sub_CE11A0)(Format, v4);</span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">sub_CE1830</span>((<span class="keyword">int</span>)v7, v6) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v3 )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(v4);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(Format);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>开始的 while 循环条件中的 checkInput_CE1000 用来判断输入的用户名和密码是否只有字母和数字.</p>
@@ -621,6 +622,8 @@
   
 
 
+  
+
 
 
 
@@ -659,6 +662,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

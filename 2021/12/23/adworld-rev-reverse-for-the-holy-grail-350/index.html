@@ -91,7 +91,7 @@
 <meta property="og:description" content="太困了,直接上脚本. 12345678910111213141516171819202122firstChars &#x3D; [0x41, 0x69, 0x6E, 0x45, 0x6F, 0x61]thirdChars &#x3D; [0x02EF, 0x02C4, 0x02DC, 0x02C7, 0x02DE, 0x02FC]masterArray &#x3D; [0x1D7, 0x0C, 0x244, 0x25E, 0x">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-22T18:13:36.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:43:05.518Z">
+<meta property="article:modified_time" content="2024-03-12T13:35:49.195Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -317,6 +317,7 @@
       
         <p>太困了,直接上脚本.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">firstChars = [<span class="number">0x41</span>, <span class="number">0x69</span>, <span class="number">0x6E</span>, <span class="number">0x45</span>, <span class="number">0x6F</span>, <span class="number">0x61</span>]</span><br><span class="line">thirdChars = [<span class="number">0x02EF</span>, <span class="number">0x02C4</span>, <span class="number">0x02DC</span>, <span class="number">0x02C7</span>, <span class="number">0x02DE</span>, <span class="number">0x02FC</span>]</span><br><span class="line">masterArray = [<span class="number">0x1D7</span>, <span class="number">0x0C</span>, <span class="number">0x244</span>, <span class="number">0x25E</span>, <span class="number">0x93</span>, <span class="number">0x6C</span>]</span><br><span class="line">flag = [<span class="number">0</span>] * <span class="number">18</span></span><br><span class="line">hashCode = <span class="number">666</span></span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">18</span>, <span class="number">3</span>):</span><br><span class="line">    flag[i] = firstChars[j]</span><br><span class="line">    tmp = hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">128</span>):</span><br><span class="line">        <span class="keyword">if</span> (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:</span><br><span class="line">            flag[i + <span class="number">1</span>] = k</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    flag[i + <span class="number">2</span>] = thirdChars[j] ^ hashCode</span><br><span class="line">    hashCode += hashCode % <span class="number">5</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">chr</span>, flag))))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
       
     </div>
     
@@ -552,6 +553,8 @@
   
 
 
+  
+
 
 
 
@@ -590,6 +593,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

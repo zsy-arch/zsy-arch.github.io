@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="PVM看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。 使用r21r2 -a arm -b 16 -m 0x8000000 chall.bin  寻找关键函数1pdf @xxx  这里的xxx表示还没有找到 &#x3D; &#x3D;，待续。。。">
+<meta name="description" content="PVM看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tasteless_ctf_2021 [rev] PVM">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/10/05/tasteless-ctf-2021-rev-PVM/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="PVM看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。 使用r21r2 -a arm -b 16 -m 0x8000000 chall.bin  寻找关键函数1pdf @xxx  这里的xxx表示还没有找到 &#x3D; &#x3D;，待续。。。">
+<meta property="og:description" content="PVM看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-10-05T13:42:48.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:55:20.973Z">
+<meta property="article:modified_time" content="2024-03-12T13:37:36.188Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -316,6 +316,8 @@
 
       
         <h2 id="PVM"><a href="#PVM" class="headerlink" title="PVM"></a>PVM</h2><p>看到题目名字里的“VM”就想到了虚拟机，根据题目描述里的“Pico SDK” “ARM” 以及附件里的图片，猜测应该是一个运行在树莓派开发板的程序。</p>
+<span id="more"></span>
+
 <h3 id="使用r2"><a href="#使用r2" class="headerlink" title="使用r2"></a>使用r2</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r2 -a arm -b 16 -m 0x8000000 chall.bin</span><br></pre></td></tr></table></figure>
 
 <h3 id="寻找关键函数"><a href="#寻找关键函数" class="headerlink" title="寻找关键函数"></a>寻找关键函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdf @xxx</span><br></pre></td></tr></table></figure>
@@ -582,6 +584,8 @@
   
 
 
+  
+
 
 
 
@@ -620,6 +624,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

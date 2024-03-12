@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="dropper脱壳 &amp; 多进程(1) 脱壳 从github.com&#x2F;upx&#x2F;upx上下载最新的源码编译并脱壳即可 (2) 分析无壳程序 main函数: 123456789101112131415161718192021222324252627282930313233343536373839404142434445__int64 sub_7FF6DCB19470()&amp;#123;  char">
+<meta name="description" content="dropper脱壳 &amp; 多进程(1) 脱壳 从github.com&#x2F;upx&#x2F;upx上下载最新的源码编译并脱壳即可">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ACTF2022 复现">
 <meta property="og:url" content="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="dropper脱壳 &amp; 多进程(1) 脱壳 从github.com&#x2F;upx&#x2F;upx上下载最新的源码编译并脱壳即可 (2) 分析无壳程序 main函数: 123456789101112131415161718192021222324252627282930313233343536373839404142434445__int64 sub_7FF6DCB19470()&amp;#123;  char">
+<meta property="og:description" content="dropper脱壳 &amp; 多进程(1) 脱壳 从github.com&#x2F;upx&#x2F;upx上下载最新的源码编译并脱壳即可">
 <meta property="og:locale">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/unpack2.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/unpack3.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/real_vftable.png">
 <meta property="article:published_time" content="2022-07-12T07:10:45.000Z">
-<meta property="article:modified_time" content="2022-07-12T10:20:49.633Z">
+<meta property="article:modified_time" content="2024-03-12T13:36:06.315Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -322,6 +322,7 @@
       
         <h1 id="dropper"><a href="#dropper" class="headerlink" title="dropper"></a>dropper</h1><h2 id="脱壳-amp-多进程"><a href="#脱壳-amp-多进程" class="headerlink" title="脱壳 &amp; 多进程"></a>脱壳 &amp; 多进程</h2><p>(1) 脱壳</p>
 <p>从github.com/upx/upx上下载最新的源码编译并脱壳即可</p>
+<span id="more"></span>
 <p>(2) 分析无壳程序</p>
 <p>main函数:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 <span class="title">sub_7FF6DCB19470</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> *v0; <span class="comment">// rdi</span></span><br><span class="line">  __int64 i; <span class="comment">// rcx</span></span><br><span class="line">  <span class="keyword">char</span> v3[<span class="number">32</span>]; <span class="comment">// [rsp+0h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [rsp+30h] [rbp+0h] BYREF</span></span><br><span class="line">  HMODULE ModuleHandleW; <span class="comment">// [rsp+38h] [rbp+8h]</span></span><br><span class="line">  __int64 v6; <span class="comment">// [rsp+58h] [rbp+28h]</span></span><br><span class="line">  __int64 v7; <span class="comment">// [rsp+78h] [rbp+48h]</span></span><br><span class="line">  __int64 v8[<span class="number">3</span>]; <span class="comment">// [rsp+98h] [rbp+68h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v9; <span class="comment">// [rsp+B4h] [rbp+84h]</span></span><br><span class="line">  <span class="keyword">int</span> ExitCode[<span class="number">9</span>]; <span class="comment">// [rsp+D4h] [rbp+A4h] BYREF</span></span><br><span class="line">  HANDLE hHandle[<span class="number">3</span>]; <span class="comment">// [rsp+F8h] [rbp+C8h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v12[<span class="number">26</span>]; <span class="comment">// [rsp+130h] [rbp+100h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> v13; <span class="comment">// [rsp+1B4h] [rbp+184h] BYREF</span></span><br><span class="line"></span><br><span class="line">  v0 = &amp;v4;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">106</span>i64; i; --i )</span><br><span class="line">  &#123;</span><br><span class="line">    *(_DWORD *)v0 = <span class="number">-858993460</span>;</span><br><span class="line">    v0 += <span class="number">4</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">sub_7FF6DCB11816</span>((__int64)&amp;unk_7FF6DCB35100);</span><br><span class="line">  <span class="built_in">sub_7FF6DCB113D4</span>();</span><br><span class="line">  ModuleHandleW = <span class="built_in">GetModuleHandleW</span>(<span class="number">0</span>i64);</span><br><span class="line">  v6 = <span class="built_in">qword_7FF6DCB2AA58</span>(ModuleHandleW, <span class="number">101</span>i64, <span class="number">256</span>i64);</span><br><span class="line">  v7 = <span class="built_in">qword_7FF6DCB2AA60</span>(ModuleHandleW, v6);</span><br><span class="line">  v8[<span class="number">0</span>] = <span class="built_in">qword_7FF6DCB2AA68</span>(v7);</span><br><span class="line">  v9 = <span class="built_in">qword_7FF6DCB2AA70</span>(ModuleHandleW, v6);</span><br><span class="line">  v8[<span class="number">0</span>] = <span class="built_in">sub_7FF6DCB113D9</span>(v8[<span class="number">0</span>], v9);</span><br><span class="line">  ExitCode[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">j_memset</span>(hHandle, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(hHandle));</span><br><span class="line">  <span class="built_in">j_memset</span>(v12, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(v12));</span><br><span class="line">  <span class="built_in">LOWORD</span>(v13) = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( !(<span class="keyword">unsigned</span> <span class="keyword">int</span>)<span class="built_in">sub_7FF6DCB115C3</span>((<span class="keyword">int</span>)hHandle, (<span class="keyword">int</span>)v12, v8[<span class="number">0</span>], (<span class="keyword">int</span>)&amp;v13, <span class="number">2u</span>i64) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">WaitForSingleObject</span>(hHandle[<span class="number">0</span>], <span class="number">0xFFFFFFFF</span>);</span><br><span class="line">    <span class="built_in">GetExitCodeProcess</span>(hHandle[<span class="number">0</span>], (LPDWORD)ExitCode);</span><br><span class="line">    <span class="built_in">CloseHandle</span>(hHandle[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">CloseHandle</span>(hHandle[<span class="number">0</span>]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">sub_7FF6DCB114B0</span>();</span><br><span class="line">  <span class="built_in">sub_7FF6DCB116E0</span>(v3, &amp;unk_7FF6DCB24B30);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>i64;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -627,6 +628,8 @@
   
 
 
+  
+
 
 
 
@@ -665,6 +668,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

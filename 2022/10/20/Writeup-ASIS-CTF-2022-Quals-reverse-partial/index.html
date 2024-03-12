@@ -83,12 +83,12 @@
 
 
 
-<meta name="description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。   main函数有一个call    cs:off_564C6050EB00，猜测是rust、nim之类的语言，通过搜索字符串发现有.rs可以判断是rust的程序。 直接进入到sub_564C604BFA40分析，发现这个函数汇编层面比较复杂，F5也不是很清晰。 在L">
+<meta name="description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Writeup - ASIS CTF 2022 Quals reverse [partial]">
 <meta property="og:url" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。   main函数有一个call    cs:off_564C6050EB00，猜测是rust、nim之类的语言，通过搜索字符串发现有.rs可以判断是rust的程序。 直接进入到sub_564C604BFA40分析，发现这个函数汇编层面比较复杂，F5也不是很清晰。 在L">
+<meta property="og:description" content="traditionalanalysis附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。">
 <meta property="og:locale">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-10-51.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-18-31.png">
@@ -103,7 +103,7 @@
 <meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-02-07.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_22-05-51.png">
 <meta property="article:published_time" content="2022-10-20T13:05:08.000Z">
-<meta property="article:modified_time" content="2022-10-22T07:27:42.060Z">
+<meta property="article:modified_time" content="2024-03-12T13:36:51.437Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="reverse">
 <meta property="article:tag" content="writeup">
@@ -329,6 +329,7 @@
 
       
         <h1 id="traditional"><a href="#traditional" class="headerlink" title="traditional"></a>traditional</h1><h2 id="analysis"><a href="#analysis" class="headerlink" title="analysis"></a>analysis</h2><p>附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。</p>
+<span id="more"></span>
 <img src="/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/Snipaste_2022-10-20_21-10-51.png" class="" title="main">
 
 <p>main函数有一个<code>call    cs:off_564C6050EB00</code>，猜测是rust、nim之类的语言，通过搜索字符串发现有<code>.rs</code>可以判断是rust的程序。</p>
@@ -665,6 +666,8 @@
   
 
 
+  
+
 
 
 
@@ -703,6 +706,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

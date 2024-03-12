@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="SQL注入分类 数字型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;$id LIMIT 0, 1&quot;; 字符型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;&amp;#x27;$id&amp;#x27">
+<meta name="description" content="SQL注入分类 数字型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;$id LIMIT 0, 1&quot;;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL Injection">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/08/18/SQL-Injection/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="SQL注入分类 数字型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;$id LIMIT 0, 1&quot;; 字符型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;&amp;#x27;$id&amp;#x27">
+<meta property="og:description" content="SQL注入分类 数字型注入 12$id &#x3D; $_GET[&amp;#x27;id&amp;#x27;];$sql &#x3D; &quot;select * from users where id&#x3D;$id LIMIT 0, 1&quot;;">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-18T03:33:03.000Z">
-<meta property="article:modified_time" content="2022-08-13T15:10:03.931Z">
+<meta property="article:modified_time" content="2024-03-12T13:37:41.155Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="Web Security">
 <meta name="twitter:card" content="summary">
@@ -316,7 +316,8 @@
       
         <h2 id="SQL注入分类"><a href="#SQL注入分类" class="headerlink" title="SQL注入分类"></a>SQL注入分类</h2><ol>
 <li><p>数字型注入</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from users where id=<span class="subst">$id</span> LIMIT 0, 1&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from users where id=<span class="subst">$id</span> LIMIT 0, 1&quot;</span>;</span><br></pre></td></tr></table></figure>
+<span id="more"></span></li>
 <li><p>字符型注入</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from users where id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0, 1&quot;</span>;</span><br></pre></td></tr></table></figure></li>
 </ol>
@@ -630,6 +631,8 @@
   
 
 
+  
+
 
 
 
@@ -668,6 +671,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

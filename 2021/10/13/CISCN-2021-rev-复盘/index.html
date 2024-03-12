@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="imnotavirus先看到 main.exe，使用DIE发现有UPX壳， 1upx.exe -d main.exe  根据另一个文件夹 pyinstaller-4.2 ，可知这是一个pyinstaller打包成的EXE。使用pyinstxtractor解包： 1python3 pyinstxtractor.py main.exe  可能会观察到类似类似下面的字样： 1[!] Error: Fai">
+<meta name="description" content="imnotavirus先看到 main.exe，使用DIE发现有UPX壳，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CISCN 2021 [rev] 复盘">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/10/13/CISCN-2021-rev-%E5%A4%8D%E7%9B%98/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="imnotavirus先看到 main.exe，使用DIE发现有UPX壳， 1upx.exe -d main.exe  根据另一个文件夹 pyinstaller-4.2 ，可知这是一个pyinstaller打包成的EXE。使用pyinstxtractor解包： 1python3 pyinstxtractor.py main.exe  可能会观察到类似类似下面的字样： 1[!] Error: Fai">
+<meta property="og:description" content="imnotavirus先看到 main.exe，使用DIE发现有UPX壳，">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-10-12T18:30:56.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:53:39.600Z">
+<meta property="article:modified_time" content="2024-03-12T13:35:11.644Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -316,6 +316,7 @@
 
       
         <h2 id="imnotavirus"><a href="#imnotavirus" class="headerlink" title="imnotavirus"></a>imnotavirus</h2><p>先看到 <code>main.exe</code>，使用DIE发现有UPX壳，</p>
+<span id="more"></span>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upx.exe -d main.exe</span><br></pre></td></tr></table></figure>
 
 <p>根据另一个文件夹 <code>pyinstaller-4.2</code> ，可知这是一个pyinstaller打包成的EXE。使用pyinstxtractor解包：</p>
@@ -616,6 +617,8 @@
   
 
 
+  
+
 
 
 
@@ -654,6 +657,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

@@ -83,12 +83,12 @@
 
 
 
-<meta name="description" content="reversertMaze首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM.  12345if [ ! -f &quot;sd.bin&quot; ]; thendd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;sd.bin bs&#x3D;1024 count&#x3D;65536fiqemu-system-arm -M">
+<meta name="description" content="reversertMaze首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CISCN 2022 华北赛后复盘">
 <meta property="og:url" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="reversertMaze首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM.  12345if [ ! -f &quot;sd.bin&quot; ]; thendd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;sd.bin bs&#x3D;1024 count&#x3D;65536fiqemu-system-arm -M">
+<meta property="og:description" content="reversertMaze首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM.">
 <meta property="og:locale">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-maze.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-ida.png">
@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-solve.png">
 <meta property="og:image" content="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/1-flag.jpg">
 <meta property="article:published_time" content="2022-07-01T02:27:06.000Z">
-<meta property="article:modified_time" content="2022-07-01T03:26:56.695Z">
+<meta property="article:modified_time" content="2024-03-12T13:35:08.944Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -324,6 +324,7 @@
 
       
         <h1 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h1><h2 id="rtMaze"><a href="#rtMaze" class="headerlink" title="rtMaze"></a>rtMaze</h2><p>首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM. </p>
+<span id="more"></span>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [ ! -f &quot;sd.bin&quot; ]; then</span><br><span class="line">dd if=/dev/zero of=sd.bin bs=1024 count=65536</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">qemu-system-arm -M vexpress-a9 -smp cpus=2 -kernel rtMaze.bin -serial stdio -sd sd.bin -show-cursor</span><br></pre></td></tr></table></figure>
 
 <p>运行qemu.sh后, 输入get_flag会发现要先解一个迷宫, 我输入一个’a’发现就可以, 但是到后面会发现这样投机取巧是不行的, 正确的解法如下:</p>
@@ -646,6 +647,8 @@
   
 
 
+  
+
 
 
 
@@ -684,6 +687,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

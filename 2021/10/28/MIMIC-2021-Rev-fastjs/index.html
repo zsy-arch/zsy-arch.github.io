@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="fastjsIDA Pro打开，可以在string窗口中发现quickjs字样。 通过main函数中的： 12345lea     rsi, unk_AA6A0xor     ecx, ecxmov     edx, 8DDhmov     rdi, rbpcall    sub_96DB0  可知JavaScript字节码存储在unk_AA6A0，且长度为0x8DD。 将其dump出来， 123">
+<meta name="description" content="fastjsIDA Pro打开，可以在string窗口中发现quickjs字样。 通过main函数中的：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MIMIC 2021 [Rev] fastjs">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/10/28/MIMIC-2021-Rev-fastjs/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="fastjsIDA Pro打开，可以在string窗口中发现quickjs字样。 通过main函数中的： 12345lea     rsi, unk_AA6A0xor     ecx, ecxmov     edx, 8DDhmov     rdi, rbpcall    sub_96DB0  可知JavaScript字节码存储在unk_AA6A0，且长度为0x8DD。 将其dump出来， 123">
+<meta property="og:description" content="fastjsIDA Pro打开，可以在string窗口中发现quickjs字样。 通过main函数中的：">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-10-28T10:33:29.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:54:53.430Z">
+<meta property="article:modified_time" content="2024-03-12T13:37:56.391Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -317,6 +317,8 @@
       
         <h1 id="fastjs"><a href="#fastjs" class="headerlink" title="fastjs"></a>fastjs</h1><p>IDA Pro打开，可以在string窗口中发现quickjs字样。</p>
 <p>通过main函数中的：</p>
+<span id="more"></span>
+
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lea     rsi, unk_AA6A0</span><br><span class="line">xor     ecx, ecx</span><br><span class="line">mov     edx, 8DDh</span><br><span class="line">mov     rdi, rbp</span><br><span class="line">call    sub_96DB0</span><br></pre></td></tr></table></figure>
 
 <p>可知JavaScript字节码存储在<code>unk_AA6A0</code>，且长度为<code>0x8DD</code>。</p>
@@ -589,6 +591,8 @@
   
 
 
+  
+
 
 
 
@@ -627,6 +631,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

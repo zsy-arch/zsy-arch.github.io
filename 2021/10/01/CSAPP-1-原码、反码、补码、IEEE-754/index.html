@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="求任意数x的补码 求x绝对值abs(x)的原码为Bin_1，比如 0001 0100 如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。 从右向左开始，找到第一个为1的二进制位，此二进制位左侧且不包括它的取反码为Bin_2。  此例中，Bin_2 &#x3D; 1110 1100 求浮点数y的IEEE 754格式 求y的绝对值abs(y)，将abs(y)的整数部分通过除二取余法得到原码为Bin">
+<meta name="description" content="求任意数x的补码 求x绝对值abs(x)的原码为Bin_1，比如 0001 0100 如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。 从右向左开始，找到第一个为1的二进制位，此二进制位左侧且不包括它的取反码为Bin_2。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSAPP 1 - 原码、反码、补码、IEEE 754 实战">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/10/01/CSAPP-1-%E5%8E%9F%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81IEEE-754/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="求任意数x的补码 求x绝对值abs(x)的原码为Bin_1，比如 0001 0100 如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。 从右向左开始，找到第一个为1的二进制位，此二进制位左侧且不包括它的取反码为Bin_2。  此例中，Bin_2 &#x3D; 1110 1100 求浮点数y的IEEE 754格式 求y的绝对值abs(y)，将abs(y)的整数部分通过除二取余法得到原码为Bin">
+<meta property="og:description" content="求任意数x的补码 求x绝对值abs(x)的原码为Bin_1，比如 0001 0100 如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。 从右向左开始，找到第一个为1的二进制位，此二进制位左侧且不包括它的取反码为Bin_2。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-10-01T14:03:02.000Z">
-<meta property="article:modified_time" content="2022-08-13T15:11:21.556Z">
+<meta property="article:modified_time" content="2024-03-12T13:34:53.608Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="Basic Knowlegemnet">
 <meta name="twitter:card" content="summary">
@@ -317,9 +317,9 @@
         <h2 id="求任意数x的补码"><a href="#求任意数x的补码" class="headerlink" title="求任意数x的补码"></a>求任意数x的补码</h2><ol>
 <li>求x绝对值abs(x)的原码为Bin_1，比如 <code>0001 0100</code></li>
 <li>如果，x本身为非负数，则x的补码即为Bin_1。否则进入下一步。</li>
-<li>从右向左开始，找到第一个为1的二进制位，此二进制位<strong>左侧</strong>且<strong>不包括</strong>它的取反码为Bin_2。</li>
+<li>从右向左开始，找到第一个为1的二进制位，此二进制位<strong>左侧</strong>且<strong>不包括</strong>它的取反码为Bin_2。<span id="more"></span>
+此例中，Bin_2 = 1110 1100</li>
 </ol>
-<p>此例中，Bin_2 = 1110 1100</p>
 <h2 id="求浮点数y的IEEE-754格式"><a href="#求浮点数y的IEEE-754格式" class="headerlink" title="求浮点数y的IEEE 754格式"></a>求浮点数y的IEEE 754格式</h2><ol>
 <li>求y的绝对值abs(y)，将abs(y)的<strong>整数部分</strong>通过<strong>除二取余法</strong>得到原码为Bin_1，<strong>小数部分</strong>通过<strong>乘二取整法</strong>得到原码为Bin_2；则abs(y)的二进制表示为Bin_1.Bin_2。</li>
 <li>向左或向右移动小数点E位，使得正数部分为单独一个二进制位 1，即：Bin_1.Bin_2 = 1.Bin_3 的 E 次方。记M = Bin_3。</li>
@@ -586,6 +586,8 @@
   
 
 
+  
+
 
 
 
@@ -624,6 +626,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

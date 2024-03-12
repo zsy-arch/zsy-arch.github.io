@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="Flag CheckerIDA Pro 打开： 12345678910111213141516171819202122232425262728void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)&amp;#123;  int i; &#x2F;&#x2F; [rsp+0h] [rbp-40h]  int j; &#x2F;&#x2F; [rsp+4h] [rbp-3C">
+<meta name="description" content="Flag CheckerIDA Pro 打开：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DownUnderCTF 2021 Flag_Checker">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/10/06/DownUnderCTF-2021-Flag-Checker/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="Flag CheckerIDA Pro 打开： 12345678910111213141516171819202122232425262728void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)&amp;#123;  int i; &#x2F;&#x2F; [rsp+0h] [rbp-40h]  int j; &#x2F;&#x2F; [rsp+4h] [rbp-3C">
+<meta property="og:description" content="Flag CheckerIDA Pro 打开：">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-10-06T03:26:35.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:54:12.464Z">
+<meta property="article:modified_time" content="2024-03-12T13:38:16.810Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -316,6 +316,8 @@
 
       
         <h2 id="Flag-Checker"><a href="#Flag-Checker" class="headerlink" title="Flag Checker"></a>Flag Checker</h2><p>IDA Pro 打开：</p>
+<span id="more"></span>
+
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> __fastcall __noreturn <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i; <span class="comment">// [rsp+0h] [rbp-40h]</span></span><br><span class="line">  <span class="keyword">int</span> j; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  __int64 v5; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">40</span>]; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="keyword">unsigned</span> __int64 v7; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v7 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">sub_11EF</span>(a1, a2, a3);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;What&#x27;s the flag?: &quot;</span>);</span><br><span class="line">  <span class="built_in">fgets</span>(s, <span class="number">37</span>, stdin);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(s) != <span class="number">36</span> )</span><br><span class="line">    <span class="built_in">sub_1BDC</span>();</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">15</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">combine</span>((__int64)s);</span><br><span class="line">    v5 = <span class="built_in">shuffle1</span>(s);</span><br><span class="line">    <span class="built_in">shuffle2</span>(s, v5);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">35</span>; ++j )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( s[j] != byte_4080[j] )</span><br><span class="line">      <span class="built_in">sub_1BDC</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Correct! :)&quot;</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>程序先读取输入，进行十六次加密操作（combine、shuffle1、shuffle2）。最终将加密结果与<br>数组 <code>byte_4080</code> 进行比对。</p>
@@ -584,6 +586,8 @@
   
 
 
+  
+
 
 
 
@@ -622,6 +626,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

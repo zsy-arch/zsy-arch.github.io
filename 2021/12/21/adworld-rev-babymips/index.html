@@ -83,15 +83,15 @@
 
 
 
-<meta name="description" content="adworld [rev] babymips简单的暴力题，直接上脚本： 1234567891011121314151617181920212223242526272829secret &#x3D; [    0x51, 0x7c, 0x6a, 0x7b, 0x67, 0x52, 0xFD, 0x16,    0xA4, 0x89, 0xBD, 0x92, 0x80, 0x13, 0x41, 0x54,">
+<meta name="description" content="adworld [rev] babymips简单的暴力题，直接上脚本：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="adworld [rev] babymips">
 <meta property="og:url" content="https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/index.html">
 <meta property="og:site_name" content="zsy的小屋 -&gt; D0 wh4t u w4n7 t0 d0 &lt;- ">
-<meta property="og:description" content="adworld [rev] babymips简单的暴力题，直接上脚本： 1234567891011121314151617181920212223242526272829secret &#x3D; [    0x51, 0x7c, 0x6a, 0x7b, 0x67, 0x52, 0xFD, 0x16,    0xA4, 0x89, 0xBD, 0x92, 0x80, 0x13, 0x41, 0x54,">
+<meta property="og:description" content="adworld [rev] babymips简单的暴力题，直接上脚本：">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-21T15:00:17.000Z">
-<meta property="article:modified_time" content="2022-08-13T14:42:49.713Z">
+<meta property="article:modified_time" content="2024-03-12T13:36:02.426Z">
 <meta property="article:author" content="zsy">
 <meta property="article:tag" content="ctf">
 <meta property="article:tag" content="reverse">
@@ -316,6 +316,7 @@
 
       
         <h1 id="adworld-rev-babymips"><a href="#adworld-rev-babymips" class="headerlink" title="adworld [rev] babymips"></a>adworld [rev] babymips</h1><p>简单的暴力题，直接上脚本：</p>
+<span id="more"></span>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">secret = [</span><br><span class="line">    <span class="number">0x51</span>, <span class="number">0x7c</span>, <span class="number">0x6a</span>, <span class="number">0x7b</span>, <span class="number">0x67</span>, <span class="number">0x52</span>, <span class="number">0xFD</span>, <span class="number">0x16</span>,</span><br><span class="line">    <span class="number">0xA4</span>, <span class="number">0x89</span>, <span class="number">0xBD</span>, <span class="number">0x92</span>, <span class="number">0x80</span>, <span class="number">0x13</span>, <span class="number">0x41</span>, <span class="number">0x54</span>,</span><br><span class="line">    <span class="number">0xA0</span>, <span class="number">0x8D</span>, <span class="number">0x45</span>, <span class="number">0x18</span>, <span class="number">0x81</span>, <span class="number">0xDE</span>, <span class="number">0xFC</span>, <span class="number">0x95</span>,</span><br><span class="line">    <span class="number">0xF0</span>, <span class="number">0x16</span>, <span class="number">0x79</span>, <span class="number">0x1A</span>, <span class="number">0x15</span>, <span class="number">0x5B</span>, <span class="number">0x75</span>, <span class="number">0x1F</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">flag = []</span><br><span class="line"><span class="comment"># qctf&#123;ReA11y_4_B@89_mlp5_4_XmAn_&#125;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>):</span><br><span class="line">    <span class="keyword">if</span> i &lt; <span class="number">5</span>:</span><br><span class="line">        flag.append(secret[i] ^ (<span class="number">32</span> - i))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> i &amp; <span class="number">1</span> == <span class="number">1</span>:</span><br><span class="line">            flag.append((((secret[i] &lt;&lt; <span class="number">2</span>) | (secret[i] &gt;&gt; <span class="number">6</span>)) ^ (<span class="number">32</span> - i)) &amp; <span class="number">0xff</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">127</span>):</span><br><span class="line">                tmp = j</span><br><span class="line">                tmp ^= <span class="number">32</span> - i</span><br><span class="line">                tmp &amp;= <span class="number">0xff</span></span><br><span class="line">                tmp = (<span class="number">4</span> * tmp) | (tmp &gt;&gt; <span class="number">6</span>)</span><br><span class="line">                tmp &amp;= <span class="number">0xff</span></span><br><span class="line">                <span class="keyword">if</span> tmp == secret[i]:</span><br><span class="line">                    flag.append(j)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(secret))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(flag))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">chr</span>, flag))))</span><br></pre></td></tr></table></figure>
 
       
@@ -578,6 +579,8 @@
   
 
 
+  
+
 
 
 
@@ -616,6 +619,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

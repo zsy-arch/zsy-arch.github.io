@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-02-17T00:56:11.414Z</updated>
+  <updated>2024-02-19T13:44:52.195Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -21,17 +21,10 @@
     <link href="https://zsy-arch.github.io/2024/02/04/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-2024-Reverse-WriteUp/"/>
     <id>https://zsy-arch.github.io/2024/02/04/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-2024-Reverse-WriteUp/</id>
     <published>2024-02-04T12:59:34.000Z</published>
-    <updated>2024-02-17T00:56:11.414Z</updated>
+    <updated>2024-02-19T13:44:52.195Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;MZ&quot;&gt;&lt;a href=&quot;#MZ&quot; class=&quot;headerlink&quot; title=&quot;MZ&quot;&gt;&lt;/a&gt;MZ&lt;/h1&gt;&lt;p&gt;使用IDAPython脚本进行一次搜索即可：&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;MZ&quot;&gt;&lt;a href=&quot;#MZ&quot; class=&quot;headerlink&quot; title=&quot;MZ&quot;&gt;&lt;/a&gt;MZ&lt;/h1&gt;&lt;p&gt;使用IDAPython脚本进行一次搜索即可：&lt;/p&gt;</summary>
     
     
     
@@ -47,17 +40,10 @@
     <link href="https://zsy-arch.github.io/2022/11/29/DASCTF2022-11%E6%9C%88%E8%B5%9B/"/>
     <id>https://zsy-arch.github.io/2022/11/29/DASCTF2022-11%E6%9C%88%E8%B5%9B/</id>
     <published>2022-11-28T16:36:10.000Z</published>
-    <updated>2022-11-29T18:55:56.758Z</updated>
+    <updated>2024-03-12T13:34:46.102Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;babytea&quot;&gt;&lt;a href=&quot;#babytea&quot; class=&quot;headerlink&quot; title=&quot;babytea&quot;&gt;&lt;/a&gt;babytea&lt;/h1&gt;&lt;p&gt;这个题目用到了比较简单的TEA加密，但是使用异常处理来打乱了控制流。&lt;/p&gt;
-&lt;h2</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;babytea&quot;&gt;&lt;a href=&quot;#babytea&quot; class=&quot;headerlink&quot; title=&quot;babytea&quot;&gt;&lt;/a&gt;babytea&lt;/h1&gt;&lt;p&gt;这个题目用到了比较简单的TEA加密，但是使用异常处理来打乱了控制流。&lt;/p&gt;</summary>
     
     
     
@@ -73,16 +59,10 @@
     <link href="https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>https://zsy-arch.github.io/2022/10/22/AES%E5%8A%A0%E5%AF%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
     <published>2022-10-22T07:18:11.000Z</published>
-    <updated>2022-10-22T13:16:27.180Z</updated>
+    <updated>2024-03-12T13:35:43.440Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;AES128-ECB-分析&quot;&gt;&lt;a href=&quot;#AES128-ECB-分析&quot; class=&quot;headerlink&quot; title=&quot;AES128 ECB 分析&quot;&gt;&lt;/a&gt;AES128 ECB 分析&lt;/h1&gt;&lt;h2 id=&quot;key-expansion&quot;&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;AES128-ECB-分析&quot;&gt;&lt;a href=&quot;#AES128-ECB-分析&quot; class=&quot;headerlink&quot; title=&quot;AES128 ECB 分析&quot;&gt;&lt;/a&gt;AES128 ECB 分析&lt;/h1&gt;&lt;h2 id=&quot;key-expansion&quot;&gt;&lt;a href=&quot;#key-expansion&quot; class=&quot;headerlink&quot; title=&quot;key expansion&quot;&gt;&lt;/a&gt;key expansion&lt;/h2&gt;&lt;p&gt;AES128 ECB的密钥拓展是将&lt;code&gt;Nk * 4&lt;/code&gt;字节的密钥Key拓展为&lt;code&gt;(Nr + 1) * Nb * 4&lt;/code&gt;字节的ExpKey。&lt;br&gt;ExpKey里面的数据分成了&lt;code&gt;(Nr + 1)&lt;/code&gt;组，每一组就是用来和state相加的RoundKey。&lt;/p&gt;</summary>
     
     
     
@@ -96,16 +76,10 @@
     <link href="https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/"/>
     <id>https://zsy-arch.github.io/2022/10/20/Writeup-ASIS-CTF-2022-Quals-reverse-partial/</id>
     <published>2022-10-20T13:05:08.000Z</published>
-    <updated>2022-10-22T07:27:42.060Z</updated>
+    <updated>2024-03-12T13:36:51.437Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;traditional&quot;&gt;&lt;a href=&quot;#traditional&quot; class=&quot;headerlink&quot; title=&quot;traditional&quot;&gt;&lt;/a&gt;traditional&lt;/h1&gt;&lt;h2 id=&quot;analysis&quot;&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;traditional&quot;&gt;&lt;a href=&quot;#traditional&quot; class=&quot;headerlink&quot; title=&quot;traditional&quot;&gt;&lt;/a&gt;traditional&lt;/h1&gt;&lt;h2 id=&quot;analysis&quot;&gt;&lt;a href=&quot;#analysis&quot; class=&quot;headerlink&quot; title=&quot;analysis&quot;&gt;&lt;/a&gt;analysis&lt;/h2&gt;&lt;p&gt;附件是一个无壳elf64和一个flag.enc文件，猜测是要对flag.enc文件进行解密。&lt;/p&gt;</summary>
     
     
     
@@ -121,16 +95,10 @@
     <link href="https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/"/>
     <id>https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/</id>
     <published>2022-10-03T14:29:15.000Z</published>
-    <updated>2022-10-20T14:28:44.991Z</updated>
+    <updated>2024-03-12T13:37:08.038Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;HEVD-环境搭建&quot;&gt;&lt;a href=&quot;#HEVD-环境搭建&quot; class=&quot;headerlink&quot; title=&quot;HEVD 环境搭建&quot;&gt;&lt;/a&gt;HEVD 环境搭建&lt;/h1&gt;&lt;p&gt;安装Visual Studio 2022、cmake、git cli，然后从&lt;a</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;HEVD-环境搭建&quot;&gt;&lt;a href=&quot;#HEVD-环境搭建&quot; class=&quot;headerlink&quot; title=&quot;HEVD 环境搭建&quot;&gt;&lt;/a&gt;HEVD 环境搭建&lt;/h1&gt;&lt;p&gt;安装Visual Studio 2022、cmake、git cli，然后从&lt;a href=&quot;https://github.com/hacksysteam/HackSysExtremeVulnerableDriver&quot;&gt;https://github.com/hacksysteam/HackSysExtremeVulnerableDriver&lt;/a&gt; 下载源码，然后用内置的bat脚本编译即可。&lt;/p&gt;</summary>
     
     
     
@@ -146,16 +114,11 @@
     <link href="https://zsy-arch.github.io/2022/08/04/BUUOJ-pwn%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
     <id>https://zsy-arch.github.io/2022/08/04/BUUOJ-pwn%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
     <published>2022-08-04T15:22:47.000Z</published>
-    <updated>2022-08-13T14:45:34.816Z</updated>
+    <updated>2024-03-12T13:35:34.573Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Stack-amp-ROP&quot;&gt;&lt;a href=&quot;#Stack-amp-ROP&quot; class=&quot;headerlink&quot; title=&quot;Stack &amp;amp; ROP&quot;&gt;&lt;/a&gt;Stack &amp;amp; ROP&lt;/h1&gt;&lt;figure class=&quot;highlight</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;Stack-amp-ROP&quot;&gt;&lt;a href=&quot;#Stack-amp-ROP&quot; class=&quot;headerlink&quot; title=&quot;Stack &amp;amp; ROP&quot;&gt;&lt;/a&gt;Stack &amp;amp; ROP&lt;/h1&gt;&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;TODO....&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;not-the-same-3dsctf-2016&quot;&gt;&lt;a href=&quot;#not-the-same-3dsctf-2016&quot; class=&quot;headerlink&quot; title=&quot;not_the_same_3dsctf_2016&quot;&gt;&lt;/a&gt;not_the_same_3dsctf_2016&lt;/h2&gt;&lt;p&gt;checksec&lt;/p&gt;</summary>
     
     
     
@@ -171,16 +134,10 @@
     <link href="https://zsy-arch.github.io/2022/08/01/HWSCTF2022%E5%88%9D%E8%B5%9BWriteUp/"/>
     <id>https://zsy-arch.github.io/2022/08/01/HWSCTF2022%E5%88%9D%E8%B5%9BWriteUp/</id>
     <published>2022-08-01T15:37:30.000Z</published>
-    <updated>2022-08-01T15:39:12.712Z</updated>
+    <updated>2024-03-12T13:38:06.885Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;HWS2022-WriteUp&quot;&gt;&lt;a href=&quot;#HWS2022-WriteUp&quot; class=&quot;headerlink&quot; title=&quot;HWS2022 WriteUp&quot;&gt;&lt;/a&gt;HWS2022 WriteUp&lt;/h1&gt;&lt;h2 id=&quot;reverse&quot;&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;HWS2022-WriteUp&quot;&gt;&lt;a href=&quot;#HWS2022-WriteUp&quot; class=&quot;headerlink&quot; title=&quot;HWS2022 WriteUp&quot;&gt;&lt;/a&gt;HWS2022 WriteUp&lt;/h1&gt;&lt;h2 id=&quot;reverse&quot;&gt;&lt;a href=&quot;#reverse&quot; class=&quot;headerlink&quot; title=&quot;reverse&quot;&gt;&lt;/a&gt;reverse&lt;/h2&gt;&lt;h3 id=&quot;re1&quot;&gt;&lt;a href=&quot;#re1&quot; class=&quot;headerlink&quot; title=&quot;re1&quot;&gt;&lt;/a&gt;re1&lt;/h3&gt;&lt;p&gt;TEA变种，key为0x1234,0x2345, 0x4567, 0x6789, 直接对密文进行解密即可&lt;/p&gt;</summary>
     
     
     
@@ -196,16 +153,13 @@
     <link href="https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/"/>
     <id>https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/</id>
     <published>2022-07-24T15:33:52.000Z</published>
-    <updated>2022-07-24T16:20:23.036Z</updated>
+    <updated>2024-03-12T13:37:44.203Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;babyre&quot;&gt;&lt;a href=&quot;#babyre&quot; class=&quot;headerlink&quot; title=&quot;babyre&quot;&gt;&lt;/a&gt;babyre&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;babyre&quot;&gt;&lt;a href=&quot;#babyre&quot; class=&quot;headerlink&quot; title=&quot;babyre&quot;&gt;&lt;/a&gt;babyre&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot; title=&quot;附件&quot;&gt;&lt;/a&gt;附件&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;babygame&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h2&gt;&lt;p&gt;IDA打开,定位到main函数:&lt;/p&gt;</summary>
     
     
     
@@ -223,16 +177,13 @@
     <link href="https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/"/>
     <id>https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/</id>
     <published>2022-07-20T02:53:01.000Z</published>
-    <updated>2022-08-13T14:41:44.324Z</updated>
+    <updated>2024-03-12T13:36:08.920Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;kcov&quot;&gt;&lt;a href=&quot;#kcov&quot; class=&quot;headerlink&quot; title=&quot;kcov&quot;&gt;&lt;/a&gt;kcov&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;kcov&quot;&gt;&lt;a href=&quot;#kcov&quot; class=&quot;headerlink&quot; title=&quot;kcov&quot;&gt;&lt;/a&gt;kcov&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot; title=&quot;附件&quot;&gt;&lt;/a&gt;附件&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;launch.sh&lt;/li&gt;
+&lt;li&gt;bzImage&lt;/li&gt;
+&lt;li&gt;rootfs.cpio.gz</summary>
     
     
     
@@ -248,16 +199,13 @@
     <link href="https://zsy-arch.github.io/2022/07/17/buuoj-reverse-crackMe/"/>
     <id>https://zsy-arch.github.io/2022/07/17/buuoj-reverse-crackMe/</id>
     <published>2022-07-17T15:01:46.000Z</published>
-    <updated>2022-07-17T16:00:49.211Z</updated>
+    <updated>2024-03-12T13:35:18.155Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;crackMe&quot;&gt;&lt;a href=&quot;#crackMe&quot; class=&quot;headerlink&quot; title=&quot;crackMe&quot;&gt;&lt;/a&gt;crackMe&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;crackMe&quot;&gt;&lt;a href=&quot;#crackMe&quot; class=&quot;headerlink&quot; title=&quot;crackMe&quot;&gt;&lt;/a&gt;crackMe&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot; title=&quot;附件&quot;&gt;&lt;/a&gt;附件&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;crackme.exe&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h2&gt;&lt;p&gt;IDA定位到wmain函数&lt;/p&gt;</summary>
     
     
     
@@ -275,19 +223,14 @@
     <link href="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/"/>
     <id>https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/</id>
     <published>2022-07-14T05:44:02.000Z</published>
-    <updated>2022-08-13T15:08:29.375Z</updated>
+    <updated>2024-03-12T13:36:46.912Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;h1 id=&quot;编译UPX源码&quot;&gt;&lt;a href=&quot;#编译UPX源码&quot; class=&quot;headerlink&quot; title=&quot;编译UPX源码&quot;&gt;&lt;/a&gt;编译UPX源码&lt;/h1&gt;&lt;p&gt;系统环境:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Ubuntu 22.04&lt;/li&gt;
-&lt;li&gt;Python</summary>
-        
-      
+&lt;li&gt;Python 2&lt;/li&gt;
+&lt;li&gt;Gcc 11, G++ 11, Make 4.3</summary>
     
     
     
@@ -303,16 +246,11 @@
     <link href="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/"/>
     <id>https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/</id>
     <published>2022-07-12T07:10:45.000Z</published>
-    <updated>2022-07-12T10:20:49.633Z</updated>
+    <updated>2024-03-12T13:36:06.315Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;dropper&quot;&gt;&lt;a href=&quot;#dropper&quot; class=&quot;headerlink&quot; title=&quot;dropper&quot;&gt;&lt;/a&gt;dropper&lt;/h1&gt;&lt;h2 id=&quot;脱壳-amp-多进程&quot;&gt;&lt;a href=&quot;#脱壳-amp-多进程&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;dropper&quot;&gt;&lt;a href=&quot;#dropper&quot; class=&quot;headerlink&quot; title=&quot;dropper&quot;&gt;&lt;/a&gt;dropper&lt;/h1&gt;&lt;h2 id=&quot;脱壳-amp-多进程&quot;&gt;&lt;a href=&quot;#脱壳-amp-多进程&quot; class=&quot;headerlink&quot; title=&quot;脱壳 &amp;amp; 多进程&quot;&gt;&lt;/a&gt;脱壳 &amp;amp; 多进程&lt;/h2&gt;&lt;p&gt;(1) 脱壳&lt;/p&gt;
+&lt;p&gt;从github.com/upx/upx上下载最新的源码编译并脱壳即可&lt;/p&gt;</summary>
     
     
     
@@ -330,16 +268,10 @@
     <link href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/"/>
     <id>https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/</id>
     <published>2022-07-01T02:27:06.000Z</published>
-    <updated>2022-07-01T03:26:56.695Z</updated>
+    <updated>2024-03-12T13:35:08.944Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;reverse&quot;&gt;&lt;a href=&quot;#reverse&quot; class=&quot;headerlink&quot; title=&quot;reverse&quot;&gt;&lt;/a&gt;reverse&lt;/h1&gt;&lt;h2 id=&quot;rtMaze&quot;&gt;&lt;a href=&quot;#rtMaze&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;reverse&quot;&gt;&lt;a href=&quot;#reverse&quot; class=&quot;headerlink&quot; title=&quot;reverse&quot;&gt;&lt;/a&gt;reverse&lt;/h1&gt;&lt;h2 id=&quot;rtMaze&quot;&gt;&lt;a href=&quot;#rtMaze&quot; class=&quot;headerlink&quot; title=&quot;rtMaze&quot;&gt;&lt;/a&gt;rtMaze&lt;/h2&gt;&lt;p&gt;首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM. &lt;/p&gt;</summary>
     
     
     
@@ -357,16 +289,10 @@
     <link href="https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/"/>
     <id>https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/</id>
     <published>2022-02-01T05:37:01.000Z</published>
-    <updated>2022-08-13T15:09:01.710Z</updated>
+    <updated>2024-03-12T13:36:56.277Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;内核层&quot;&gt;&lt;a href=&quot;#内核层&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;内核层&quot;&gt;&lt;a href=&quot;#内核层&quot; class=&quot;headerlink&quot; title=&quot;内核层&quot;&gt;&lt;/a&gt;内核层&lt;/h2&gt;&lt;p&gt;用户层与内核层通信可以使用&lt;code&gt;IoCreateDeviceSecure&lt;/code&gt;函数创建的设备(Device)作为中间媒介&lt;code&gt;IoCreateDeviceSecure&lt;/code&gt;在成功情况下会通过参数返回一个DeviceObject,此时的设备还不能直接被用户层程序使用,需要为其创建一个符号链接(Symbolic Link).&lt;/p&gt;</summary>
     
     
     
@@ -382,16 +308,10 @@
     <link href="https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/"/>
     <id>https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/</id>
     <published>2022-01-05T15:42:52.000Z</published>
-    <updated>2022-08-13T14:45:46.094Z</updated>
+    <updated>2024-03-12T13:35:21.226Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;buuoj-rev-xx&quot;&gt;&lt;a href=&quot;#buuoj-rev-xx&quot; class=&quot;headerlink&quot; title=&quot;buuoj [rev] xx&quot;&gt;&lt;/a&gt;buuoj [rev]</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;buuoj-rev-xx&quot;&gt;&lt;a href=&quot;#buuoj-rev-xx&quot; class=&quot;headerlink&quot; title=&quot;buuoj [rev] xx&quot;&gt;&lt;/a&gt;buuoj [rev] xx&lt;/h1&gt;&lt;p&gt;知识点：xxtea&lt;/p&gt;</summary>
     
     
     
@@ -407,16 +327,10 @@
     <link href="https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/"/>
     <id>https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/</id>
     <published>2022-01-04T12:28:58.000Z</published>
-    <updated>2022-08-13T14:45:39.129Z</updated>
+    <updated>2024-03-12T13:35:27.034Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;buuoj-reverse-equation&quot;&gt;&lt;a href=&quot;#buuoj-reverse-equation&quot; class=&quot;headerlink&quot; title=&quot;buuoj [reverse] equation&quot;&gt;&lt;/a&gt;buuoj [reverse]</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;buuoj-reverse-equation&quot;&gt;&lt;a href=&quot;#buuoj-reverse-equation&quot; class=&quot;headerlink&quot; title=&quot;buuoj [reverse] equation&quot;&gt;&lt;/a&gt;buuoj [reverse] equation&lt;/h1&gt;&lt;p&gt;上来就一个套着html文件的js代码，有jsfuck的混淆。题目名字提示有方程组（equation），很明显方程组就是这个被混淆的部分。&lt;/p&gt;</summary>
     
     
     
@@ -457,17 +371,11 @@
     <link href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/"/>
     <id>https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/</id>
     <published>2021-12-22T18:13:36.000Z</published>
-    <updated>2022-08-13T14:43:05.518Z</updated>
+    <updated>2024-03-12T13:35:49.195Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;太困了,直接上脚本.&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;firstChars = [&lt;span class=&quot;number&quot;&gt;0x41&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x69&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x45&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6F&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x61&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;thirdChars = [&lt;span class=&quot;number&quot;&gt;0x02EF&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DC&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DE&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02FC&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;masterArray = [&lt;span class=&quot;number&quot;&gt;0x1D7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x0C&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x244&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x25E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x93&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6C&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flag = [&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] * &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hashCode = &lt;span class=&quot;number&quot;&gt;666&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;j = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i] = firstChars[j]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tmp = hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; k &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;128&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            flag[i + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;] = k&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i + &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;] = thirdChars[j] ^ hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    j += &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;&amp;#x27;&lt;/span&gt;.join(&lt;span class=&quot;built_in&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;map&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;chr&lt;/span&gt;, flag))))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
     
@@ -483,16 +391,10 @@
     <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/"/>
     <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/</id>
     <published>2021-12-21T15:00:17.000Z</published>
-    <updated>2022-08-13T14:42:49.713Z</updated>
+    <updated>2024-03-12T13:36:02.426Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;adworld-rev-babymips&quot;&gt;&lt;a href=&quot;#adworld-rev-babymips&quot; class=&quot;headerlink&quot; title=&quot;adworld [rev] babymips&quot;&gt;&lt;/a&gt;adworld [rev]</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;adworld-rev-babymips&quot;&gt;&lt;a href=&quot;#adworld-rev-babymips&quot; class=&quot;headerlink&quot; title=&quot;adworld [rev] babymips&quot;&gt;&lt;/a&gt;adworld [rev] babymips&lt;/h1&gt;&lt;p&gt;简单的暴力题，直接上脚本：&lt;/p&gt;</summary>
     
     
     
@@ -508,16 +410,10 @@
     <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/"/>
     <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/</id>
     <published>2021-12-20T17:13:48.000Z</published>
-    <updated>2022-08-13T14:42:52.680Z</updated>
+    <updated>2024-03-12T13:35:59.562Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;ADWorld-rev-EASYHOOK&quot;&gt;&lt;a href=&quot;#ADWorld-rev-EASYHOOK&quot; class=&quot;headerlink&quot; title=&quot;ADWorld [rev] EASYHOOK&quot;&gt;&lt;/a&gt;ADWorld [rev]</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;ADWorld-rev-EASYHOOK&quot;&gt;&lt;a href=&quot;#ADWorld-rev-EASYHOOK&quot; class=&quot;headerlink&quot; title=&quot;ADWorld [rev] EASYHOOK&quot;&gt;&lt;/a&gt;ADWorld [rev] EASYHOOK&lt;/h1&gt;&lt;p&gt;一个对WriteFile进行hook的windows逆向. 很容易就找到加密函数,(明天还要期末考试)就不硬刚汇编了,虽然这道题的汇编也不难.&lt;/p&gt;</summary>
     
     
     
