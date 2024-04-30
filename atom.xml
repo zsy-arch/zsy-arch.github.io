@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-02-19T13:44:52.195Z</updated>
+  <updated>2024-04-30T04:24:04.183Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>D^3CTF Reverse/车联网 Writeup</title>
+    <link href="https://zsy-arch.github.io/2024/04/30/D-3CTF-Reverse-%E8%BD%A6%E8%81%94%E7%BD%91-Writeup/"/>
+    <id>https://zsy-arch.github.io/2024/04/30/D-3CTF-Reverse-%E8%BD%A6%E8%81%94%E7%BD%91-Writeup/</id>
+    <published>2024-04-30T03:49:33.000Z</published>
+    <updated>2024-04-30T04:24:04.183Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;考完研第一次完整的参加一次CTF，考也没考上，ida咋用也忘干净了，还让队友掉出了前十。这就滚去学习re和iov。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="车联网" scheme="https://zsy-arch.github.io/tags/%E8%BD%A6%E8%81%94%E7%BD%91/"/>
+    
+  </entry>
   
   <entry>
     <title>西湖论剑 2024 Reverse WriteUp</title>
@@ -395,25 +414,6 @@
     
     
     <summary type="html">&lt;h1 id=&quot;adworld-rev-babymips&quot;&gt;&lt;a href=&quot;#adworld-rev-babymips&quot; class=&quot;headerlink&quot; title=&quot;adworld [rev] babymips&quot;&gt;&lt;/a&gt;adworld [rev] babymips&lt;/h1&gt;&lt;p&gt;简单的暴力题，直接上脚本：&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>adworld [rev] easyhook</title>
-    <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/"/>
-    <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-easyhook/</id>
-    <published>2021-12-20T17:13:48.000Z</published>
-    <updated>2024-03-12T13:35:59.562Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;ADWorld-rev-EASYHOOK&quot;&gt;&lt;a href=&quot;#ADWorld-rev-EASYHOOK&quot; class=&quot;headerlink&quot; title=&quot;ADWorld [rev] EASYHOOK&quot;&gt;&lt;/a&gt;ADWorld [rev] EASYHOOK&lt;/h1&gt;&lt;p&gt;一个对WriteFile进行hook的windows逆向. 很容易就找到加密函数,(明天还要期末考试)就不硬刚汇编了,虽然这道题的汇编也不难.&lt;/p&gt;</summary>
     
     
     
