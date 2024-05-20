@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="VvufYZh-K8JyCy1zH8D63T51xhTbqQ_p4bNLs98ynas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zzzzz" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="简单题是很水，没做出来的题也很让人崩溃。  asm_re读ARM64汇编，不用F5，纯靠基本功。（初赛rev签到题该有的样子 1234567891011121314151617#include &lt;stdint.h&gt;#include &lt;stdio.h&gt;uint8_t secret[] &#x3D; &amp;#123;0xD7,0x1F,0,0,0xB7,0x21,0,0,0x47,0x1E,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CISCN2024 Qual writeup">
+<meta property="og:url" content="https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/index.html">
+<meta property="og:site_name" content="zzzzz">
+<meta property="og:description" content="简单题是很水，没做出来的题也很让人崩溃。  asm_re读ARM64汇编，不用F5，纯靠基本功。（初赛rev签到题该有的样子 1234567891011121314151617#include &lt;stdint.h&gt;#include &lt;stdio.h&gt;uint8_t secret[] &#x3D; &amp;#123;0xD7,0x1F,0,0,0xB7,0x21,0,0,0x47,0x1E,">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-05-20T14:15:52.000Z">
+<meta property="article:modified_time" content="2024-05-20T15:26:02.741Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="ctf, reverse, security, binary, exploit">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/"/>
+
+
+
+
+
+  <title>CISCN2024 Qual writeup | zzzzz</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zzzzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zzzzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CISCN2024 Qual writeup</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-05-20T22:15:52+08:00">
+                2024-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简单题是很水，没做出来的题也很让人崩溃。</p>
+<!--more--->
+<h1 id="asm-re"><a href="#asm-re" class="headerlink" title="asm_re"></a>asm_re</h1><p>读ARM64汇编，不用F5，纯靠基本功。（初赛rev签到题该有的样子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> secret[] = &#123;<span class="number">0xD7</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xB7</span>,<span class="number">0x21</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x47</span>,<span class="number">0x1E</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x27</span>,<span class="number">0x20</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xE7</span>,<span class="number">0x26</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xD7</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x27</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x20</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xC7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x47</span>,<span class="number">0x1E</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xF7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x20</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x37</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xD7</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x67</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xC7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xC7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xD7</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x17</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x47</span>,<span class="number">0xF</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x27</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x37</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x47</span>,<span class="number">0x1E</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x37</span>,<span class="number">0x10</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xD7</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0xD7</span>,<span class="number">0x1F</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">0x11</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x87</span>,<span class="number">0x27</span>,<span class="number">0</span>,<span class="number">0</span>,&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">uint32_t</span> *ss = secret;</span><br><span class="line">   <span class="keyword">char</span> c;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">   &#123;</span><br><span class="line">      c = (((ss[i] - <span class="number">0x1e</span>) ^ <span class="number">0x4d</span>) - <span class="number">0x14</span>) / <span class="number">0x50</span>;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, c);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="android-re"><a href="#android-re" class="headerlink" title="android_re"></a>android_re</h1><p>先用Frida拿到Key和IV，然后解密即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> frida</span><br><span class="line"></span><br><span class="line">ss = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Java.perform(function () &#123;</span></span><br><span class="line"><span class="string">    console.log(&quot;Java.perform is called&quot;); // 打印日志</span></span><br><span class="line"><span class="string">    var jniClass = Java.use(&quot;com.example.re11113.jni&quot;); // 获取类引用</span></span><br><span class="line"><span class="string">    var getkey = jniClass.getkey;</span></span><br><span class="line"><span class="string">    getkey.implementation = function () &#123; // 替换函数的实现</span></span><br><span class="line"><span class="string">        send(&quot;getkey begin&quot;);</span></span><br><span class="line"><span class="string">        var res = this.getkey();</span></span><br><span class="line"><span class="string">        send(&quot;key: [&quot; + res + &quot;]&quot;);</span></span><br><span class="line"><span class="string">        send(&quot;getkey end&quot;);</span></span><br><span class="line"><span class="string">        return res;</span></span><br><span class="line"><span class="string">    &#125;;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    var getiv = jniClass.getiv;</span></span><br><span class="line"><span class="string">    getiv.implementation = function () &#123; // 替换函数的实现</span></span><br><span class="line"><span class="string">        send(&quot;getiv begin&quot;);</span></span><br><span class="line"><span class="string">        var res = this.getiv();</span></span><br><span class="line"><span class="string">        send(&quot;iv: [&quot; + res + &quot;]&quot;);</span></span><br><span class="line"><span class="string">        send(&quot;getiv end&quot;);</span></span><br><span class="line"><span class="string">        return res;</span></span><br><span class="line"><span class="string">    &#125;;</span></span><br><span class="line"><span class="string">&#125;);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">device = frida.get_usb_device()</span><br><span class="line">pid = device.spawn([<span class="string">&quot;com.example.re11113&quot;</span>])</span><br><span class="line">session = device.attach(pid)</span><br><span class="line">script = session.create_script(ss)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_message</span>(<span class="params">msg, _data</span>):</span></span><br><span class="line">    <span class="keyword">if</span> msg[<span class="string">&quot;type&quot;</span>] == <span class="string">&quot;send&quot;</span>:</span><br><span class="line">        payload = msg[<span class="string">&quot;payload&quot;</span>]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[*] <span class="subst">&#123;payload&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">script.on(<span class="string">&quot;message&quot;</span>, on_message)</span><br><span class="line">script.load()</span><br><span class="line"><span class="built_in">input</span>(<span class="string">&quot;==========&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;ok&quot;</span>)</span><br><span class="line"></span><br><span class="line">device.resume(pid)</span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>(<span class="string">&quot;==========&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">key: A8UdWaeq</span><br><span class="line">iv: Wf3DLups</span><br></pre></td></tr></table></figure>
+
+<p>进行解密：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SymmetricEncryUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//AES ,DES</span></span><br><span class="line">    <span class="comment">//  算法/模式/补码方式</span></span><br><span class="line">    <span class="comment">//与给定的密钥内容相关联的 密钥算法的名称</span></span><br><span class="line">    <span class="comment">//    private static String ALGRITHM = &quot;AES/CBC/PKCS5PADDING&quot;;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String ALGRITHM = <span class="string">&quot;DES/CBC/PKCS5Padding&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//    private static String TRANSFORMATION = &quot;AES&quot;;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String TRANSFORMATION = <span class="string">&quot;AES&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] generateRandomString() &#123;</span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="comment">//AES秘钥规定是16位秘钥</span></span><br><span class="line">        <span class="comment">//DES 8bytes</span></span><br><span class="line">        <span class="keyword">byte</span>[] rand = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">8</span>];</span><br><span class="line">        random.nextBytes(rand);</span><br><span class="line">        <span class="keyword">return</span> rand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] ALIAS;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] IV;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ALIAS = <span class="string">&quot;A8UdWaeqA8UdWaeq&quot;</span>.getBytes(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">            IV = <span class="string">&quot;Wf3DLups&quot;</span>.getBytes(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encrypt</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建秘钥</span></span><br><span class="line">            SecretKeySpec keySpec = <span class="keyword">new</span> SecretKeySpec(ALIAS, ALGRITHM);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 创建密码器</span></span><br><span class="line">            Cipher cipher = Cipher.getInstance(TRANSFORMATION);</span><br><span class="line">            <span class="comment">// 初始化加密器</span></span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, keySpec);</span><br><span class="line">            <span class="comment">// 加密</span></span><br><span class="line">            <span class="keyword">return</span> Base64.encodeToString(cipher.doFinal(content.getBytes(<span class="string">&quot;UTF-8&quot;</span>)), Base64.NO_WRAP);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvalidKeyException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalBlockSizeException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (BadPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decrypt</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">byte</span>[] keyBytes = ALIAS;</span><br><span class="line">            Arrays.copyOf(keyBytes, <span class="number">8</span>);</span><br><span class="line">            <span class="comment">// 创建秘钥</span></span><br><span class="line">            SecretKeySpec keySpec = <span class="keyword">new</span> SecretKeySpec(keyBytes, ALGRITHM);</span><br><span class="line">            IvParameterSpec iv = <span class="keyword">new</span> IvParameterSpec(IV);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 创建密码器</span></span><br><span class="line">            Cipher cipher = Cipher.getInstance(TRANSFORMATION);</span><br><span class="line">            <span class="comment">// 初始化解密器</span></span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, keySpec, iv);</span><br><span class="line">            <span class="comment">// 解密</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(cipher.doFinal(Base64.decode(content, Base64.NO_WRAP)), StandardCharsets.UTF_8);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvalidKeyException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalBlockSizeException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (BadPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvalidAlgorithmParameterException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="gdb-debug"><a href="#gdb-debug" class="headerlink" title="gdb_debug"></a>gdb_debug</h1><p>跟GDB没关系，也不用debug。直接爆破16个seed。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">do_dec</span><span class="params">(<span class="keyword">int</span> seed)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    srand(seed);</span><br><span class="line">    <span class="keyword">char</span> secret[] = <span class="string">&quot;congratulationstoyoucongratulationstoy&quot;</span>;</span><br><span class="line">    <span class="keyword">uint8_t</span> keys[] = &#123;</span><br><span class="line">        <span class="number">0xBF</span>, <span class="number">0xD7</span>, <span class="number">0x2E</span>, <span class="number">0xDA</span>, <span class="number">0xEE</span>, <span class="number">0xA8</span>, <span class="number">0x1A</span>, <span class="number">0x10</span>, <span class="number">0x83</span>, <span class="number">0x73</span>,</span><br><span class="line">        <span class="number">0xAC</span>, <span class="number">0xF1</span>, <span class="number">0x06</span>, <span class="number">0xBE</span>, <span class="number">0xAD</span>, <span class="number">0x88</span>, <span class="number">0x04</span>, <span class="number">0xD7</span>, <span class="number">0x12</span>, <span class="number">0xFE</span>,</span><br><span class="line">        <span class="number">0xB5</span>, <span class="number">0xE2</span>, <span class="number">0x61</span>, <span class="number">0xB7</span>, <span class="number">0x3D</span>, <span class="number">0x07</span>, <span class="number">0x4A</span>, <span class="number">0xE8</span>, <span class="number">0x96</span>, <span class="number">0xA2</span>,</span><br><span class="line">        <span class="number">0x9D</span>, <span class="number">0x4D</span>, <span class="number">0xBC</span>, <span class="number">0x81</span>, <span class="number">0x8C</span>, <span class="number">0xE9</span>, <span class="number">0x88</span>, <span class="number">0x78</span>, <span class="number">0x00</span>, <span class="number">0x00</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> data[<span class="number">40</span>];</span><br><span class="line">    <span class="keyword">char</span> data2[<span class="number">40</span>];</span><br><span class="line">    <span class="built_in">memset</span>(data, <span class="number">0</span>, <span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        data[i] = secret[i] ^ keys[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">uint8_t</span> finalXorKeys[<span class="number">40</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">        finalXorKeys[i] = rand() &amp; <span class="number">0xff</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> SBox[<span class="number">40</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">        SBox[i] = i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">37</span>; i; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> j = rand() % (i + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> tmp = SBox[i];</span><br><span class="line">        SBox[i] = SBox[j];</span><br><span class="line">        SBox[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        data[i] ^= rand();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        data2[SBox[i]] = data[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        data2[i] ^= finalXorKeys[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (data2[<span class="number">0</span>] == <span class="string">&#x27;f&#x27;</span> &amp;&amp; data2[<span class="number">1</span>] == <span class="string">&#x27;l&#x27;</span> &amp;&amp; data2[<span class="number">2</span>] == <span class="string">&#x27;a&#x27;</span> &amp;&amp; data2[<span class="number">3</span>] == <span class="string">&#x27;g&#x27;</span> &amp;&amp; data2[<span class="number">4</span>] == <span class="string">&#x27;&#123;&#x27;</span> &amp;&amp; data2[<span class="number">37</span>] == <span class="string">&#x27;&#125;&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, data2[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">0x100000000</span>; i += <span class="number">0x10000000</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        do_dec(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="whereThel1b"><a href="#whereThel1b" class="headerlink" title="whereThel1b"></a>whereThel1b</h1><p>有符号，静态就可以差不多看懂。不过远程调试attach python然后给函数下断点也很方便。<br>相关结构体可以靠官方文档和猜。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">encry = [<span class="number">108</span>, <span class="number">117</span>, <span class="number">72</span>, <span class="number">80</span>, <span class="number">64</span>, <span class="number">49</span>, <span class="number">99</span>, <span class="number">19</span>, <span class="number">69</span>, <span class="number">115</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">94</span>, <span class="number">115</span>, <span class="number">71</span>, <span class="number">95</span>, <span class="number">84</span>, <span class="number">89</span>, <span class="number">56</span>, <span class="number">101</span>, <span class="number">70</span>, <span class="number">2</span>, <span class="number">84</span>, <span class="number">75</span>, <span class="number">127</span>, <span class="number">68</span>, <span class="number">103</span>, <span class="number">85</span>, <span class="number">105</span>, <span class="number">113</span>, <span class="number">80</span>, <span class="number">103</span>, <span class="number">95</span>, <span class="number">67</span>, <span class="number">81</span>, <span class="number">7</span>, <span class="number">113</span>, <span class="number">70</span>, <span class="number">47</span>, <span class="number">73</span>, <span class="number">92</span>, <span class="number">124</span>, <span class="number">93</span>, <span class="number">120</span>, <span class="number">104</span>, <span class="number">108</span>, <span class="number">106</span>, <span class="number">17</span>, <span class="number">80</span>, <span class="number">102</span>, <span class="number">101</span>, <span class="number">75</span>, <span class="number">93</span>, <span class="number">68</span>, <span class="number">121</span>, <span class="number">26</span>]</span><br><span class="line"></span><br><span class="line">b = []</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">my_enc = [<span class="number">53</span>, <span class="number">102</span>, <span class="number">39</span>, <span class="number">25</span>, <span class="number">108</span>, <span class="number">82</span>, <span class="number">103</span>, <span class="number">41</span>, <span class="number">103</span>, <span class="number">100</span>, <span class="number">51</span>, <span class="number">12</span>, <span class="number">51</span>, <span class="number">113</span>, <span class="number">123</span>, <span class="number">69</span>, <span class="number">19</span>, <span class="number">37</span>, <span class="number">50</span>, <span class="number">115</span>, <span class="number">25</span>, <span class="number">70</span>, <span class="number">98</span>, <span class="number">121</span>, <span class="number">57</span>, <span class="number">91</span>, <span class="number">9</span>, <span class="number">14</span>, <span class="number">121</span>, <span class="number">35</span>, <span class="number">2</span>, <span class="number">50</span>, <span class="number">62</span>, <span class="number">26</span>, <span class="number">53</span>, <span class="number">122</span>, <span class="number">126</span>, <span class="number">91</span>, <span class="number">27</span>, <span class="number">97</span>, <span class="number">42</span>, <span class="number">59</span>, <span class="number">17</span>, <span class="number">66</span>, <span class="number">101</span>, <span class="number">16</span>, <span class="number">74</span>, <span class="number">69</span>, <span class="number">110</span>, <span class="number">127</span>, <span class="number">8</span>, <span class="number">57</span>, <span class="number">45</span>, <span class="number">77</span>, <span class="number">0</span>, <span class="number">85</span>, <span class="number">97</span>, <span class="number">57</span>, <span class="number">4</span>, <span class="number">73</span>, <span class="number">94</span>, <span class="number">48</span>, <span class="number">51</span>, <span class="number">46</span>, <span class="number">44</span>, <span class="number">86</span>, <span class="number">77</span>, <span class="number">52</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">28</span>, <span class="number">1</span>, <span class="number">61</span>, <span class="number">2</span>, <span class="number">22</span>, <span class="number">104</span>, <span class="number">23</span>, <span class="number">104</span>, <span class="number">47</span>, <span class="number">7</span>, <span class="number">115</span>, <span class="number">72</span>, <span class="number">27</span>, <span class="number">65</span>, <span class="number">3</span>, <span class="number">56</span>, <span class="number">78</span>, <span class="number">112</span>, <span class="number">44</span>, <span class="number">31</span>, <span class="number">90</span>, <span class="number">118</span>, <span class="number">63</span>, <span class="number">69</span>, <span class="number">32</span>, <span class="number">45</span>, <span class="number">96</span>, <span class="number">92</span>, <span class="number">76</span>, <span class="number">64</span>, <span class="number">41</span>, <span class="number">22</span>, <span class="number">49</span>, <span class="number">86</span>, <span class="number">84</span>, <span class="number">113</span>, <span class="number">0</span>, <span class="number">77</span>, <span class="number">3</span>, <span class="number">88</span>, <span class="number">0</span>, <span class="number">66</span>, <span class="number">49</span>, <span class="number">33</span>, <span class="number">3</span>, <span class="number">114</span>, <span class="number">63</span>, <span class="number">26</span>, <span class="number">0</span>, <span class="number">35</span>]</span><br><span class="line">my_enc = encry</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">random.seed(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(my_enc)):</span><br><span class="line">    a = random.randint(<span class="number">0</span>, <span class="built_in">len</span>(my_enc))</span><br><span class="line">    <span class="comment"># print(a, end=&#x27; &#x27;)</span></span><br><span class="line">    b += [(a ^ my_enc[i])]</span><br><span class="line"></span><br><span class="line"><span class="comment"># print()</span></span><br><span class="line">tmp = (<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>, b)))</span><br><span class="line"><span class="built_in">print</span>(base64.b64decode(tmp.encode()))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/04/30/D-3CTF-Reverse-%E8%BD%A6%E8%81%94%E7%BD%91-Writeup/" rel="next" title="D^3CTF Reverse/车联网 Writeup">
+                <i class="fa fa-chevron-left"></i> D^3CTF Reverse/车联网 Writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ZSY-ARCH" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:siyu1915@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsy-arch.github.io/about/" title="快来占坑" target="_blank">快来占坑</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#asm-re"><span class="nav-number">1.</span> <span class="nav-text">asm_re</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#android-re"><span class="nav-number">2.</span> <span class="nav-text">android_re</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gdb-debug"><span class="nav-number">3.</span> <span class="nav-text">gdb_debug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#whereThel1b"><span class="nav-number">4.</span> <span class="nav-text">whereThel1b</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '4b176ec7ff80f8899820',
+          clientSecret: '1e7ab01131351f460347b88b1338c9dd8bec1bc7',
+          repo: 'zsy-arch.github.io',
+          owner: 'zsy-arch',
+          admin: ['zsy-arch'],
+
+          id: md5(location.pathname),
+
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

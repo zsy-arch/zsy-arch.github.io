@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-04-30T04:24:04.183Z</updated>
+  <updated>2024-05-20T15:26:02.741Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CISCN2024 Qual writeup</title>
+    <link href="https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/"/>
+    <id>https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/</id>
+    <published>2024-05-20T14:15:52.000Z</published>
+    <updated>2024-05-20T15:26:02.741Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;简单题是很水，没做出来的题也很让人崩溃。&lt;/p&gt;
+&lt;!--more---&gt;
+&lt;h1 id=&quot;asm-re&quot;&gt;&lt;a href=&quot;#asm-re&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>D^3CTF Reverse/车联网 Writeup</title>
@@ -395,25 +418,6 @@
     
     <summary type="html">&lt;p&gt;太困了,直接上脚本.&lt;/p&gt;
 &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;firstChars = [&lt;span class=&quot;number&quot;&gt;0x41&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x69&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x45&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6F&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x61&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;thirdChars = [&lt;span class=&quot;number&quot;&gt;0x02EF&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DC&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DE&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02FC&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;masterArray = [&lt;span class=&quot;number&quot;&gt;0x1D7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x0C&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x244&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x25E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x93&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6C&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flag = [&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] * &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hashCode = &lt;span class=&quot;number&quot;&gt;666&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;j = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i] = firstChars[j]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tmp = hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; k &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;128&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            flag[i + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;] = k&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i + &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;] = thirdChars[j] ^ hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    j += &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;&amp;#x27;&lt;/span&gt;.join(&lt;span class=&quot;built_in&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;map&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;chr&lt;/span&gt;, flag))))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>adworld [rev] babymips</title>
-    <link href="https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/"/>
-    <id>https://zsy-arch.github.io/2021/12/21/adworld-rev-babymips/</id>
-    <published>2021-12-21T15:00:17.000Z</published>
-    <updated>2024-03-12T13:36:02.426Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;adworld-rev-babymips&quot;&gt;&lt;a href=&quot;#adworld-rev-babymips&quot; class=&quot;headerlink&quot; title=&quot;adworld [rev] babymips&quot;&gt;&lt;/a&gt;adworld [rev] babymips&lt;/h1&gt;&lt;p&gt;简单的暴力题，直接上脚本：&lt;/p&gt;</summary>
     
     
     
