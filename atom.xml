@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-05-20T15:26:02.741Z</updated>
+  <updated>2024-06-06T13:07:46.377Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅析 windows cve-2023-21768</title>
+    <link href="https://zsy-arch.github.io/2024/06/06/windows-cve-2023-21768/"/>
+    <id>https://zsy-arch.github.io/2024/06/06/windows-cve-2023-21768/</id>
+    <published>2024-06-06T12:35:18.000Z</published>
+    <updated>2024-06-06T13:07:46.377Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;漏洞简介&quot;&gt;&lt;a href=&quot;#漏洞简介&quot; class=&quot;headerlink&quot; title=&quot;漏洞简介&quot;&gt;&lt;/a&gt;漏洞简介&lt;/h1&gt;&lt;p&gt;cve-2023-21768 是一个 Windows 11 22H2 系统中的本地权限提升漏洞，该漏洞源于AFD.sys这个模块。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="Windows kernel" scheme="https://zsy-arch.github.io/tags/Windows-kernel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://zsy-arch.github.io/2024/06/06/hello-world/"/>
+    <id>https://zsy-arch.github.io/2024/06/06/hello-world/</id>
+    <published>2024-06-06T12:32:46.458Z</published>
+    <updated>2021-11-05T07:15:33.527Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/image-20211105151514789.png&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>CISCN2024 Qual writeup</title>
@@ -373,51 +413,6 @@
     
     
     <summary type="html">&lt;h1 id=&quot;buuoj-reverse-equation&quot;&gt;&lt;a href=&quot;#buuoj-reverse-equation&quot; class=&quot;headerlink&quot; title=&quot;buuoj [reverse] equation&quot;&gt;&lt;/a&gt;buuoj [reverse] equation&lt;/h1&gt;&lt;p&gt;上来就一个套着html文件的js代码，有jsfuck的混淆。题目名字提示有方程组（equation），很明显方程组就是这个被混淆的部分。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2021-2022 CTF寒假训练Week1-12/27-1/2</title>
-    <link href="https://zsy-arch.github.io/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/"/>
-    <id>https://zsy-arch.github.io/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/</id>
-    <published>2021-12-30T05:43:51.000Z</published>
-    <updated>2022-08-13T14:41:36.480Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;android-app-100&quot;&gt;&lt;a href=&quot;#android-app-100&quot; class=&quot;headerlink&quot; title=&quot;android-app-100&quot;&gt;&lt;/a&gt;android-app-100&lt;/h2&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>adworld [rev] reverse-for-the-holy-grail-350</title>
-    <link href="https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/"/>
-    <id>https://zsy-arch.github.io/2021/12/23/adworld-rev-reverse-for-the-holy-grail-350/</id>
-    <published>2021-12-22T18:13:36.000Z</published>
-    <updated>2024-03-12T13:35:49.195Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;太困了,直接上脚本.&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;firstChars = [&lt;span class=&quot;number&quot;&gt;0x41&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x69&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x45&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6F&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x61&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;thirdChars = [&lt;span class=&quot;number&quot;&gt;0x02EF&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C4&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DC&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02C7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02DE&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x02FC&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;masterArray = [&lt;span class=&quot;number&quot;&gt;0x1D7&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x0C&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x244&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x25E&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x93&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0x6C&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flag = [&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] * &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;hashCode = &lt;span class=&quot;number&quot;&gt;666&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;j = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i] = firstChars[j]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    tmp = hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; k &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;range&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;128&lt;/span&gt;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (k ^ hashCode) * (flag[i] ^ tmp) % (thirdChars[j]) == masterArray[j]:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            flag[i + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;] = k&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag[i + &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;] = thirdChars[j] ^ hashCode&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hashCode += hashCode % &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    j += &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;&amp;#x27;&lt;/span&gt;.join(&lt;span class=&quot;built_in&quot;&gt;list&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;map&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;chr&lt;/span&gt;, flag))))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
     
