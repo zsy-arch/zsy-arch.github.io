@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-06-13T15:39:35.950Z</updated>
+  <updated>2024-06-13T15:42:04.725Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -21,16 +21,10 @@
     <link href="https://zsy-arch.github.io/2024/06/13/Windows-win32k-vuln-CVE-2021-1732/"/>
     <id>https://zsy-arch.github.io/2024/06/13/Windows-win32k-vuln-CVE-2021-1732/</id>
     <published>2024-06-13T15:39:33.000Z</published>
-    <updated>2024-06-13T15:39:35.950Z</updated>
+    <updated>2024-06-13T15:42:04.725Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;win32k漏洞&quot;&gt;&lt;a href=&quot;#win32k漏洞&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;win32k漏洞&quot;&gt;&lt;a href=&quot;#win32k漏洞&quot; class=&quot;headerlink&quot; title=&quot;win32k漏洞&quot;&gt;&lt;/a&gt;win32k漏洞&lt;/h1&gt;&lt;p&gt;win32k.sys运行在Windows系统内核态，主要负责GUI相关的工作，用户态的user32.dll与其合作。个人感觉比较常见的漏洞对象在于tagWnd及其相关的数据结构和API。&lt;/p&gt;</summary>
     
     
     
@@ -65,21 +59,17 @@
     <link href="https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/"/>
     <id>https://zsy-arch.github.io/2024/05/20/CISCN2024-Qual-writeup/</id>
     <published>2024-05-20T14:15:52.000Z</published>
-    <updated>2024-05-20T15:26:02.741Z</updated>
+    <updated>2024-06-13T15:42:40.890Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;简单题是很水，没做出来的题也很让人崩溃。&lt;/p&gt;
-&lt;!--more---&gt;
-&lt;h1 id=&quot;asm-re&quot;&gt;&lt;a href=&quot;#asm-re&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;简单题是很水，没做出来的题也很让人崩溃。&lt;/p&gt;</summary>
     
     
     
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
   </entry>
   
@@ -88,7 +78,7 @@
     <link href="https://zsy-arch.github.io/2024/04/30/D-3CTF-Reverse-%E8%BD%A6%E8%81%94%E7%BD%91-Writeup/"/>
     <id>https://zsy-arch.github.io/2024/04/30/D-3CTF-Reverse-%E8%BD%A6%E8%81%94%E7%BD%91-Writeup/</id>
     <published>2024-04-30T03:49:33.000Z</published>
-    <updated>2024-04-30T04:24:04.183Z</updated>
+    <updated>2024-06-13T15:42:53.233Z</updated>
     
     
     <summary type="html">&lt;p&gt;考完研第一次完整的参加一次CTF，考也没考上，ida咋用也忘干净了，还让队友掉出了前十。这就滚去学习re和iov。&lt;/p&gt;</summary>
@@ -98,7 +88,7 @@
     
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
-    <category term="车联网" scheme="https://zsy-arch.github.io/tags/%E8%BD%A6%E8%81%94%E7%BD%91/"/>
+    <category term="IOV" scheme="https://zsy-arch.github.io/tags/IOV/"/>
     
   </entry>
   
@@ -202,7 +192,7 @@
     <link href="https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/"/>
     <id>https://zsy-arch.github.io/2022/10/03/Windows-kernel-exploit-HEVD-Stack-Overflow/</id>
     <published>2022-10-03T14:29:15.000Z</published>
-    <updated>2024-03-12T13:37:08.038Z</updated>
+    <updated>2024-06-13T15:42:00.756Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;HEVD-环境搭建&quot;&gt;&lt;a href=&quot;#HEVD-环境搭建&quot; class=&quot;headerlink&quot; title=&quot;HEVD 环境搭建&quot;&gt;&lt;/a&gt;HEVD 环境搭建&lt;/h1&gt;&lt;p&gt;安装Visual Studio 2022、cmake、git cli，然后从&lt;a href=&quot;https://github.com/hacksysteam/HackSysExtremeVulnerableDriver&quot;&gt;https://github.com/hacksysteam/HackSysExtremeVulnerableDriver&lt;/a&gt; 下载源码，然后用内置的bat脚本编译即可。&lt;/p&gt;</summary>
