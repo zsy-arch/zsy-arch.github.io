@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-06-06T13:07:46.377Z</updated>
+  <updated>2024-06-13T15:39:35.950Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows win32k 漏洞 &amp; CVE-2021-1732 分析</title>
+    <link href="https://zsy-arch.github.io/2024/06/13/Windows-win32k-vuln-CVE-2021-1732/"/>
+    <id>https://zsy-arch.github.io/2024/06/13/Windows-win32k-vuln-CVE-2021-1732/</id>
+    <published>2024-06-13T15:39:33.000Z</published>
+    <updated>2024-06-13T15:39:35.950Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;win32k漏洞&quot;&gt;&lt;a href=&quot;#win32k漏洞&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="Windows kernel" scheme="https://zsy-arch.github.io/tags/Windows-kernel/"/>
+    
+  </entry>
   
   <entry>
     <title>浅析 windows cve-2023-21768</title>
@@ -394,25 +419,6 @@
     
     
     <summary type="html">&lt;h1 id=&quot;buuoj-rev-xx&quot;&gt;&lt;a href=&quot;#buuoj-rev-xx&quot; class=&quot;headerlink&quot; title=&quot;buuoj [rev] xx&quot;&gt;&lt;/a&gt;buuoj [rev] xx&lt;/h1&gt;&lt;p&gt;知识点：xxtea&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BUUOJ rev equation1</title>
-    <link href="https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/"/>
-    <id>https://zsy-arch.github.io/2022/01/04/BUUOJ-rev-equation1/</id>
-    <published>2022-01-04T12:28:58.000Z</published>
-    <updated>2024-03-12T13:35:27.034Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;buuoj-reverse-equation&quot;&gt;&lt;a href=&quot;#buuoj-reverse-equation&quot; class=&quot;headerlink&quot; title=&quot;buuoj [reverse] equation&quot;&gt;&lt;/a&gt;buuoj [reverse] equation&lt;/h1&gt;&lt;p&gt;上来就一个套着html文件的js代码，有jsfuck的混淆。题目名字提示有方程组（equation），很明显方程组就是这个被混淆的部分。&lt;/p&gt;</summary>
     
     
     
