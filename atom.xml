@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-06-13T15:42:04.725Z</updated>
+  <updated>2024-07-04T13:55:28.969Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VMP1.1 逆向分析</title>
+    <link href="https://zsy-arch.github.io/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/"/>
+    <id>https://zsy-arch.github.io/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</id>
+    <published>2024-07-03T08:39:09.000Z</published>
+    <updated>2024-07-04T13:55:28.969Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;1-引言&quot;&gt;&lt;a href=&quot;#1-引言&quot; class=&quot;headerlink&quot; title=&quot;1 引言&quot;&gt;&lt;/a&gt;1</summary>
+        
+      
+    
+    
+    
+    
+    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
+    
+    <category term="VMP" scheme="https://zsy-arch.github.io/tags/VMP/"/>
+    
+  </entry>
   
   <entry>
     <title>Windows win32k 漏洞 &amp; CVE-2021-1732 分析</title>
@@ -397,25 +422,6 @@
     <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
     
     <category term="Windows Kernel" scheme="https://zsy-arch.github.io/tags/Windows-Kernel/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>buuoj rev xx</title>
-    <link href="https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/"/>
-    <id>https://zsy-arch.github.io/2022/01/05/buuoj-rev-xx/</id>
-    <published>2022-01-05T15:42:52.000Z</published>
-    <updated>2024-03-12T13:35:21.226Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;buuoj-rev-xx&quot;&gt;&lt;a href=&quot;#buuoj-rev-xx&quot; class=&quot;headerlink&quot; title=&quot;buuoj [rev] xx&quot;&gt;&lt;/a&gt;buuoj [rev] xx&lt;/h1&gt;&lt;p&gt;知识点：xxtea&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
   </entry>
   
