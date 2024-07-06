@@ -246,6 +246,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zzzzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/" itemprop="url">编译Android系统及驱动</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-06T20:45:24+08:00">
+                2024-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h1><p>简单记录了这三天来编译Android系统内核、驱动走过的路。遇到了很多坑和不懂的东西，为了下次少走些弯路所以简单总结下。横跨很多天的工作不免记忆模糊，如果参考本博客时遇到问题欢迎大家下方留言和指正。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -316,107 +440,14 @@
 
       
         
-          
-            <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h1><p>几年来，逆向一直停留在CTF坐牢水平，脱壳也就会用工具、最多说说原理。所以决定开始“深入”了解下脱VMP壳。当然，毕竟要循序渐进，我们还是从最简单的开始。这里我们选择了VMP1.1版本，自己编写简单的程序并用其加壳，将原程序与加壳后程序进行对比分析。</p>
-<h1 id="2-环境"><a href="#2-环境" class="headerlink" title="2 环境"></a>2 环境</h1><ul>
-<li>宿主机：Windows 11 x64<ul>
-<li>VMWare 17</li>
-<li>Visual Studio 2022</li>
-<li>IDA Pro</li>
-<li>VMP 1.1</li>
-</ul>
-</li>
-<li>虚拟机：</li>
-</ul>
-<h1 id="3-分析"><a href="#3-分析" class="headerlink" title="3 分析"></a>3 分析</h1><h2 id="3-1-示例程序（example1）"><a href="#3-1-示例程序（example1）" class="headerlink" title="3.1 示例程序（example1）"></a>3.1 示例程序（example1）</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> __declspec(naked)  <span class="built_in">foo</span>()</span><br><span class="line">&#123;</span><br><span class="line">	__asm</span><br><span class="line">	&#123;</span><br><span class="line">		mov eax, <span class="number">0x0</span></span><br><span class="line">		ret</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a = <span class="built_in">foo</span>();</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;foo() = &quot;</span> &lt;&lt; a &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-2-虚拟机保护方法分析"><a href="#3-2-虚拟机保护方法分析" class="headerlink" title="3.2 虚拟机保护方法分析"></a>3.2 虚拟机保护方法分析</h2><p>在使用VMP进行加壳的时候可以知道，VMP是对指定的函数进行保护。我们可以先通过IDA查看原程序中foo函数的地址，并且要保证该函数的指令要大于等于5个字节。在这里我们将经过VMP保护的foo函数称为foo_vmp。</p>
-<p>foo_vmp函数包含一个jmp指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:004B3F20 ; int __cdecl foo()</span><br><span class="line">.text:004B3F20 ?foo@@YAHXZ     proc far                ; CODE XREF: foo(void)↑j</span><br><span class="line">.text:004B3F20                 jmp     near ptr sub_61C127</span><br><span class="line">.text:004B3F20 ; ---------------------------------------------------------------------------</span><br><span class="line">.text:004B3F25                 db 7Bh dup(0CCh)</span><br><span class="line">.text:004B3F25 ?foo@@YAHXZ     endp</span><br></pre></td></tr></table></figure>
-
-<p>其中的sub_61C13B位于段.vmp0内，也就是说VMP通过修改原函数的指令，让其进入vmp段内执行来实现接管和保护原函数。</p>
-<p>sub_61C13B函数实际执行虚拟机化后的foo函数的指令，其中<code>push offset dword_61C0B4</code>将foo_vmp的虚拟机指令起始地址（VmpCode）压入栈中，VmpCode也位于vmp段中，是一个byte数组。</p>
-<p>pushf、pusha两个指令将当前的标志寄存器和通用寄存器内容压入栈中，<code>push 0</code>将一个0压入栈，并且它（VmpPC）也用于后续的虚拟机指令寻址。</p>
-<p>下面是执行到<code>0061B88D</code>处（<code>ESP=0019FDE0</code>），栈中可能的数据：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Stack[00001CEC]:0019FDE0 dd 0                                    ; VmpPC</span><br><span class="line">Stack[00001CEC]:0019FDE4 dd offset off_19FEE8                    ; pusha</span><br><span class="line">Stack[00001CEC]:0019FDE8 dd offset start_1</span><br><span class="line">Stack[00001CEC]:0019FDEC dd offset off_19FEE8</span><br><span class="line">Stack[00001CEC]:0019FDF0 dd offset dword_19FE04                  ; pushf</span><br><span class="line">Stack[00001CEC]:0019FDF4 dd offset unk_33F000</span><br><span class="line">Stack[00001CEC]:0019FDF8 dd 1</span><br><span class="line">Stack[00001CEC]:0019FDFC dd offset unk_614066</span><br><span class="line">Stack[00001CEC]:0019FE00 dd offset unk_614066</span><br><span class="line">Stack[00001CEC]:0019FE04 dword_19FE04 dd 246h                    ; pushf</span><br><span class="line">Stack[00001CEC]:0019FE08 dd offset dword_61C0B4                  ; &amp;VmpCode</span><br><span class="line">Stack[00001CEC]:0019FE0C dd 4B581Bh                              ; ret addr，位于main函数</span><br></pre></td></tr></table></figure>
-
-<p>函数foo_vmp逻辑如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061C127 sub_61C127      proc far                ; CODE XREF: foo(void)↑j</span><br><span class="line">.vmp0:0061C127</span><br><span class="line">.vmp0:0061C127 var_2C          = tbyte ptr -2Ch</span><br><span class="line">.vmp0:0061C127 var_4           = dword ptr -4</span><br><span class="line">.vmp0:0061C127</span><br><span class="line">.vmp0:0061C127 ; FUNCTION CHUNK AT .vmp0:0061B400 SIZE 000007EB BYTES</span><br><span class="line">.vmp0:0061C127 ; FUNCTION CHUNK AT .vmp0:0061BFEB SIZE 000000C9 BYTES</span><br><span class="line">.vmp0:0061C127</span><br><span class="line">.vmp0:0061C127                 push    offset dword_61C0B4</span><br><span class="line">.vmp0:0061C12C                 jmp     loc_61B886</span><br><span class="line">.vmp0:0061C12C sub_61C127      endp</span><br><span class="line">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span><br><span class="line">.vmp0:0061B886 loc_61B886:                             ; CODE XREF: sub_61C127+5↓j</span><br><span class="line">.vmp0:0061B886                 pushf</span><br><span class="line">.vmp0:0061B887                 pusha</span><br><span class="line">.vmp0:0061B888                 push    0</span><br><span class="line">.vmp0:0061B88D                 mov     esi, [esp+2Ch+var_4]	; 注：esp+2Ch+var_4 == &amp;虚拟机指令</span><br><span class="line">.vmp0:0061B891                 cld</span><br><span class="line">.vmp0:0061B892                 mov     edx, offset dword_617000			; 存放线程ID（Tid）的数组</span><br><span class="line">.vmp0:0061B897                 call    ds:__imp__GetCurrentThreadId@0 	; GetCurrentThreadId()</span><br><span class="line">.vmp0:0061B89D                 mov     ebx, eax</span><br><span class="line">.vmp0:0061B89F                 mov     ecx, 100h</span><br><span class="line">.vmp0:0061B8A4                 mov     edi, edx</span><br><span class="line">.vmp0:0061B8A6                 repne scasd								; 在Tid数组中搜索当前Tid</span><br><span class="line">.vmp0:0061B8A8                 jz      short loc_61B8B7</span><br><span class="line">.vmp0:0061B8AA                 mov     eax, 100h						; 这部分指令逻辑为将Tid放入Tid数组中</span><br><span class="line">.vmp0:0061B8AF                 xchg    eax, ecx</span><br><span class="line">.vmp0:0061B8B0                 mov     edi, edx</span><br><span class="line">.vmp0:0061B8B2                 repne scasd</span><br><span class="line">.vmp0:0061B8B4                 mov     [edi-4], ebx</span><br><span class="line">.vmp0:0061B8B7</span><br><span class="line">.vmp0:0061B8B7 loc_61B8B7:                             ; CODE XREF: sub_61C127-87F↑j</span><br><span class="line">.vmp0:0061B8B7                 mov     ebp, edi							; 若Tid存在于Tid数组中，则直接跳转到此处</span><br><span class="line">.vmp0:0061B8B9                 sub     edi, edx</span><br><span class="line">.vmp0:0061B8BB                 shl     edi, 1</span><br><span class="line">.vmp0:0061B8BD                 lea     edi, [edx+edi*8+3C0h]</span><br><span class="line">.vmp0:0061B8C4                 mov     ebx, esi</span><br><span class="line">.vmp0:0061B8C6                 add     esi, dword ptr [esp+2Ch+var_2C]	; esp+2Ch+var_2C == 之前压入的0的地址</span><br><span class="line">.vmp0:0061B8C9</span><br><span class="line">.vmp0:0061B8C9 loc_61B8C9:                             ; CODE XREF: sub_61C127-D25↑j</span><br><span class="line">.vmp0:0061B8C9                                         ; sub_61C127-D1A↑j ...</span><br><span class="line">.vmp0:0061B8C9                 lodsb</span><br><span class="line">.vmp0:0061B8CA                 add     al, bl</span><br><span class="line">.vmp0:0061B8CC                 inc     al</span><br><span class="line">.vmp0:0061B8CE                 ror     al, 5</span><br><span class="line">.vmp0:0061B8D1                 inc     al</span><br><span class="line">.vmp0:0061B8D3                 ror     al, 2</span><br><span class="line">.vmp0:0061B8D6                 inc     al</span><br><span class="line">.vmp0:0061B8D8                 rol     al, 5</span><br><span class="line">.vmp0:0061B8DB                 not     al</span><br><span class="line">.vmp0:0061B8DD                 add     bl, al</span><br><span class="line">.vmp0:0061B8DF                 movzx   eax, al</span><br><span class="line">.vmp0:0061B8E2                 jmp     ds:jpt_61B8E2[eax*4] ; switch 256 cases</span><br><span class="line">.vmp0:0061B58F ; ---------------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
-
-<p>在<code>0061B8E2</code>处的<code>jmp ds:jpt_61B8E2[eax*4]</code>用到一个跳表（jump table），EAX寄存器的值是其索引。EAX的值来源于AL寄存器与BL寄存器进行的一系列计算，而AL寄存器的值是通过访问<code>VmpCode + VmpPC</code>地址的字节得到的。</p>
-<p>跳表存储的内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BBEB jpt_61B8E2      dd offset loc_61B769, offset loc_61B5A4, offset loc_61BAA0</span><br><span class="line">.vmp0:0061BBF7                 dd offset loc_61B5FE, offset loc_61BA75, offset loc_61C02D</span><br><span class="line">	...</span><br><span class="line">	...</span><br><span class="line">	...</span><br><span class="line">.vmp0:0061BFE7                 dd offset loc_61BB1E</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="3-3-虚拟机指令分析"><a href="#3-3-虚拟机指令分析" class="headerlink" title="3.3 虚拟机指令分析"></a>3.3 虚拟机指令分析</h2><p>在最开始，foo_vmp将ESP指向的栈中的数据复制到EDI寄存器指向vmp段中一个固定区域，包括VmpPC、pushf和pusha压入栈中的数据。由于每次只能复制1个DWORD，所以（1）（2）对应的代码会执行多次。</p>
-<p>（1）首先将VmpPC复制到地址<code>edi+eax*4</code>处：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B77D lodsb                                   ; jumptable 0061B8E2 case 213</span><br><span class="line">.vmp0:0061B77E add     al, bl</span><br><span class="line">.vmp0:0061B780 xor     al, 0E0h</span><br><span class="line">.vmp0:0061B782 dec     al</span><br><span class="line">.vmp0:0061B784 xor     al, 0FBh</span><br><span class="line">.vmp0:0061B786 rol     al, 1</span><br><span class="line">.vmp0:0061B788 dec     al</span><br><span class="line">.vmp0:0061B78A add     bl, al</span><br><span class="line">.vmp0:0061B78C pop     dword ptr [edi+eax*4]</span><br><span class="line">.vmp0:0061B78F jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>存放位置如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061742C dd 0                                    ; VmpPC</span><br><span class="line">.vmp0:00617430 db 6Fh</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>（2）随后将pusha指令压入栈中的数据复制到地址<code>edi+eax*4</code>处：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B77D loc_61B77D:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B77D                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B77D lodsb                                   ; jumptable 0061B8E2 case 213</span><br><span class="line">.vmp0:0061B77E add     al, bl</span><br><span class="line">.vmp0:0061B780 xor     al, 0E0h</span><br><span class="line">.vmp0:0061B782 dec     al</span><br><span class="line">.vmp0:0061B784 xor     al, 0FBh</span><br><span class="line">.vmp0:0061B786 rol     al, 1</span><br><span class="line">.vmp0:0061B788 dec     al</span><br><span class="line">.vmp0:0061B78A add     bl, al</span><br><span class="line">.vmp0:0061B78C pop     dword ptr [edi+eax*4]</span><br><span class="line">.vmp0:0061B78F jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>存放位置如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061742C dd 0                                    ; VmpPC</span><br><span class="line">.vmp0:00617430 dd offset off_19FEE8                    ; pusha &lt;----------------------------</span><br><span class="line">.vmp0:00617434 db  12h</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">;;;;;;;;;;;;;;;;;;;;;;;与栈中内容进行对比;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span><br><span class="line">Stack[00001CEC]:0019FDE0 dd 0                                    ; VmpPC</span><br><span class="line">Stack[00001CEC]:0019FDE4 dd offset off_19FEE8                    ; pusha &lt;----------------------------</span><br><span class="line">Stack[00001CEC]:0019FDE8 dd offset start_1                       ; &lt;==== ESP</span><br><span class="line">Stack[00001CEC]:0019FDEC dd offset off_19FEE8</span><br><span class="line">Stack[00001CEC]:0019FDF0 dd offset dword_19FE04                  ; pushf</span><br><span class="line">Stack[00001CEC]:0019FDF4 dd offset unk_33F000</span><br><span class="line">Stack[00001CEC]:0019FDF8 dd 1</span><br><span class="line">Stack[00001CEC]:0019FDFC dd offset unk_614066</span><br><span class="line">Stack[00001CEC]:0019FE00 dd offset unk_614066</span><br><span class="line">Stack[00001CEC]:0019FE04 dword_19FE04 dd 246h                    ; DATA XREF: Stack[00001CEC]:0019FDF0↑o</span><br><span class="line">Stack[00001CEC]:0019FE04                                         ; pushf</span><br><span class="line">Stack[00001CEC]:0019FE08 dd offset dword_61C0B4                  ; &amp;VmpCode</span><br><span class="line">Stack[00001CEC]:0019FE0C dd 4B581Bh                              ; ret addr</span><br></pre></td></tr></table></figure>
-
-<p>（3）将VmpCode地址pop到EAX寄存器：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B593 loc_61B593:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B593                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B593 pop     eax                             ; jumptable 0061B8E2 case 205</span><br><span class="line">.vmp0:0061B594 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>栈内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Stack[00001CEC]:0019FE08 dd offset dword_61C0B4                  ; &amp;VmpCode</span><br><span class="line">Stack[00001CEC]:0019FE0C dd 4B581Bh                              ; ret addr，&lt;==== ESP</span><br><span class="line">Stack[00001CEC]:0019FE10 db 0C7h</span><br><span class="line">Stack[00001CEC]:0019FE11 db  71h ; q</span><br><span class="line">Stack[00001CEC]:0019FE12 db  49h ; I</span><br><span class="line">Stack[00001CEC]:0019FE13 db    0</span><br></pre></td></tr></table></figure>
-
-<p>EAX寄存器值为：<code>0x0061C0B4</code>。</p>
-<p>（4）压栈（DWORD）操作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B73D loc_61B73D:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B73D                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B73D lodsd                                   ; jumptable 0061B8E2 case 175</span><br><span class="line">.vmp0:0061B73E add     eax, ebx</span><br><span class="line">.vmp0:0061B740 add     eax, 19E62AF4h</span><br><span class="line">.vmp0:0061B745 xor     eax, 887CD5D9h</span><br><span class="line">.vmp0:0061B74A ror     eax, 18h</span><br><span class="line">.vmp0:0061B74D sub     eax, 43D91D6h</span><br><span class="line">.vmp0:0061B752 not     eax</span><br><span class="line">.vmp0:0061B754 add     ebx, eax</span><br><span class="line">.vmp0:0061B756 push    eax</span><br><span class="line">.vmp0:0061B757 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>lodsd指令取出一个DWORD作为操作数，此处为<code>0A110DF68</code>。经计算后，EAX值为<code>0xE01EC2A2</code>，EBX值为<code>0xE080835C</code>。并将EAX值压入栈中。</p>
-<p>栈数据如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0019FE08  E01EC2A2  ; &lt;==== ESP</span><br><span class="line">0019FE0C  004B581B  _main+2B</span><br><span class="line">0019FE10  004971C7  start_1</span><br><span class="line">0019FE14  004971C7  start_1</span><br></pre></td></tr></table></figure>
-
-<p>然后，foo_vmp会再执行一次（4）的压栈操作，这次压入了<code>1FE13D5E</code>。</p>
-<p>（5）压栈（WORD）操作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BA83 lodsb                                   ; jumptable 0061B8E2 case 24</span><br><span class="line">.vmp0:0061BA84 add     al, bl</span><br><span class="line">.vmp0:0061BA86 not     al</span><br><span class="line">.vmp0:0061BA88 dec     al</span><br><span class="line">.vmp0:0061BA8A rol     al, 3</span><br><span class="line">.vmp0:0061BA8D inc     al</span><br><span class="line">.vmp0:0061BA8F add     bl, al</span><br><span class="line">.vmp0:0061BA91 push    ax</span><br><span class="line">.vmp0:0061BA93 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>最开始的lodsb指令与lodsd类似，只不过是取出一个BYTE。最后，指令<code>push ax</code>压入了<code>0x02</code>。</p>
-<p>然后，foo_vmp压入了一个DWORD值为<code>186E6D</code>。</p>
-<p>（6）左移操作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061C055 loc_61C055:                             ; CODE XREF: sub_61C127-845↑j</span><br><span class="line">.vmp0:0061C055                                         ; DATA XREF: .vmp0:jpt_61B8E2↑o</span><br><span class="line">.vmp0:0061C055 pop     edx                             ; jumptable 0061B8E2 cases 127,160</span><br><span class="line">.vmp0:0061C056 pop     cx</span><br><span class="line">.vmp0:0061C058 shl     edx, cl</span><br><span class="line">.vmp0:0061C05A push    edx</span><br><span class="line">.vmp0:0061C05B jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>从栈中弹出1个DWORD到EDX，弹出1个WORD到CX。然后进行左移（shl）操作，即<code>EDX &lt;&lt; CX</code>，然后将结果压入栈中。</p>
-<p>此处压入的值为<code>61B9B4</code>，即<code>0x186E6D &lt;&lt; 2</code>的结果。</p>
-<p>另外提及一下，后面还会有一种将标志寄存器也压入栈中的左移操作。如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BB99 loc_61BB99:                             ; CODE XREF: sub_61C127-845↑j</span><br><span class="line">.vmp0:0061BB99                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061BB99 pop     ax                              ; jumptable 0061B8E2 case 208</span><br><span class="line">.vmp0:0061BB9B pop     cx</span><br><span class="line">.vmp0:0061BB9D shr     ax, cl</span><br><span class="line">.vmp0:0061BBA0 push    ax</span><br><span class="line">.vmp0:0061BBA2 pushfw</span><br><span class="line">.vmp0:0061BBA4 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>（7）EDI寻址压栈操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B829 loc_61B829:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B829                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B829 movzx   eax, byte ptr [esi]             ; jumptable 0061B8E2 case 148</span><br><span class="line">.vmp0:0061B82C add     al, bl</span><br><span class="line">.vmp0:0061B82E xor     al, 0E0h</span><br><span class="line">.vmp0:0061B830 dec     al</span><br><span class="line">.vmp0:0061B832 xor     al, 0FBh</span><br><span class="line">.vmp0:0061B834 rol     al, 1</span><br><span class="line">.vmp0:0061B836 inc     esi</span><br><span class="line">.vmp0:0061B837 dec     al</span><br><span class="line">.vmp0:0061B839 add     bl, al</span><br><span class="line">.vmp0:0061B83B push    dword ptr [edi+eax*4]</span><br><span class="line">.vmp0:0061B83E jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>取出大小为1BYTE的操作数，经过计算后EAX值为<code>0x0000000B</code>，利用该值与EDI寄存器进行寻址，这里<code>edi+eax*4</code>是0，也就是之前<code>push 0</code>指令经过压栈然后复制到EDI所指区域产生的值。</p>
-<p>（8）加法操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B550 loc_61B550:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B550                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B550 pop     ecx                             ; jumptable 0061B8E2 case 195</span><br><span class="line">.vmp0:0061B551 add     dword ptr [esp+28h+var_2C+4], ecx</span><br><span class="line">.vmp0:0061B554 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>首先从栈上弹出1个DWORD到ECX，然后将ECX加到栈顶所指的[ESP]中。</p>
-<p>（9）寻址压栈操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061B719 loc_61B719:                             ; CODE XREF: sub_61C127-845↓j</span><br><span class="line">.vmp0:0061B719                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061B719 pop     edx                             ; jumptable 0061B8E2 cases 140,218</span><br><span class="line">.vmp0:0061B71A push    dword ptr [edx]</span><br><span class="line">.vmp0:0061B71C jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>从栈上弹出1个DWORD到EDX，将EDX的值作为内存地址进行寻址，并将访存结果压入栈中。</p>
-<p>这里访存结果是<code>E99C6650</code>，是某些指令机器码的一部分。</p>
-<p>（10）压入栈顶指针操作：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BA03 loc_61BA03:                             ; CODE XREF: sub_61C127-845↑j</span><br><span class="line">.vmp0:0061BA03                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061BA03 mov     ecx, esp                        ; jumptable 0061B8E2 case 18</span><br><span class="line">.vmp0:0061BA05 push    ecx</span><br><span class="line">.vmp0:0061BA06 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>（11）栈顶访存操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BB61 loc_61BB61:                             ; CODE XREF: sub_61C127-845↑j</span><br><span class="line">.vmp0:0061BB61                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061BB61 pop     edx                             ; jumptable 0061B8E2 case 8</span><br><span class="line">.vmp0:0061BB62 push    dword ptr ss:[edx]</span><br><span class="line">.vmp0:0061BB65 jmp     loc_61B8C9</span><br></pre></td></tr></table></figure>
-
-<p>将栈顶DWORD弹出到EDX寄存器，再将<code>[EDX]</code>访存结果压入栈顶。</p>
-<p>我们现在还是初步分析VMP，所以接下来我们略过重复的虚拟机指令。</p>
-<p>（12）返回（ret）操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.vmp0:0061BAF9 loc_61BAF9:                             ; CODE XREF: .vmp0:0061B8E2↑j</span><br><span class="line">.vmp0:0061BAF9                                         ; DATA XREF: .vmp0:jpt_61B8E2↓o</span><br><span class="line">.vmp0:0061BAF9 mov     dword ptr [ebp-4], 0            ; jumptable 0061B8E2 case 77</span><br><span class="line">.vmp0:0061BB00 pop     eax</span><br><span class="line">.vmp0:0061BB01 popa</span><br><span class="line">.vmp0:0061BB02 popf</span><br><span class="line">.vmp0:0061BB03 retn</span><br></pre></td></tr></table></figure>
-
-<p>将栈顶弹出到EAX作为函数的返回值，用popa、popf指令还原寄存器。</p>
-<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h1><p>程序经过VMP保护后，函数的逻辑使用虚拟机指令重写。人工翻译虚拟机指令的工作量太大，所以下一步需要编写工具来实现自动翻译虚拟机指令，供我们阅读。</p>
-
-          
+          <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h1><p>几年来，逆向一直停留在CTF坐牢水平，脱壳也就会用工具、最多说说原理。所以决定开始“深入”了解下脱VMP壳。当然，毕竟要循序渐进，我们还是从最简单的开始。这里我们选择了VMP1.1版本，自己编写简单的程序并用其加壳，将原程序与加壳后程序进行对比分析。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -3932,130 +3963,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zzzzz">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/" itemprop="url">天津大学生信安大赛 2021 [rev] Bytecode</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-30T13:11:33+08:00">
-                2021-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="bytecode"><a href="#bytecode" class="headerlink" title="bytecode"></a>bytecode</h2><p>上来一个py字节码：</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/10/30/%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E5%AE%89%E5%A4%A7%E8%B5%9B-2021-rev-Bytecode/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4106,7 +4013,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4119,7 +4026,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

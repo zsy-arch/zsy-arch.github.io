@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="VvufYZh-K8JyCy1zH8D63T51xhTbqQ_p4bNLs98ynas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Linux," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="zzzzz" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1 引言简单记录了这三天来编译Android系统内核、驱动走过的路。遇到了很多坑和不懂的东西，为了下次少走些弯路所以简单总结下。横跨很多天的工作不免记忆模糊，如果参考本博客时遇到问题欢迎大家下方留言和指正。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译Android系统及驱动">
+<meta property="og:url" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/index.html">
+<meta property="og:site_name" content="zzzzz">
+<meta property="og:description" content="1 引言简单记录了这三天来编译Android系统内核、驱动走过的路。遇到了很多坑和不懂的东西，为了下次少走些弯路所以简单总结下。横跨很多天的工作不免记忆模糊，如果参考本博客时遇到问题欢迎大家下方留言和指正。">
+<meta property="og:locale">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_21-37-36.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-30-44.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-35-31.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-44-44.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-47-37.png">
+<meta property="og:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-55-05.png">
+<meta property="article:published_time" content="2024-07-06T12:45:24.000Z">
+<meta property="article:modified_time" content="2024-07-06T15:10:53.694Z">
+<meta property="article:author" content="zsy">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_21-37-36.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zsy-arch.github.io/2024/07/06/编译Android系统及驱动/"/>
+
+
+
+
+
+  <title>编译Android系统及驱动 | zzzzz</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zzzzz</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zzzzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译Android系统及驱动</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-06T20:45:24+08:00">
+                2024-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h1><p>简单记录了这三天来编译Android系统内核、驱动走过的路。遇到了很多坑和不懂的东西，为了下次少走些弯路所以简单总结下。横跨很多天的工作不免记忆模糊，如果参考本博客时遇到问题欢迎大家下方留言和指正。</p>
+<span id="more"></span>
+
+<h1 id="2-环境"><a href="#2-环境" class="headerlink" title="2 环境"></a>2 环境</h1><ul>
+<li>宿主机：Windows 11</li>
+<li>虚拟机：Ubuntu 18 LTS</li>
+<li>16G或32G的内存</li>
+<li>1T以上的硬盘空间（推荐使用固态硬盘）</li>
+</ul>
+<h1 id="3-准备工作"><a href="#3-准备工作" class="headerlink" title="3 准备工作"></a>3 准备工作</h1><p>Android官方文档中推荐使用Ubuntu或者Mac OS系统，这里我们选择了在Windows上使用虚拟机软件（Vmware）运行Ubuntu 18来进行编译。由于Android系统比较庞大，建议大家为虚拟机分配600G及以上的硬盘空间。</p>
+<h2 id="3-1-安装工具"><a href="#3-1-安装工具" class="headerlink" title="3.1 安装工具"></a>3.1 安装工具</h2><p>首先前往<a target="_blank" rel="noopener" href="https://source.android.com/source/initializing?hl=zh-cn">https://source.android.com/source/initializing?hl=zh-cn</a>在Ubuntu中安装必要的软件包。</p>
+<p>随后就是安装repo工具，这里我们选择了国内TUNA的镜像，<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/">https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/</a>。按照其中的步骤，首先安装git-repo工具；下载TUNA提供的使用每月更新的初始化包，将其解压到虚拟机中并用<code>repo sync</code>进行同步。</p>
+<h2 id="3-2-下载Android源代码并选择分支"><a href="#3-2-下载Android源代码并选择分支" class="headerlink" title="3.2 下载Android源代码并选择分支"></a>3.2 下载Android源代码并选择分支</h2><p>在(<a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/about/build-numbers?hl=zh-cn#source-code-tags-and-builds)[https://source.android.com/docs/setup/about/build-numbers?hl=zh-cn#source-code-tags-and-builds]%E5%8F%AF%E4%BB%A5%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF%EF%BC%8C%E8%BF%99%E9%87%8C%E6%88%91%E4%BB%AC%E9%80%89%E6%8B%A9%E4%BA%86Android">https://source.android.com/docs/setup/about/build-numbers?hl=zh-cn#source-code-tags-and-builds)[https://source.android.com/docs/setup/about/build-numbers?hl=zh-cn#source-code-tags-and-builds]可以查看所有分支，这里我们选择了Android</a> 13的分支，大家可以根据自己情况进行选择。</p>
+<h1 id="4-编译Android源代码"><a href="#4-编译Android源代码" class="headerlink" title="4 编译Android源代码"></a>4 编译Android源代码</h1><h2 id="4-1-配置编译选项"><a href="#4-1-配置编译选项" class="headerlink" title="4.1 配置编译选项"></a>4.1 配置编译选项</h2><p>首先进入aosp目录，运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source build/envsetup.sh</span><br></pre></td></tr></table></figure>
+
+<p>查看lunch提供的选项（部分）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lunch</span></span><br><span class="line"></span><br><span class="line">You&#x27;re building on Linux</span><br><span class="line"></span><br><span class="line">Lunch menu .. Here are the common combinations:</span><br><span class="line">     1. aosp_arm-eng</span><br><span class="line">     2. aosp_arm64-eng</span><br><span class="line">     3. aosp_barbet-userdebug</span><br><span class="line">     4. aosp_bluejay-userdebug</span><br><span class="line">     5. aosp_bluejay_car-userdebug</span><br><span class="line">     6. aosp_bramble-userdebug</span><br><span class="line">     7. aosp_bramble_car-userdebug</span><br><span class="line">     8. aosp_car_arm-userdebug</span><br><span class="line">     9. aosp_car_arm64-userdebug</span><br><span class="line">     10. aosp_car_x86-userdebug</span><br><span class="line">     11. aosp_car_x86_64-userdebug</span><br><span class="line">     12. aosp_cf_arm64_auto-userdebug</span><br><span class="line">     13. aosp_cf_arm64_phone-userdebug</span><br><span class="line">     14. aosp_cf_x86_64_foldable-userdebug</span><br><span class="line">     15. aosp_cf_x86_64_pc-userdebug</span><br><span class="line">     16. aosp_cf_x86_64_phone-userdebug</span><br><span class="line">     17. aosp_cf_x86_64_tv-userdebug</span><br><span class="line">     18. aosp_cf_x86_auto-userdebug</span><br><span class="line">     19. aosp_cf_x86_phone-userdebug</span><br><span class="line">     20. aosp_cf_x86_tv-userdebug</span><br><span class="line">     21. aosp_cheetah-userdebug</span><br><span class="line">     22. aosp_cloudripper-userdebug</span><br><span class="line">     23. aosp_coral-userdebug</span><br><span class="line">     24. aosp_coral_car-userdebug</span><br><span class="line">     25. aosp_flame-userdebug</span><br><span class="line">     26. aosp_flame_car-userdebug</span><br><span class="line">     27. aosp_oriole-userdebug</span><br><span class="line">     28. aosp_oriole_car-userdebug</span><br><span class="line">     29. aosp_panther-userdebug</span><br><span class="line">     30. aosp_raven-userdebug</span><br><span class="line">     31. aosp_raven_car-userdebug</span><br><span class="line">     32. aosp_ravenclaw-userdebug</span><br><span class="line">     33. aosp_redfin-userdebug</span><br><span class="line">     34. aosp_redfin_car-userdebug</span><br><span class="line">     35. aosp_redfin_vf-userdebug</span><br><span class="line">     36. aosp_slider-userdebug</span><br><span class="line">     37. aosp_sunfish-userdebug</span><br><span class="line">     38. aosp_sunfish_car-userdebug</span><br><span class="line">     39. aosp_trout_arm64-userdebug</span><br><span class="line">     40. aosp_trout_x86-userdebug</span><br><span class="line">     41. aosp_whitefin-userdebug</span><br><span class="line">     42. aosp_x86-eng</span><br><span class="line">     43. aosp_x86_64-eng</span><br><span class="line">     44. arm_krait-eng</span><br><span class="line">     45. arm_v7_v8-eng</span><br><span class="line">     46. armv8-eng</span><br><span class="line">     47. armv8_cortex_a55-eng</span><br><span class="line">     48. armv8_kryo385-eng</span><br><span class="line">     49. beagle_x15-userdebug</span><br><span class="line">     50. beagle_x15_auto-userdebug</span><br><span class="line">     51. car_ui_portrait-userdebug</span><br><span class="line">     52. car_x86_64-userdebug</span><br><span class="line">     53. db845c-userdebug</span><br><span class="line">     54. gsi_car_arm64-userdebug</span><br><span class="line">     55. gsi_car_x86_64-userdebug</span><br><span class="line">     56. hikey-userdebug</span><br><span class="line">     57. hikey64_only-userdebug</span><br><span class="line">     58. hikey960-userdebug</span><br><span class="line">     59. hikey960_tv-userdebug</span><br><span class="line">     60. hikey_tv-userdebug</span><br><span class="line">     61. poplar-eng</span><br><span class="line">     62. poplar-user</span><br><span class="line">     63. poplar-userdebug</span><br><span class="line">     64. qemu_trusty_arm64-userdebug</span><br><span class="line">     65. rb5-userdebug</span><br><span class="line">     66. sdk_car_arm-userdebug</span><br><span class="line">     67. sdk_car_arm64-userdebug</span><br><span class="line">     68. sdk_car_portrait_x86_64-userdebug</span><br><span class="line">     69. sdk_car_x86-userdebug</span><br><span class="line">     70. sdk_car_x86_64-userdebug</span><br><span class="line">     71. sdk_pc_x86_64-userdebug</span><br><span class="line">     72. silvermont-eng</span><br><span class="line">     73. uml-userdebug</span><br><span class="line">     74. yukawa-userdebug</span><br><span class="line">     75. yukawa_sei510-userdebug</span><br><span class="line"></span><br><span class="line">Which would you like? [aosp_arm-eng]</span><br><span class="line">Pick from common choices above (e.g. 13) or specify your own (e.g. aosp_barbet-eng):</span><br></pre></td></tr></table></figure>
+
+<p>这里建议选择sdk开头的选项。</p>
+<p>由于我们想要在x86_64的平台上使用emulator模拟运行，所以使用<code>sdk_x86_64-userdebug</code>选项。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lunch sdk_x86_64-userdebug</span></span><br><span class="line"></span><br><span class="line">============================================</span><br><span class="line">PLATFORM_VERSION_CODENAME=REL</span><br><span class="line">PLATFORM_VERSION=13</span><br><span class="line">TARGET_PRODUCT=sdk_x86_64</span><br><span class="line">TARGET_BUILD_VARIANT=userdebug</span><br><span class="line">TARGET_BUILD_TYPE=release</span><br><span class="line">TARGET_ARCH=x86_64</span><br><span class="line">TARGET_ARCH_VARIANT=x86_64</span><br><span class="line">TARGET_2ND_ARCH=x86</span><br><span class="line">TARGET_2ND_ARCH_VARIANT=x86_64</span><br><span class="line">HOST_ARCH=x86_64</span><br><span class="line">HOST_2ND_ARCH=x86</span><br><span class="line">HOST_OS=linux</span><br><span class="line">HOST_OS_EXTRA=Linux-5.4.0-150-generic-x86_64-Ubuntu-18.04.6-LTS</span><br><span class="line">HOST_CROSS_OS=windows</span><br><span class="line">HOST_CROSS_ARCH=x86</span><br><span class="line">HOST_CROSS_2ND_ARCH=x86_64</span><br><span class="line">HOST_BUILD_TYPE=release</span><br><span class="line">BUILD_ID=TQ2A.230505.002.A1</span><br><span class="line">OUT_DIR=out</span><br><span class="line">PRODUCT_SOONG_NAMESPACES=device/generic/goldfish device/generic/goldfish-opengl hardware/google/camera hardware/google/camera/devices/EmulatedCamera device/generic/goldfish device/generic/goldfish-opengl</span><br><span class="line">============================================</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-编译"><a href="#4-2-编译" class="headerlink" title="4.2 编译"></a>4.2 编译</h2><p>接下来可以直接输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> m</span></span><br></pre></td></tr></table></figure>
+
+<p>该命令可以自动识别机器CPU核心数，使用所有核心编译。</p>
+<p>同样可以使用make指定核心数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make -j4</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-运行Android系统"><a href="#5-运行Android系统" class="headerlink" title="5 运行Android系统"></a>5 运行Android系统</h1><p>这里我们使用AOSP提供的emulator在虚拟机中运行Android系统，直接在aosp目录输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> emulator</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_21-37-36.png" class="" title="emulator">
+
+<h1 id="6-编译Android驱动"><a href="#6-编译Android驱动" class="headerlink" title="6 编译Android驱动"></a>6 编译Android驱动</h1><h2 id="6-1-Android驱动——hello-module"><a href="#6-1-Android驱动——hello-module" class="headerlink" title="6.1 Android驱动——hello_module"></a>6.1 Android驱动——hello_module</h2><p>Android本身是在Linux内核之上的系统，所以Android驱动也可以理解为Linux驱动。下面是一个Android驱动的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello_module.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/init.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> __init <span class="title">hello_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	printk(<span class="string">&quot;Hello world!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> __exit <span class="title">hello_exit</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	printk(<span class="string">&quot;hello exit\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(hello_init);</span><br><span class="line">module_exit(hello_exit);</span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;GPL&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-下载Android-kernel源代码"><a href="#6-2-下载Android-kernel源代码" class="headerlink" title="6.2 下载Android-kernel源代码"></a>6.2 下载Android-kernel源代码</h2><p>在Android官方文档<a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/build/building-kernels?hl=zh-cn">https://source.android.com/docs/setup/build/building-kernels?hl=zh-cn</a>中介绍了构建内核的方法。也同样可以使用TUNA镜像进行加速：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/kernel/manifest -b BRANCH</span><br><span class="line">$ repo syncs</span><br></pre></td></tr></table></figure>
+
+<p>这里的BRANCH可以在<a target="_blank" rel="noopener" href="https://source.android.com/docs/setup/reference/bazel-support?hl=zh-cn">https://source.android.com/docs/setup/reference/bazel-support?hl=zh-cn</a>选择合适的分支，比如我们这里选择了<code>common-android13-5.15</code>。</p>
+<h2 id="6-3-将加入hello-module驱动内核"><a href="#6-3-将加入hello-module驱动内核" class="headerlink" title="6.3 将加入hello_module驱动内核"></a>6.3 将加入hello_module驱动内核</h2><p>源代码Android-kernel中包含common-modules文件夹，由于存放供应商模块。我们在<code>common-modules/virtual-device</code>目录下创建<code>hello_module</code>文件夹，其中存放我们的驱动代码hello_module.c，以及下面的Kbuild文件：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SPDX-License-Identifier: GPL-2.0</span></span><br><span class="line"></span><br><span class="line">hello-module-objs := hello_module.o</span><br><span class="line"></span><br><span class="line">obj-m += hello-module.o</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在<code>hello_module</code>文件夹的父目录（即<code>common-modules/virtual-device</code>）下的<code>Kbuild</code>中加入<code>obj-m += hello_module/</code>：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">obj-m += virtio_gpu/</span><br><span class="line">obj-m += arcvm_drivers/dev-sw-sync/</span><br><span class="line">obj-$&#123;BUILD_GOLDFISH_DRIVERS&#125; += goldfish_drivers/</span><br><span class="line"><span class="comment"># 新加入：</span></span><br><span class="line">obj-m += hello_module/</span><br></pre></td></tr></table></figure>
+
+<p>在<code>hello_module</code>文件夹的父目录（即<code>common-modules/virtual-device</code>）下的<code>BUILD.bazel</code>的<code>_virt_common_ext_modules</code>加入<code>&quot;hello_module/hello-module.ko&quot;,</code>：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">_virt_common_ext_modules = [</span><br><span class="line">    <span class="string">&quot;arcvm_drivers/dev-sw-sync/sw_sync.ko&quot;</span>,</span><br><span class="line">    <span class="string">&quot;goldfish_drivers/goldfish_address_space.ko&quot;</span>,</span><br><span class="line">    <span class="string">&quot;goldfish_drivers/goldfish_pipe.ko&quot;</span>,</span><br><span class="line">    <span class="string">&quot;goldfish_drivers/goldfish_sync.ko&quot;</span>,</span><br><span class="line">    <span class="string">&quot;virtio_gpu/virtio-gpu.ko&quot;</span>,</span><br><span class="line">    <span class="comment"># 新加入：</span></span><br><span class="line">    <span class="string">&quot;hello_module/hello-module.ko&quot;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-4-编译"><a href="#6-4-编译" class="headerlink" title="6.4 编译"></a>6.4 编译</h2><p>编译所有virtual-device（也包括hello-module.ko）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tools/bazel build //common-modules/virtual-device:virtual_device_x86_64_dist</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用dist_dir选项输出到指定文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tools/bazel run //common-modules/virtual-device:virtual_device_x86_6s4_dist -- --dist_dir=out/mydist</span><br></pre></td></tr></table></figure>
+
+<p>成功编译出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find ./out/mydist/ -name hello-module.ko</span></span><br><span class="line">./out/mydist/hello-module.ko</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-运行Android驱动程序"><a href="#7-运行Android驱动程序" class="headerlink" title="7 运行Android驱动程序"></a>7 运行Android驱动程序</h1><p>正常情况下，直接使用adb push将hello-module.ko放入android系统中，使用insmod安装驱动即可成功运行。但是新版Android系统为了安全性，加入了对驱动的检查。</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-30-44.png" class="" title="insmod">
+
+<!-- ![](./编译Android系统及驱动/Snipaste_2024-07-06_22-30-44.png) -->
+
+<p>使用dmesg查看：</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-35-31.png" class="" title="dmesg">
+
+<!-- ![](./编译Android系统及驱动/Snipaste_2024-07-06_22-35-31.png) -->
+
+<h2 id="7-1-Patch驱动程序"><a href="#7-1-Patch驱动程序" class="headerlink" title="7.1 Patch驱动程序"></a>7.1 Patch驱动程序</h2><p>根据报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ 3657.631158] hello_module: disagrees about version of symbol module_layout</span><br></pre></td></tr></table></figure>
+
+<p>我们猜测应该是版本不匹配造成的，那么接下来寻找合法的驱动程序进行比对。这里我们选择aosp中<code>kernel/prebuilts/common-modules/virtual-device/5.15/x86-64/</code>文件夹下的文件，如<code>zsmalloc.ko</code>。</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-44-44.png" class="" title="ida1">
+<!-- ![](./编译Android系统及驱动/Snipaste_2024-07-06_22-44-44.png) -->
+
+<p>我们将hello-module.ko对应的__versions中前四个字节改为相同的即可：</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-47-37.png" class="" title="hxd1">
+<!-- ![](./编译Android系统及驱动/Snipaste_2024-07-06_22-47-37.png) -->
+
+<p>重复第7节最开始的步骤，可以看到成功以及安装并运行了驱动：</p>
+<img src="/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/Snipaste_2024-07-06_22-55-05.png" class="" title="success">
+<!-- ![](./编译Android系统及驱动/Snipaste_2024-07-06_22-55-05.png) -->
+
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Android官方文档 <a target="_blank" rel="noopener" href="https://source.android.com/">https://source.android.com/</a><br>[2] Basic android kernel development <a target="_blank" rel="noopener" href="https://github.com/itewqq/android-kernel-play">https://github.com/itewqq/android-kernel-play</a><br>[3] TUNA Android 镜像使用帮助 <a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/">https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/</a><br>[4] Linux内核模块常见问题 <a target="_blank" rel="noopener" href="https://wiki.zohead.com/%E6%8A%80%E6%9C%AF/Linux/kernel/Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md">https://wiki.zohead.com/%E6%8A%80%E6%9C%AF/Linux/kernel/Linux%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md</a><br>[5] Android系统编写Linux内核驱动 <a target="_blank" rel="noopener" href="https://github.com/liushui312/notes/blob/master/android/4_android%E7%B3%BB%E7%BB%9F%E7%BC%96%E5%86%99Linux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8.txt">https://github.com/liushui312/notes/blob/master/android/4_android%E7%B3%BB%E7%BB%9F%E7%BC%96%E5%86%99Linux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8.txt</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/" rel="next" title="VMP1.1 逆向分析">
+                <i class="fa fa-chevron-left"></i> VMP1.1 逆向分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ZSY-ARCH" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:siyu1915@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsy-arch.github.io/about/" title="快来占坑" target="_blank">快来占坑</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">1 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">2 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">3 准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85%E5%B7%A5%E5%85%B7"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 安装工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E4%B8%8B%E8%BD%BDAndroid%E6%BA%90%E4%BB%A3%E7%A0%81%E5%B9%B6%E9%80%89%E6%8B%A9%E5%88%86%E6%94%AF"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 下载Android源代码并选择分支</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91Android%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">4 编译Android源代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E9%85%8D%E7%BD%AE%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 配置编译选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E7%BC%96%E8%AF%91"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 编译</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E8%BF%90%E8%A1%8CAndroid%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">5 运行Android系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E7%BC%96%E8%AF%91Android%E9%A9%B1%E5%8A%A8"><span class="nav-number">6.</span> <span class="nav-text">6 编译Android驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-Android%E9%A9%B1%E5%8A%A8%E2%80%94%E2%80%94hello-module"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 Android驱动——hello_module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E4%B8%8B%E8%BD%BDAndroid-kernel%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 下载Android-kernel源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E5%B0%86%E5%8A%A0%E5%85%A5hello-module%E9%A9%B1%E5%8A%A8%E5%86%85%E6%A0%B8"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 将加入hello_module驱动内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E7%BC%96%E8%AF%91"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 编译</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E8%BF%90%E8%A1%8CAndroid%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">7.</span> <span class="nav-text">7 运行Android驱动程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-Patch%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 Patch驱动程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zsy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+  <script src="/js/src/md5.min.js"></script>
+
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '4b176ec7ff80f8899820',
+          clientSecret: '1e7ab01131351f460347b88b1338c9dd8bec1bc7',
+          repo: 'zsy-arch.github.io',
+          owner: 'zsy-arch',
+          admin: ['zsy-arch'],
+
+          id: md5(location.pathname),
+
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

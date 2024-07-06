@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-07-04T13:55:28.969Z</updated>
+  <updated>2024-07-06T15:10:53.694Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -17,20 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>编译Android系统及驱动</title>
+    <link href="https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/"/>
+    <id>https://zsy-arch.github.io/2024/07/06/%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F%E5%8F%8A%E9%A9%B1%E5%8A%A8/</id>
+    <published>2024-07-06T12:45:24.000Z</published>
+    <updated>2024-07-06T15:10:53.694Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;1-引言&quot;&gt;&lt;a href=&quot;#1-引言&quot; class=&quot;headerlink&quot; title=&quot;1 引言&quot;&gt;&lt;/a&gt;1 引言&lt;/h1&gt;&lt;p&gt;简单记录了这三天来编译Android系统内核、驱动走过的路。遇到了很多坑和不懂的东西，为了下次少走些弯路所以简单总结下。横跨很多天的工作不免记忆模糊，如果参考本博客时遇到问题欢迎大家下方留言和指正。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="https://zsy-arch.github.io/tags/Android/"/>
+    
+    <category term="Linux" scheme="https://zsy-arch.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>VMP1.1 逆向分析</title>
     <link href="https://zsy-arch.github.io/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/"/>
     <id>https://zsy-arch.github.io/2024/07/03/VMP1-1-%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</id>
     <published>2024-07-03T08:39:09.000Z</published>
-    <updated>2024-07-04T13:55:28.969Z</updated>
+    <updated>2024-07-06T12:45:42.547Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;1-引言&quot;&gt;&lt;a href=&quot;#1-引言&quot; class=&quot;headerlink&quot; title=&quot;1 引言&quot;&gt;&lt;/a&gt;1</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;1-引言&quot;&gt;&lt;a href=&quot;#1-引言&quot; class=&quot;headerlink&quot; title=&quot;1 引言&quot;&gt;&lt;/a&gt;1 引言&lt;/h1&gt;&lt;p&gt;几年来，逆向一直停留在CTF坐牢水平，脱壳也就会用工具、最多说说原理。所以决定开始“深入”了解下脱VMP壳。当然，毕竟要循序渐进，我们还是从最简单的开始。这里我们选择了VMP1.1版本，自己编写简单的程序并用其加壳，将原程序与加壳后程序进行对比分析。&lt;/p&gt;</summary>
     
     
     
@@ -403,25 +416,6 @@
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
     <category term="wp" scheme="https://zsy-arch.github.io/tags/wp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows驱动开发 用户层与内核层通信</title>
-    <link href="https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/"/>
-    <id>https://zsy-arch.github.io/2022/02/01/Windows%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-%E7%94%A8%E6%88%B7%E5%B1%82%E4%B8%8E%E5%86%85%E6%A0%B8%E5%B1%82%E9%80%9A%E4%BF%A1/</id>
-    <published>2022-02-01T05:37:01.000Z</published>
-    <updated>2024-03-12T13:36:56.277Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;内核层&quot;&gt;&lt;a href=&quot;#内核层&quot; class=&quot;headerlink&quot; title=&quot;内核层&quot;&gt;&lt;/a&gt;内核层&lt;/h2&gt;&lt;p&gt;用户层与内核层通信可以使用&lt;code&gt;IoCreateDeviceSecure&lt;/code&gt;函数创建的设备(Device)作为中间媒介&lt;code&gt;IoCreateDeviceSecure&lt;/code&gt;在成功情况下会通过参数返回一个DeviceObject,此时的设备还不能直接被用户层程序使用,需要为其创建一个符号链接(Symbolic Link).&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
-    
-    <category term="Windows Kernel" scheme="https://zsy-arch.github.io/tags/Windows-Kernel/"/>
     
   </entry>
   
