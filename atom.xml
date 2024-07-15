@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-07-15T14:42:15.115Z</updated>
+  <updated>2024-07-15T14:44:16.367Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://zsy-arch.github.io/2024/07/15/2024%E6%98%A5%E7%A7%8B%E6%9D%AFPWN/"/>
     <id>https://zsy-arch.github.io/2024/07/15/2024%E6%98%A5%E7%A7%8B%E6%9D%AFPWN/</id>
     <published>2024-07-15T14:29:20.000Z</published>
-    <updated>2024-07-15T14:42:15.115Z</updated>
+    <updated>2024-07-15T14:44:16.367Z</updated>
     
     
       
@@ -35,6 +35,10 @@
     
     
     
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="pwn" scheme="https://zsy-arch.github.io/tags/pwn/"/>
     
   </entry>
   
