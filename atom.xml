@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-07-06T15:10:53.694Z</updated>
+  <updated>2024-07-15T14:42:15.115Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2024春秋杯PWN</title>
+    <link href="https://zsy-arch.github.io/2024/07/15/2024%E6%98%A5%E7%A7%8B%E6%9D%AFPWN/"/>
+    <id>https://zsy-arch.github.io/2024/07/15/2024%E6%98%A5%E7%A7%8B%E6%9D%AFPWN/</id>
+    <published>2024-07-15T14:29:20.000Z</published>
+    <updated>2024-07-15T14:42:15.115Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;stdout&quot;&gt;&lt;a href=&quot;#stdout&quot; class=&quot;headerlink&quot; title=&quot;stdout&quot;&gt;&lt;/a&gt;stdout&lt;/h1&gt;&lt;p&gt;main函数调用init：&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>编译Android系统及驱动</title>
@@ -395,27 +417,6 @@
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
     <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CISCN 2022 华北赛后复盘</title>
-    <link href="https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/"/>
-    <id>https://zsy-arch.github.io/2022/07/01/CISCN-2022-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%9B%98/</id>
-    <published>2022-07-01T02:27:06.000Z</published>
-    <updated>2024-03-12T13:35:08.944Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;reverse&quot;&gt;&lt;a href=&quot;#reverse&quot; class=&quot;headerlink&quot; title=&quot;reverse&quot;&gt;&lt;/a&gt;reverse&lt;/h1&gt;&lt;h2 id=&quot;rtMaze&quot;&gt;&lt;a href=&quot;#rtMaze&quot; class=&quot;headerlink&quot; title=&quot;rtMaze&quot;&gt;&lt;/a&gt;rtMaze&lt;/h2&gt;&lt;p&gt;首先打开题目发现只有一个linux脚本和bin文件. 根据脚本里的QEMU以及对bin进行file后, 可以推断是一个固件逆向之类的题目, 且架构为ARM. &lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-    <category term="wp" scheme="https://zsy-arch.github.io/tags/wp/"/>
     
   </entry>
   
