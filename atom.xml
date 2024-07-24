@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-07-15T14:44:51.101Z</updated>
+  <updated>2024-07-24T11:54:58.324Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2024DASCTF夏季PWN</title>
+    <link href="https://zsy-arch.github.io/2024/07/24/2024DASCTF%E5%A4%8F%E5%AD%A3PWN/"/>
+    <id>https://zsy-arch.github.io/2024/07/24/2024DASCTF%E5%A4%8F%E5%AD%A3PWN/</id>
+    <published>2024-07-24T11:53:33.000Z</published>
+    <updated>2024-07-24T11:54:58.324Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;springboard&quot;&gt;&lt;a href=&quot;#springboard&quot; class=&quot;headerlink&quot; title=&quot;springboard&quot;&gt;&lt;/a&gt;springboard&lt;/h1&gt;&lt;p&gt;格式化字符串漏洞，且字符串不在栈上的类型：&lt;/p&gt;
+&lt;figure</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="pwn" scheme="https://zsy-arch.github.io/tags/pwn/"/>
+    
+  </entry>
   
   <entry>
     <title>2024春秋杯PWN</title>
@@ -396,28 +422,6 @@
     <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
     
     <category term="Loader" scheme="https://zsy-arch.github.io/tags/Loader/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ACTF2022 复现</title>
-    <link href="https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/"/>
-    <id>https://zsy-arch.github.io/2022/07/12/ACTF2022-%E5%A4%8D%E7%8E%B0/</id>
-    <published>2022-07-12T07:10:45.000Z</published>
-    <updated>2024-03-12T13:36:06.315Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;dropper&quot;&gt;&lt;a href=&quot;#dropper&quot; class=&quot;headerlink&quot; title=&quot;dropper&quot;&gt;&lt;/a&gt;dropper&lt;/h1&gt;&lt;h2 id=&quot;脱壳-amp-多进程&quot;&gt;&lt;a href=&quot;#脱壳-amp-多进程&quot; class=&quot;headerlink&quot; title=&quot;脱壳 &amp;amp; 多进程&quot;&gt;&lt;/a&gt;脱壳 &amp;amp; 多进程&lt;/h2&gt;&lt;p&gt;(1) 脱壳&lt;/p&gt;
-&lt;p&gt;从github.com/upx/upx上下载最新的源码编译并脱壳即可&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
-    
-    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
     
   </entry>
   
