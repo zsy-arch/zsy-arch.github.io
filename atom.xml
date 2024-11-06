@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2024-07-24T11:58:15.872Z</updated>
+  <updated>2024-11-06T11:25:44.608Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Frida在J2SE上的基本使用</title>
+    <link href="https://zsy-arch.github.io/2024/11/06/Frida%E5%9C%A8J2SE%E4%B8%8A%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://zsy-arch.github.io/2024/11/06/Frida%E5%9C%A8J2SE%E4%B8%8A%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
+    <published>2024-11-06T11:25:44.000Z</published>
+    <updated>2024-11-06T11:25:44.608Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>2024DASCTF夏季PWN</title>
@@ -393,29 +406,6 @@
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
     <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>手动编译UPX并修改Loader</title>
-    <link href="https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/"/>
-    <id>https://zsy-arch.github.io/2022/07/14/%E6%89%8B%E5%8A%A8%E7%BC%96%E8%AF%91UPX%E5%B9%B6%E4%BF%AE%E6%94%B9Loader/</id>
-    <published>2022-07-14T05:44:02.000Z</published>
-    <updated>2024-03-12T13:36:46.912Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;编译UPX源码&quot;&gt;&lt;a href=&quot;#编译UPX源码&quot; class=&quot;headerlink&quot; title=&quot;编译UPX源码&quot;&gt;&lt;/a&gt;编译UPX源码&lt;/h1&gt;&lt;p&gt;系统环境:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Ubuntu 22.04&lt;/li&gt;
-&lt;li&gt;Python 2&lt;/li&gt;
-&lt;li&gt;Gcc 11, G++ 11, Make 4.3</summary>
-    
-    
-    
-    
-    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
-    
-    <category term="Loader" scheme="https://zsy-arch.github.io/tags/Loader/"/>
     
   </entry>
   
