@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2025-02-10T09:35:19.843Z</updated>
+  <updated>2025-02-11T13:06:44.829Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://zsy-arch.github.io/2025/02/10/Linux%E5%86%85%E6%A0%B8%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91-AARCH64/"/>
     <id>https://zsy-arch.github.io/2025/02/10/Linux%E5%86%85%E6%A0%B8%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91-AARCH64/</id>
     <published>2025-02-10T09:13:50.000Z</published>
-    <updated>2025-02-10T09:35:19.843Z</updated>
+    <updated>2025-02-11T13:06:44.829Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;步骤&quot;&gt;&lt;a href=&quot;#步骤&quot; class=&quot;headerlink&quot; title=&quot;步骤&quot;&gt;&lt;/a&gt;步骤&lt;/h1&gt;&lt;h2 id=&quot;1-获取内核源码&quot;&gt;&lt;a href=&quot;#1-获取内核源码&quot; class=&quot;headerlink&quot; title=&quot;1. 获取内核源码&quot;&gt;&lt;/a&gt;1. 获取内核源码&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;wget https://git.kernel.org/torvalds/t/linux-6.14-rc2.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 解压...&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
