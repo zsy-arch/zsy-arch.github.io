@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2025-03-17T06:42:05.677Z</updated>
+  <updated>2025-03-17T06:43:52.445Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -21,17 +21,10 @@
     <link href="https://zsy-arch.github.io/2025/03/17/NSSCTF-PWN-NISACTF-2022-UAF-writeup/"/>
     <id>https://zsy-arch.github.io/2025/03/17/NSSCTF-PWN-NISACTF-2022-UAF-writeup/</id>
     <published>2025-03-17T06:19:37.000Z</published>
-    <updated>2025-03-17T06:42:05.677Z</updated>
+    <updated>2025-03-17T06:43:52.445Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;看上去是一个经典的菜单题，根据题目名称可以推测是UAF漏洞，于是开始分析程序。&lt;/p&gt;
-&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
+    <summary type="html">&lt;p&gt;看上去是一个经典的菜单题，根据题目名称可以推测是UAF漏洞，于是开始分析程序。&lt;/p&gt;</summary>
     
     
     
