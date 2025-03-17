@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2025-02-11T13:09:49.051Z</updated>
+  <updated>2025-03-17T06:42:05.677Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>NSSCTF/PWN - [NISACTF 2022]UAF writeup</title>
+    <link href="https://zsy-arch.github.io/2025/03/17/NSSCTF-PWN-NISACTF-2022-UAF-writeup/"/>
+    <id>https://zsy-arch.github.io/2025/03/17/NSSCTF-PWN-NISACTF-2022-UAF-writeup/</id>
+    <published>2025-03-17T06:19:37.000Z</published>
+    <updated>2025-03-17T06:42:05.677Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;看上去是一个经典的菜单题，根据题目名称可以推测是UAF漏洞，于是开始分析程序。&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+    <category term="pwn" scheme="https://zsy-arch.github.io/tags/pwn/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux内核交叉编译(AARCH64)</title>
@@ -389,28 +417,6 @@
     <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
     <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ACTF2022 复现 2</title>
-    <link href="https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/"/>
-    <id>https://zsy-arch.github.io/2022/07/20/ACTF2022-%E5%A4%8D%E7%8E%B0-2/</id>
-    <published>2022-07-20T02:53:01.000Z</published>
-    <updated>2024-03-12T13:36:08.920Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;kcov&quot;&gt;&lt;a href=&quot;#kcov&quot; class=&quot;headerlink&quot; title=&quot;kcov&quot;&gt;&lt;/a&gt;kcov&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot; title=&quot;附件&quot;&gt;&lt;/a&gt;附件&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;launch.sh&lt;/li&gt;
-&lt;li&gt;bzImage&lt;/li&gt;
-&lt;li&gt;rootfs.cpio.gz</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
   </entry>
   
