@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2025-03-17T06:43:52.445Z</updated>
+  <updated>2025-03-18T08:30:33.123Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>NSSCTF/PWN - [SUCTF 2018 招新赛]unlink writeup</title>
+    <link href="https://zsy-arch.github.io/2025/03/18/NSSCTF-PWN-SUCTF-2018-%E6%8B%9B%E6%96%B0%E8%B5%9B-unlink-writeup/"/>
+    <id>https://zsy-arch.github.io/2025/03/18/NSSCTF-PWN-SUCTF-2018-%E6%8B%9B%E6%96%B0%E8%B5%9B-unlink-writeup/</id>
+    <published>2025-03-18T08:19:09.000Z</published>
+    <updated>2025-03-18T08:30:33.123Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;首先查看程序信息：&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
+    
+    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
+    
+    <category term="pwn" scheme="https://zsy-arch.github.io/tags/pwn/"/>
+    
+  </entry>
   
   <entry>
     <title>NSSCTF/PWN - [NISACTF 2022]UAF writeup</title>
@@ -384,30 +412,6 @@
     
     
     <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SCTF2019 babyre</title>
-    <link href="https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/"/>
-    <id>https://zsy-arch.github.io/2022/07/24/SCTF2019-babyre/</id>
-    <published>2022-07-24T15:33:52.000Z</published>
-    <updated>2024-03-12T13:37:44.203Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;babyre&quot;&gt;&lt;a href=&quot;#babyre&quot; class=&quot;headerlink&quot; title=&quot;babyre&quot;&gt;&lt;/a&gt;babyre&lt;/h1&gt;&lt;h2 id=&quot;附件&quot;&gt;&lt;a href=&quot;#附件&quot; class=&quot;headerlink&quot; title=&quot;附件&quot;&gt;&lt;/a&gt;附件&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;babygame&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h2&gt;&lt;p&gt;IDA打开,定位到main函数:&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="reverse" scheme="https://zsy-arch.github.io/tags/reverse/"/>
     
     <category term="writeup" scheme="https://zsy-arch.github.io/tags/writeup/"/>
     
