@@ -6,7 +6,7 @@
   <link href="https://zsy-arch.github.io/atom.xml" rel="self"/>
   
   <link href="https://zsy-arch.github.io/"/>
-  <updated>2025-03-19T06:00:51.219Z</updated>
+  <updated>2025-03-21T06:20:52.013Z</updated>
   <id>https://zsy-arch.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>USBFuzz - 论文学习与代码复现</title>
+    <link href="https://zsy-arch.github.io/2025/03/20/USBFuzz-%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://zsy-arch.github.io/2025/03/20/USBFuzz-%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%8E%B0/</id>
+    <published>2025-03-20T10:19:13.000Z</published>
+    <updated>2025-03-21T06:20:52.013Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;论文阅读&quot;&gt;&lt;a href=&quot;#论文阅读&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
+    
+    <category term="fuzzing" scheme="https://zsy-arch.github.io/tags/fuzzing/"/>
+    
+    <category term="paper reading" scheme="https://zsy-arch.github.io/tags/paper-reading/"/>
+    
+  </entry>
   
   <entry>
     <title>PWN - [强网杯 2022]devnull writeup</title>
@@ -391,26 +418,6 @@
     <category term="Binary Security" scheme="https://zsy-arch.github.io/tags/Binary-Security/"/>
     
     <category term="Windows kernel" scheme="https://zsy-arch.github.io/tags/Windows-kernel/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BUUOJ pwn刷题记录(持续更新)</title>
-    <link href="https://zsy-arch.github.io/2022/08/04/BUUOJ-pwn%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
-    <id>https://zsy-arch.github.io/2022/08/04/BUUOJ-pwn%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
-    <published>2022-08-04T15:22:47.000Z</published>
-    <updated>2024-03-12T13:35:34.573Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;Stack-amp-ROP&quot;&gt;&lt;a href=&quot;#Stack-amp-ROP&quot; class=&quot;headerlink&quot; title=&quot;Stack &amp;amp; ROP&quot;&gt;&lt;/a&gt;Stack &amp;amp; ROP&lt;/h1&gt;&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;TODO....&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;not-the-same-3dsctf-2016&quot;&gt;&lt;a href=&quot;#not-the-same-3dsctf-2016&quot; class=&quot;headerlink&quot; title=&quot;not_the_same_3dsctf_2016&quot;&gt;&lt;/a&gt;not_the_same_3dsctf_2016&lt;/h2&gt;&lt;p&gt;checksec&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ctf" scheme="https://zsy-arch.github.io/tags/ctf/"/>
-    
-    <category term="pwn" scheme="https://zsy-arch.github.io/tags/pwn/"/>
     
   </entry>
   
